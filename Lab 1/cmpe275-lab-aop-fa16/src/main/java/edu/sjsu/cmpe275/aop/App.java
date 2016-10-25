@@ -49,7 +49,7 @@ public class App {
 			// To throw an illegal argument exception
 //			tweeter.tweet("alice",
 //					" This message is larger than 140 characters which will make compiler to throw an IllegalArgumentException."
-//							+ "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet.");
+//							+ "Lorem  ipsum dolor sit amet, Lorem ipsum dolor sit amet.");
 			tweeter.tweet("john", "third tweet");
 			tweeter.follow("alex", "bob");
 			tweeter.follow("bob", "alex");
