@@ -97,11 +97,11 @@ For your testing purpose, you need to provide your own implementation of TweetSe
 You can refer to the tutorial [here](http://www.journaldev.com/2583/spring-aop-example-tutorial-aspect-advice-pointcut-joinpoint-annotations) on how to start the lab. 
 
 #### Example Stats
-__ The following examples are assuming stats are reset() before running every single example. Additional test cases will be used for grading. __
+** The following examples are assuming stats are reset() before running every single example. Additional test cases will be used for grading. **
 
-* Tweet message as tweet(“foo”,”barbar”). Then getLengthOfLongestTweet() returns 6.
-* Alice follows Bob, Bob follows Charlie (but fails to do so), and Bob follows Alice. getMostActiveFollower() returns “Bob”.
-* Successfully tweet a message ("Alice","[any message <= 140 chars]"), then getMostProductiveUser() returns “Alice”.
+- Tweet message as tweet(“foo”,”barbar”). Then getLengthOfLongestTweet() returns 6.
+- Alice follows Bob, Bob follows Charlie (but fails to do so), and Bob follows Alice. getMostActiveFollower() returns “Bob”.
+- Successfully tweet a message ("Alice","[any message <= 140 chars]"), then getMostProductiveUser() returns “Alice”.
 
 
 
