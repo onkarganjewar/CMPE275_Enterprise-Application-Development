@@ -70,7 +70,6 @@ public class TweetStatsImpl implements TweetStats {
 //...
 }
 
-
 ```
 
 Your implementation of the two concerns need to be done in the two files: RetryAspect.java and StatsAspect.java. For example, RetryAspect.java should look like the following:
@@ -85,7 +84,6 @@ import org.aspectj.lang.annotation.Before;  // ifneeded
 public class RetryAspect {
      ...
 }
-
 
 ```
 
