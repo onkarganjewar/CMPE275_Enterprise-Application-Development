@@ -22,11 +22,11 @@ public class App {
 		 * creation with Application context. You may make changes to suit your
 		 * need, but this file is NOT part of the submission.
 		 */
-		
-//		context = new ClassPathXmlApplicationContext("context.xml");
-		
-		ClassPathXmlApplicationContext ctx =  new ClassPathXmlApplicationContext("context.xml");
-		
+
+		// context = new ClassPathXmlApplicationContext("context.xml");
+
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("context.xml");
+
 		TweetService tweeter = (TweetService) ctx.getBean("tweetService");
 		TweetStats stats = (TweetStats) ctx.getBean("tweetStats");
 
@@ -46,8 +46,10 @@ public class App {
 			// tweeter.tweet("alex", "first tweet");
 			stats.resetStats();
 			tweeter.tweet("bob", "second tweet");
-			tweeter.tweet("alice",
-					"a11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111aafirst tweet");
+			// To throw an illegal argument exception
+//			tweeter.tweet("alice",
+//					" This message is larger than 140 characters which will make compiler to throw an IllegalArgumentException."
+//							+ "Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet.");
 			tweeter.tweet("john", "third tweet");
 			tweeter.follow("alex", "bob");
 			tweeter.follow("bob", "alex");
@@ -58,7 +60,7 @@ public class App {
 			System.out.println("Most active follower: " + stats.getMostActiveFollower());
 			System.out.println("Length of the longest tweet: " + stats.getLengthOfLongestTweet());
 			if (ctx != null) {
-				 ctx.close();
+				ctx.close();
 			}
 		}
 	}
