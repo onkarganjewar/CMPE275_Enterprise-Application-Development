@@ -1,16 +1,16 @@
-CMPE 275 Section 2, Fall 2016
-Lab 1 - Aspect Oriented Programming
-Last updated: 10/07/2016
+# CMPE 275 Section 2, Fall 2016
+## Lab 1 - Aspect Oriented Programming
+## Last updated: 10/07/2016
 
-
-In this lab, you implement the retry and stats concerns to a tweeting service through Aspect Oriented Programming (AOP). For ease of submission and grading, we wrap the two concerns into a single aspect, RetryAndDoStats.java. Please note this is an individual assignment.
+In this lab, you implement the retry and stats concerns to a tweeting service through Aspect Oriented Programming (AOP).
+For ease of submission and grading, we wrap the two concerns into a single aspect, RetryAndDoStats.java. 
+Please note this is an individual assignment.
 
 
 The tweet service is defined as follows:
 
 
 package edu.sjsu.cmpe275.aop;
-
 
 import java.io.IOException;
 
