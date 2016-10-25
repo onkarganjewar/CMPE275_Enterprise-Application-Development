@@ -13,7 +13,6 @@ The tweet service is defined as follows:
 package edu.sjsu.cmpe275.aop;
 import java.io.IOException;
 
-
 public interface TweetService {
    /**
     * @throws IllegalArgumentException if the message is more than 140 characters as measured by string length.
@@ -33,7 +32,6 @@ Since network failure happens relatively frequently, you are asked to add the fe
 
 ```Java
 package edu.sjsu.cmpe275.aop;
-
 
 public interface TweetStats {
    
@@ -83,7 +81,6 @@ package edu.sjsu.cmpe275.aop.aspect;
 import org.aspectj.lang.annotation.Aspect;  // if needed
 import org.aspectj.lang.annotation.Before;  // ifneeded
 
-
 @Aspect
 public class RetryAspect {
      ...
@@ -98,8 +95,8 @@ For your testing purpose, you need to provide your own implementation of TweetSe
 
 ### Project Setup
 You can refer to the tutorial here on how to start the lab. A sample project with build file with dependencies, application context, and Java files is here (version 1-1, last updated on 11:38 pm 10/8/2016) for your reference and testing.
-* Example Stats
-The following examples are assuming stats are reset() before running every single example. Additional test cases will be used for grading.
+#### Example Stats
+** The following examples are assuming stats are reset() before running every single example. Additional test cases will be used for grading. **
 - Tweet message as tweet(“foo”,”barbar”). Then getLengthOfLongestTweet() returns 6.
 - Alice follows Bob, Bob follows Charlie (but fails to do so), and Bob follows Alice. getMostActiveFollower() returns “Bob”.
 - Successfully tweet a message ("Alice","[any message <= 140 chars]"), then getMostProductiveUser() returns “Alice”.
