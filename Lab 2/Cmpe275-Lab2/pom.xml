@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.sjsu.cmpe275.lab2</groupId>
+	<artifactId>Cmpe275-Lab2</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Cmpe275-Lab2 Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<java.version>1.6</java.version>
+		<slf4j.version>1.7.21</slf4j.version>
+		<javax-servlet.version>2.5</javax-servlet.version>
+		<hibernate.version>5.2.2.Final</hibernate.version>
+		<spring-framework.version>4.2.3.RELEASE</spring-framework.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		   <!-- Spring -->
+        <org.springframework.version>4.3.2.RELEASE</org.springframework.version>
+        <javassist.version>3.20.0-GA</javassist.version>
+
+        <!-- persistence -->
+        <hibernate.version>5.2.2.Final</hibernate.version>
+        <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
+        <spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
+        <h2.version>1.4.192</h2.version>
+        
+        <!-- web -->
+        <javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
+        <javax.servlet.servlet-api.version>2.5</javax.servlet.servlet-api.version>
+
+        <!-- logging -->
+        <org.slf4j.version>1.7.13</org.slf4j.version>
+        <logback.version>1.1.3</logback.version>
+
+        <!-- various -->
+        <hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
+
+        <!-- util -->
+        <guava.version>19.0</guava.version>
+        <commons-lang3.version>3.4</commons-lang3.version>
+		
+		
+	</properties>
+	<dependencies>
+
+<!-- all other dependencies -->
+
+  <!-- Spring -->
+ <dependency>
+   <groupId>org.hibernate.javax.persistence</groupId>
+   <artifactId>hibernate-jpa-2.1-api</artifactId>
+   <version>1.0.0.Final</version>
+</dependency>
+
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>4.0.5.RELEASE</version>
+  </dependency>
+
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>3.2.8.RELEASE</version>
+  </dependency>
+ 
+  <!-- Spring -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>3.2.8.RELEASE</version>
+  </dependency>
+ 
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>3.2.8.RELEASE</version>
+  </dependency>
+ 
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>3.2.8.RELEASE</version>
+  </dependency>
+ 
+  <!-- Hibernate -->
+  <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>4.3.3.Final</version>
+  </dependency>
+ 
+  <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>4.3.3.Final</version>
+  </dependency>
+ 
+  <!-- Java EE -->
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>servlet-api</artifactId>
+    <version>2.5</version>
+    <scope>provided</scope>
+  </dependency>
+ 
+  <dependency>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>jsp-api</artifactId>
+    <version>2.1</version>
+    <scope>provided</scope>
+  </dependency>
+ 
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+  </dependency>
+ 
+  <!-- Everything Else -->
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.29</version>
+  </dependency>
+ 
+  <dependency>
+    <groupId>commons-dbcp</groupId>
+    <artifactId>commons-dbcp</artifactId>
+    <version>1.4</version>
+  </dependency>
+ 
+  <dependency>
+    <groupId>xerces</groupId>
+    <artifactId>xercesImpl</artifactId>
+    <version>2.11.0</version>
+  </dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>Cmpe275-Lab2</finalName>
+	</build>
+</project>
+
+
