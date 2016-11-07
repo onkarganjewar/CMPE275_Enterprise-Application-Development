@@ -24,5 +24,12 @@
 
 </web-app>
 
+	<!-- http://stackoverflow.com/questions/34945559/spring-put-and-delete-request-method-not-supported -->
+	<!--  http://stackoverflow.com/questions/13629653/using-put-and-delete-methods-in-spring-mvc  -->
+	
+	<!-- <filter> <filter-name>hiddenHttpMethodFilter</filter-name> <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>hiddenHttpMethodFilter</filter-name> 
+		<servlet-name>mvc-dispatcher</servlet-name> </filter-mapping> -->
+
 <!-- <listener> <listener-class>org.springframework.web.context.ContextLoaderListener 
 	</listener-class> </listener> -->

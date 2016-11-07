@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.sjsu.cmpe275.lab2.model;
 
@@ -11,8 +11,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,12 +25,12 @@ public class User implements Serializable {
 	// private static final java.util.logging.Logger logger =
 	// java.util.logging.Logger.getLogger(User.class.getName());
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
+//	@GeneratedValue
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Integer userId;
 
@@ -60,7 +58,7 @@ public class User implements Serializable {
 	@Embedded
 	private Address address;
 
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
 	private List<Phone> phones = new ArrayList<Phone>();
 
 	public User() {
@@ -103,11 +101,11 @@ public class User implements Serializable {
 		this.phones = phones;
 	}
 
-	public Integer getId() {
+	public Integer getuserId() {
 		return userId;
 	}
 
-	public void setId(Integer id) {
+	public void setuserId(Integer id) {
 		this.userId = id;
 	}
 
@@ -143,10 +141,24 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	/**
+	 * @return the address
+	 */
+	public Address getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
+		final Integer prime = 31;
+		Integer result = 1;
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
@@ -170,7 +182,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + userId + ", password=" + title + ", firstName=" + firstName + ", lastName=" + lastName
+		return "User [id=" + userId + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", email=" + email + "]";
 	}
 

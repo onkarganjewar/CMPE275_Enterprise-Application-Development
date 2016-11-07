@@ -7,10 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.lab2.model.User;
 
@@ -49,37 +49,50 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public List<User> findAllUsers() throws DataAccessException {
 		Query query = em.createQuery("SELECT u FROM User u ORDER BY u.id");
+		@SuppressWarnings("unchecked")
 		List<User> resultList = query.getResultList();
 		return resultList;
 	}
 
 	@Transactional
-	public User findById(String id) throws DataAccessException {
+	public User findById(Integer id) throws DataAccessException {
 		return em.find(User.class, id);
 	}
 
 
 	@Transactional
 	public User findByPhone(long phone) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void deleteById(String id) {
-	
+
+	@Transactional
+	public void deleteById(Integer id) {
+		User entity = new User();
+		entity.setuserId(id);
+		System.out.println("ProfileService::Delete called for id:" +id );
+		em.remove(em.contains(entity) ? entity : em.merge(entity));
 	}
-	
+	/**
+	 * will check if the user with the id exists?
+	 * @param id of the user
+	 * @return yes if it exists else no
+	 */
+	@Transactional
+	public boolean exists(Integer id) {
+		User pr = new User();
+		pr.setuserId(id);
+		return em.find(User.class, id) != null;
+	}
+
 	@Transactional
 	public void update(User user) {
-		// TODO Auto-generated method stub
 		em.merge(user);
 	}
 
 	@Transactional
 	public void insert(User user) {
-		// TODO Auto-generated method stub
 		em.persist(user);
 	}
-
 
 }
