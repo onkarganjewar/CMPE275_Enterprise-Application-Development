@@ -20,5 +20,4 @@ target/
 
 # Eclipse artifacts, including WTP generated manifests
 .classpath
-.project
 spring-*/src/main/java/META-INF/MANIFEST.MF
