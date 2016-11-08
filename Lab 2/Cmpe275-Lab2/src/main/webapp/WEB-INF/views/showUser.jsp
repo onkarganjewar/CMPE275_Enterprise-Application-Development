@@ -18,7 +18,7 @@
 				},
 	            error: function(e)
 	            {
-	                alert('Error: ' + e);
+	                alert("Error: " + e);
 	            }
 			});
 		});
@@ -34,7 +34,7 @@
 					the server as a variable name associated with the data contained in the value attribute. -->
 			<tr>
 				<td><label>ID:</label></td>
-				<td><input type="text" name="id" id="id" value="${id}" readonly /></td>
+				<td><input type="text" name="userId" id="id" value="${id}" readonly /></td>
 			</tr>
 			<!-- If you add an ID attribute, it will not change anything in the HTTP header. 
 					It will just make it easier to hook it with CSS and JavaScript. -->
@@ -53,10 +53,8 @@
 
 			<tr>
 				<td><label>Title</label></td>
-
 				<td><input type="text" name="title" value="${title}"
 					required /></td>
-
 			</tr>
 			<tr>
 				<td><label>Email</label></td>
@@ -64,23 +62,24 @@
 			</tr>
 			<tr>
 				<td><label>City</label></td>
-				<td><input type="text" name="city" value="${city}"
+				<td><input type="text" name="address.city" value="${city}"
 					required /></td>
 			</tr>
 			
 			<tr>
 				<td><label>Street</label></td>
-				<td><input type="text" name="street" value="${street}"
+				<td><input type="text" name="address.street" value="${street}"
 					required /></td>
+					
 			</tr>
 			<tr>
 				<td><label>State</label></td>
-				<td><input type="text" name="state" value="${state}"
+				<td><input type="text" name="address.state" value="${state}"
 					required /></td>
 			</tr>
 			<tr>
 				<td><label>Pincode</label></td>
-				<td><input type="text" name="zip" value="${zip}"
+				<td><input type="text" name="address.zip" value="${zip}"
 					required /></td>
 			</tr>
 			<tr>
@@ -92,7 +91,5 @@
 			</tr>
 		</table>
 	</form:form>
-
-
 </body>
 </html>

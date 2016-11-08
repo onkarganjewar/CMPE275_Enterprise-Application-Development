@@ -4,14 +4,16 @@
 package edu.sjsu.cmpe275.lab2.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,12 +41,27 @@ public class Phone implements Serializable {
 	@Embedded
 	private Address address;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OWNER_ID")
-	private User owner;
+	@ManyToMany
+	@JoinTable(name = "Users_Phones", 
+	joinColumns = @JoinColumn(name = "PHONE_ID"), 
+	inverseJoinColumns = @JoinColumn(name = "ID"))
+	private List<User> listOfUsers = new ArrayList<User>(); 
 
-	// @ManyToMany(mappedBy = "phones")
-	// private List<User> users = new ArrayList<User> ();
+	/**
+	 * @return the listOfUsers
+	 */
+	public List<User> getListOfUsers() {
+		return listOfUsers;
+	}
+
+	/**
+	 * @param listOfUsers the listOfUsers to set
+	 */
+	public void setListOfUsers(List<User> listOfUsers) {
+		this.listOfUsers = listOfUsers;
+	}
+
+	
 	/**
 	 * @return the phoneNumber
 	 */

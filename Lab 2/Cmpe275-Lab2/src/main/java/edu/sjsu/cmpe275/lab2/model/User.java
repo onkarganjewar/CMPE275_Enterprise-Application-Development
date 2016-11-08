@@ -7,12 +7,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,12 +23,9 @@ public class User implements Serializable {
 
 	// private static final java.util.logging.Logger logger =
 	// java.util.logging.Logger.getLogger(User.class.getName());
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
-//	@GeneratedValue
+	// @GeneratedValue
 	@Id
 	@Column(name = "ID")
 	private Integer userId;
@@ -46,20 +42,11 @@ public class User implements Serializable {
 	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
-	// @NotEmpty
-	// @OneToMany(fetch = FetchType.LAZY)
-	// @JoinTable(name = "USER_PHONE",
-	// joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName =
-	// "ID") },
-	// inverseJoinColumns = { @JoinColumn(name = "PHONE_ID",
-	// referencedColumnName = "ID", unique = true) })
-	// private List<Phone> phones = new ArrayList<Phone>();
-
 	@Embedded
 	private Address address;
 
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
-	private List<Phone> phones = new ArrayList<Phone>();
+	@ManyToMany(mappedBy = "listOfUsers")
+	private List<Phone> listOfPhones = new ArrayList<Phone>();
 
 	public User() {
 
@@ -83,22 +70,22 @@ public class User implements Serializable {
 		this.lastName = lastName;
 		this.email = email;
 		this.address = address;
-		this.phones = phones;
+		this.listOfPhones = phones;
 	}
 
 	/**
 	 * @return the phones
 	 */
-	public List<Phone> getPhones() {
-		return phones;
+	public List<Phone> getListOfPhones() {
+		return listOfPhones;
 	}
 
 	/**
 	 * @param phones
 	 *            the phones to set
 	 */
-	public void setPhones(List<Phone> phones) {
-		this.phones = phones;
+	public void setListOfPhones(List<Phone> phones) {
+		this.listOfPhones = phones;
 	}
 
 	public Integer getuserId() {
@@ -149,7 +136,8 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param address the address to set
+	 * @param address
+	 *            the address to set
 	 */
 	public void setAddress(Address address) {
 		this.address = address;

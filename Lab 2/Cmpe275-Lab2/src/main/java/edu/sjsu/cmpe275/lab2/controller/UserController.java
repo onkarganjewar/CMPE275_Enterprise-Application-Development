@@ -1,6 +1,8 @@
 
 package edu.sjsu.cmpe275.lab2.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.lab2.model.Address;
+import edu.sjsu.cmpe275.lab2.model.Phone;
 import edu.sjsu.cmpe275.lab2.model.User;
 import edu.sjsu.cmpe275.lab2.service.UserServiceImpl;
 
@@ -34,6 +38,33 @@ public class UserController {
 		String name = "Hello, " + userName;
 		model.put("msg", name);
 		return "helloWorld";
+	}
+
+	// Dummy method to test json rendering.
+	@RequestMapping(value = "/json/test", method = RequestMethod.GET)
+	public @ResponseBody User getUserInJSON_dummy() {
+		User user = new User();
+		user.setuserId(555550);
+		user.setFirstName("firstName");
+		user.setLastName("lastName");
+		user.setEmail("email");
+		user.setTitle("title");
+
+		// Instantiating a new value type object address for entity User
+		Address address = new Address();
+		address.setStreet("address.street");
+		address.setCity("address.city");
+		address.setState("address.state");
+		address.setZip("address.zip");
+		user.setAddress(address);
+
+		Phone phone = new Phone();
+		phone.setDescription("desc");
+		phone.setPhoneNumber("123123");
+		List<Phone> phones = new ArrayList<Phone>();
+		phones.add(phone);
+		user.setListOfPhones(phones);
+		return user;
 	}
 
 	/**
@@ -73,16 +104,27 @@ public class UserController {
 		address.setZip(request.getParameter("address.zip"));
 		user.setAddress(address);
 
+		// // Instantiate 'Phone' entity
+		// Phone phone = new Phone();
+		// phone.setDescription("desc");
+		// phone.setPhoneNumber("123123");
+		// //
+		// phone.setPhoneNumber(request.getParameter("listOfPhones.phoneNumber"));
+		// //
+		// phone.setDescription(request.getParameter("listOfPhones.description"));
+		// List<Phone> phones = new ArrayList<Phone>();
+		// phones.add(phone);
+		// user.setListOfPhones(phones);
+
 		userService.add(user);
 		return "redirect:/user/" + id;
 	}
 
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/updateUser", method = RequestMethod.POST)
 	public String modifyUser(HttpServletRequest request) {
-		// TODO: Method not getting invoked unlike for addUser endpoint.
-		System.out.println("UPDATING A User NOW");
+
 		User user = new User();
-		Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer id = Integer.parseInt(request.getParameter("userId"));
 		user.setuserId(id);
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
