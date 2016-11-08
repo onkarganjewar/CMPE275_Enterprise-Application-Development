@@ -25,14 +25,6 @@ public class UserDAOImpl implements UserDAO {
 	@PersistenceContext
 	protected EntityManager em;
 
-//	public EntityManager getEntityManager() {
-//		return em;
-//	}
-//
-//	public void setEntityManager(EntityManager entityManager) {
-//		this.em = entityManager;
-//	}
-
 	@Transactional
 	public User getSpecificUser(String id) {
 		User u;
@@ -70,7 +62,7 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteById(Integer id) {
 		User entity = new User();
 		entity.setuserId(id);
-		System.out.println("ProfileService::Delete called for id:" +id );
+		System.out.println("UserService::Delete called for id:" +id );
 		em.remove(em.contains(entity) ? entity : em.merge(entity));
 	}
 	/**

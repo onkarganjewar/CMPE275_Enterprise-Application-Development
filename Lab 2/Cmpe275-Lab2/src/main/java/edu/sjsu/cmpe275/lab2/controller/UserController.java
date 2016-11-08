@@ -41,8 +41,8 @@ public class UserController {
 	}
 
 	// Dummy method to test json rendering.
-	@RequestMapping(value = "/json/test", method = RequestMethod.GET)
-	public @ResponseBody User getUserInJSON_dummy() {
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public @ResponseBody User getUserInJSON_dummy(@RequestParam(value = "json", required = true) String json) {
 		User user = new User();
 		user.setuserId(555550);
 		user.setFirstName("firstName");
@@ -104,22 +104,18 @@ public class UserController {
 		address.setZip(request.getParameter("address.zip"));
 		user.setAddress(address);
 
-		// // Instantiate 'Phone' entity
-		// Phone phone = new Phone();
-		// phone.setDescription("desc");
-		// phone.setPhoneNumber("123123");
-		// //
-		// phone.setPhoneNumber(request.getParameter("listOfPhones.phoneNumber"));
-		// //
-		// phone.setDescription(request.getParameter("listOfPhones.description"));
-		// List<Phone> phones = new ArrayList<Phone>();
-		// phones.add(phone);
-		// user.setListOfPhones(phones);
-
 		userService.add(user);
 		return "redirect:/user/" + id;
 	}
 
+	
+	/**
+	 * Updates the details of a particular user.
+	 * 
+	 * @param request
+	 *            HTTP request containing the user details
+	 * @return User details page in HTML format.
+	 */
 	@RequestMapping(value = "/user/updateUser", method = RequestMethod.POST)
 	public String modifyUser(HttpServletRequest request) {
 
@@ -142,16 +138,6 @@ public class UserController {
 		userService.modify(user);
 		return "redirect:/user/" + id;
 	}
-
-	// @RequestMapping(value = { "/updateUser" }, method = RequestMethod.POST)
-	// public String changeUser(@ModelAttribute User user, BindingResult result,
-	// @RequestParam String action,
-	// Map<String, Object> map) {
-	// // Profile p=profileService.getProfile(profile.getId());
-	// userService.modify(user);
-	// map.put("user", user);
-	// return "showUser";
-	// }
 
 	/**
 	 * Generates a unique ID for each user
@@ -208,95 +194,9 @@ public class UserController {
 			return "showUserJSON";
 	}
 
-	// @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	// public String getUser(@PathVariable("id") String id, Model model) {
-	// // ModelAndView modelProfile = new ModelAndView("profile");
-	// User user = new User();
-	// user = userService.getUser(Integer.parseInt(id));
-	// if (user != null) {
-	// model.addAttribute("user", user);
-	// // modelProfile.addObject(p);
-	// model.addAttribute("listOfUsers", userService.getAllUsers());
-	// return "viewUser";
-	// } else {
-	// model.addAttribute("id", id);
-	// return "notFound";
-	// }
-	// }
-
-	// /**
-	// * Sample handlers for DELETE request from browser
-	// *
-	// * @param id
-	// * @param model
-	// * @return
-	// */
-	// @RequestMapping(value = "/sample/{id}", method = RequestMethod.GET)
-	// public String getSample(@PathVariable(value = "id") String id, Model
-	// model) {
-	// return "home";
-	// }
-	//
-	// /**
-	// * @see https://github.com/JVerstry/Web-Related-Examples
-	// * @param id
-	// * @param model
-	// * @return
-	// */
-	// @RequestMapping(value = "/sample/{id}", method = RequestMethod.DELETE)
-	// public String deleteSample(@PathVariable(value = "id") String id, Model
-	// model) {
-	// System.out.println("User does not exist for " + id);
-	// model.addAttribute("id", id);
-	//
-	// return "error";
-	// }
-
-	/**
-	 * Updates the details of a particular user.
-	 * 
-	 * @param request
-	 *            HTTP request containing the user details
-	 * @return User details page in HTML format.
-	 */
-	// @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-	// public String updateUser(HttpServletRequest request, @PathVariable(value
-	// = "id") String userId, Model model) {
-	// System.out.println("UPDATE A PROFILE");
-	//
-	// Integer integerId = 0;
-	// try {
-	// integerId = Integer.parseInt(userId);
-	// } catch (NumberFormatException e) {
-	// System.out.println("NOT A VALID USER ID!!");
-	// e.printStackTrace();
-	// } catch (Exception e) {
-	// System.out.println("Exception: " + e.getMessage());
-	// }
-	//
-	// User user = new User();
-	// user.setuserId(integerId);
-	// user.setFirstName(request.getParameter("firstName"));
-	// user.setLastName(request.getParameter("lastName"));
-	// user.setEmail(request.getParameter("email"));
-	// user.setTitle(request.getParameter("title"));
-	//
-	// // Instantiating a new value type object address for entity User
-	// Address address = new Address();
-	// address.setStreet(request.getParameter("address.street"));
-	// address.setCity(request.getParameter("address.city"));
-	// address.setState(request.getParameter("address.state"));
-	// address.setZip(request.getParameter("address.zip"));
-	// user.setAddress(address);
-	//
-	// userService.modify(user);
-	// return "forward:/user/";
-	//// return "redirect:/user/" + id;
-	// }
-
 	/**
 	 * Delete the user with respective id.
-	 * 
+	 * @see https://github.com/JVerstry/Web-Related-Examples
 	 * @param id
 	 *            Id of the user to be deleted
 	 * @param model

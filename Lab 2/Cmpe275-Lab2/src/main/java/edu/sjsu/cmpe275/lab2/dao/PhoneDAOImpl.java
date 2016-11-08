@@ -1,6 +1,6 @@
 package edu.sjsu.cmpe275.lab2.dao;
 
-import java.util.List; 
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -8,13 +8,13 @@ import javax.persistence.Query;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.lab2.model.Phone;
 
 /**
- * @author Onkar Ganjewar
- * Cmpe275-Lab2
+ * @author Onkar Ganjewar Cmpe275-Lab2
  */
 @Repository
 public class PhoneDAOImpl implements PhoneDAO {
@@ -33,15 +33,16 @@ public class PhoneDAOImpl implements PhoneDAO {
 		em.merge(phone);
 	}
 
-	@Transactional
-	public Integer getPhoneKey(Phone phone) throws Exception{
-		Object id = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(phone);
-		return Integer.parseInt(id.toString());
-	}
-	
+	// @Transactional
+	// public Integer getPhoneKey(Phone phone) throws Exception{
+	// Object id =
+	// em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(phone);
+	// return Integer.parseInt(id.toString());
+	// }
+
 	@Transactional
 	public void insert(Phone phone) throws DataAccessException {
-		em.merge(phone);
+		em.persist(phone);
 	}
 
 	@Transactional
@@ -58,5 +59,10 @@ public class PhoneDAOImpl implements PhoneDAO {
 		@SuppressWarnings("unchecked")
 		List<Phone> resultList = query.getResultList();
 		return resultList;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Integer getPhoneId(Phone phone) {
+		return phone.getPhoneId();
 	}
 }

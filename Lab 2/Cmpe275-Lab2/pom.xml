@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.sjsu.cmpe275.lab2</groupId>
 	<artifactId>Cmpe275-Lab2</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Cmpe275-Lab2 Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<java.version>1.6</java.version>
+		<java.version>1.7</java.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<javax-servlet.version>2.5</javax-servlet.version>
 		<hibernate.version>5.2.2.Final</hibernate.version>

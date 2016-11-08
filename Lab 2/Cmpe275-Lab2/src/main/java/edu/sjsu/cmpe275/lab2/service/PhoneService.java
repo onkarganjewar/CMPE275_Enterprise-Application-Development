@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.lab2.dao.PhoneDAO;
@@ -45,9 +46,14 @@ public class PhoneService {
 		return phoneDAO.findById(id);
 	}
 
-	@Transactional
-	public Integer getKey(Phone phone) throws Exception {
-		return phoneDAO.getPhoneKey(phone);
+//	@Transactional
+//	public Integer getKey(Phone phone) throws Exception {
+//		return phoneDAO.getPhoneKey(phone);
+//	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Integer getPhoneId(Phone phone) {
+		return phoneDAO.getPhoneId(phone);
 	}
 	
 	@Transactional

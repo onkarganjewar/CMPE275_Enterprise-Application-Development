@@ -16,6 +16,8 @@ import edu.sjsu.cmpe275.lab2.model.Phone;
 @Repository
 public interface PhoneDAO {
 
+		public Integer getPhoneId(Phone phone);
+	
 		public Phone findById(Integer id);
 		
 		public void update(Phone phone);
@@ -31,6 +33,6 @@ public interface PhoneDAO {
 		 * @return
 		 * @throws Exception 
 		 */
-		public Integer getPhoneKey(Phone phone) throws Exception;
+//		public Integer getPhoneKey(Phone phone) throws Exception;
 
 }

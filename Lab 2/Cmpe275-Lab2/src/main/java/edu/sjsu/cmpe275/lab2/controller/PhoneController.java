@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import edu.sjsu.cmpe275.lab2.model.Phone;
 import edu.sjsu.cmpe275.lab2.model.User;
 import edu.sjsu.cmpe275.lab2.service.PhoneService;
+import edu.sjsu.cmpe275.lab2.service.UserServiceImpl;
 
 /**
  * @author Onkar Ganjewar
@@ -29,6 +30,9 @@ public class PhoneController {
 
 	@Autowired
 	private PhoneService phoneService;
+	
+	@Autowired
+	private UserServiceImpl userService;
 
 	@RequestMapping(value = "/phone", method = RequestMethod.GET)
 	public String renderHome(Model model) {
@@ -43,26 +47,15 @@ public class PhoneController {
 		// Instantiate 'Phone' entity
 		phone.setPhoneNumber(request.getParameter("phoneNumber"));
 		phone.setDescription(request.getParameter("description"));
-
-		User user = new User();
-		user.setuserId(28);
-		// user.setFirstName(request.getParameter("listOfUsers.firstName"));
-
+		User u1 = userService.getAllUsers().get(0);
 		List<User> users = new ArrayList<User>();
-		users.add(user);
+		users.add(u1);
 		phone.setListOfUsers(users);
-
-		// Instantiating a new value type object address for entity User
-		// Address address = new Address();
-		// address.setStreet(request.getParameter("address.street"));
-		// address.setCity(request.getParameter("address.city"));
-		// address.setState(request.getParameter("address.state"));
-		// address.setZip(request.getParameter("address.zip"));
-		// phone.setAddress(address);
-
 		phoneService.add(phone);
-		// Integer tid = phoneService.getKey(phone);
-		return "redirect:/phone/";
+		
+		Integer i = phoneService.getPhoneId(phone);
+		System.out.println("FOUND USER WITH ID"+i);
+		return "redirect:/phone/"+i;
 	}
 
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
@@ -78,22 +71,10 @@ public class PhoneController {
 
 		model.addAttribute("desc", phone.getDescription());
 		model.addAttribute("number", phone.getPhoneNumber());
-
-		// List<User> users = phone.getListOfUsers();
-		// model.addAttribute("section_name", users.get(0).getuserId());
-
-		// Populate the value object Address
-		// Address address = user.getAddress();
-		//
-		// model.addAttribute("city", address.getCity());
-		// model.addAttribute("state", address.getState());
-		// model.addAttribute("zip", address.getZip());
-		// model.addAttribute("street", address.getStreet());
 		if (json == null)
 			return "showPhone";
 		else
 		{
-//			getShopInJSON();
 			return "null";
 		}
 	}
@@ -115,5 +96,4 @@ public class PhoneController {
 		phoneService.modify(phone);
 		return "redirect:/phone/" + id;
 	}
-
 }
