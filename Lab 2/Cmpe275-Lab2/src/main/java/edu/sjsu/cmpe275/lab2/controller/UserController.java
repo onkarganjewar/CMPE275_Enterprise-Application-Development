@@ -40,24 +40,23 @@ public class UserController {
 		return "helloWorld";
 	}
 
-	// Dummy method to test json rendering.
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public @ResponseBody User getUserInJSON_dummy(@RequestParam(value = "json", required = true) String json) {
-		User user = new User();
-		user.setuserId(555550);
-		user.setFirstName("firstName");
-		user.setLastName("lastName");
-		user.setEmail("email");
-		user.setTitle("title");
+	/**
+	 * Displays the User information in JSON format.
+	 * 
+	 * @param id
+	 * 			Id of the user to be fetched from database
+	 * @param json
+	 * 			If true, render the view
+	 * @return
+	 * 			User object in JSON format
+	 */
+	@RequestMapping(value="/user/{id}", params="json=true")
+	public @ResponseBody User getUser_JSON(@PathVariable(value = "id") String id) {
+		// TODO: Fetch the list of phones assigned to a particular user.
+		
+		User user = userService.getUser(Integer.parseInt(id));
 
-		// Instantiating a new value type object address for entity User
-		Address address = new Address();
-		address.setStreet("address.street");
-		address.setCity("address.city");
-		address.setState("address.state");
-		address.setZip("address.zip");
-		user.setAddress(address);
-
+		// Dummy values for Phone object reference in 'User' entity
 		Phone phone = new Phone();
 		phone.setDescription("desc");
 		phone.setPhoneNumber("123123");
@@ -66,7 +65,7 @@ public class UserController {
 		user.setListOfPhones(phones);
 		return user;
 	}
-
+	
 	/**
 	 * Display the home/index page of the application.
 	 * 

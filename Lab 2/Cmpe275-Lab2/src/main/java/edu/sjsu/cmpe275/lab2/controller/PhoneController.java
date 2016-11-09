@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.sjsu.cmpe275.lab2.model.Phone;
 import edu.sjsu.cmpe275.lab2.model.User;
@@ -22,15 +23,14 @@ import edu.sjsu.cmpe275.lab2.service.PhoneService;
 import edu.sjsu.cmpe275.lab2.service.UserServiceImpl;
 
 /**
- * @author Onkar Ganjewar
- * Cmpe275-Lab2
+ * @author Onkar Ganjewar Cmpe275-Lab2
  */
 @Controller
 public class PhoneController {
 
 	@Autowired
 	private PhoneService phoneService;
-	
+
 	@Autowired
 	private UserServiceImpl userService;
 
@@ -39,7 +39,7 @@ public class PhoneController {
 		model.addAttribute("phone", new Phone());
 		return "phoneIndex";
 	}
-	
+
 	@RequestMapping(value = "/addPhone", method = RequestMethod.POST)
 	public String createPhone(HttpServletRequest request) throws Exception {
 		Phone phone = new Phone();
@@ -52,10 +52,37 @@ public class PhoneController {
 		users.add(u1);
 		phone.setListOfUsers(users);
 		phoneService.add(phone);
-		
+
 		Integer i = phoneService.getPhoneId(phone);
-		System.out.println("FOUND USER WITH ID"+i);
-		return "redirect:/phone/"+i;
+		System.out.println("FOUND USER WITH ID" + i);
+		return "redirect:/phone/" + i;
+	}
+
+	/**
+	 * Displays the phone entity in JSON format.
+	 * 
+	 * @param id
+	 *          Id of the phone to be retrieved from the database
+	 * @return
+	 * 			Phone object in JSON format.
+	 */
+	@RequestMapping(value = "/phone/{id}", params = "json=true")
+	public @ResponseBody Phone getPhone_JSON(@PathVariable(value = "id") String id) {
+		// TODO: Fetch the list of users assigned to a particular phone.
+
+		Phone phone = phoneService.getPhone(Integer.parseInt(id));
+
+		// Populate user entity with dummy data
+		User user = new User();
+		user.setuserId(555550);
+		user.setFirstName("firstName");
+		user.setLastName("lastName");
+		user.setEmail("email");
+		user.setTitle("title");
+		List<User> users = new ArrayList<User>();
+
+		phone.setListOfUsers(users);
+		return phone;
 	}
 
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
@@ -73,15 +100,14 @@ public class PhoneController {
 		model.addAttribute("number", phone.getPhoneNumber());
 		if (json == null)
 			return "showPhone";
-		else
-		{
+		else {
 			return "null";
 		}
 	}
 
 	/**
-	 * It is used to update the details of phone entity.
-	 * TODO: Not yet tested.
+	 * It is used to update the details of phone entity. TODO: Not yet tested.
+	 * 
 	 * @param request
 	 * @return the view
 	 */
