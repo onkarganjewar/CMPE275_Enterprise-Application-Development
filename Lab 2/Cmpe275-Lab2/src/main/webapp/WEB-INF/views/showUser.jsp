@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>User Details</title>
+<title>CMPE275 - Lab 2</title>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!--  http://www.mytechnotes.biz/2012/11/spring-mvc-rest-calls-with-ajax.html  -->
 <script type="text/javascript">
@@ -27,6 +28,7 @@
 
 </head>
 <body>
+<h1>User Details</h1>
 
 	<form:form action="updateUser" method="POST" modelAttribute="user">
 		<table>
@@ -91,5 +93,21 @@
 			</tr>
 		</table>
 	</form:form>
+<h2>List of phones for this user</h2>
+
+    <hr />
+<table border="1">
+	<th>ID</th>
+	<th>Phone Number</th>
+	<th>Description</th>
+	<c:forEach items="${listOfPhones}" var="phone">
+		<tr>
+			<td>${phone.phoneId}</td>
+			<td>${phone.phoneNumber}</td>
+			<td>${phone.description}</td>
+		</tr>
+	</c:forEach>
+</table>
+<hr />
 </body>
 </html>

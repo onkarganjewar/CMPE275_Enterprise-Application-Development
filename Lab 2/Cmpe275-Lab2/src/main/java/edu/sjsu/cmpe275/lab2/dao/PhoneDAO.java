@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.lab2.model.Phone;
+import edu.sjsu.cmpe275.lab2.model.User;
 
 /**
  * @author Onkar Ganjewar
@@ -28,11 +29,6 @@ public interface PhoneDAO {
 		
 		public List<Phone> findAllPhones();
 
-		/**
-		 * @param phone
-		 * @return
-		 * @throws Exception 
-		 */
-//		public Integer getPhoneKey(Phone phone) throws Exception;
+		public List<User> getAllUsers(Integer id);
 
 }

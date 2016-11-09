@@ -6,16 +6,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Phone Details</title>
+<title>CMPE275 - Lab 2</title>
+
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#Delete').click(function() {
+		$('#Delete').click( function() {
 			$.ajax({
-				url : 'http://localhost:8080/Cmpe275-Lab2/phone/' + $('#id').val(),
+				url : 'http://localhost:8080/Cmpe275-Lab2/phone/'+ $('#id').val(),
 				type : 'DELETE',
 				success : function(msg) {
 					window.location.href = "http://localhost:8080/Cmpe275-Lab2/phone/"
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown)
+				{
+					console.log('Error is: '+XMLHttpRequest.responseText);
+					alert('Error: '+ textStatus);
+					alert(errorThrown);
+					window.location.href = "http://www.google.co.in/"
 				}
 			});
 		});
@@ -24,6 +33,7 @@
 
 </head>
 <body>
+<h1>Phone Details</h1>
 
 	<form method="POST" action="updatePhone">
 		<table>
@@ -34,20 +44,14 @@
 
 			<tr>
 				<td><label>Phone Number</label></td>
-				<td><input type="text" name="phoneNumber"
-					value="${number}" required /></td>
+				<td><input type="text" name="phoneNumber" value="${number}"
+					required /></td>
 			</tr>
 
 			<tr>
 				<td><label>Description</label></td>
-				<td><input type="text" name="description"
-					value="${desc}" required /></td>
-			</tr>
-			<tr>
-				<td><label>List of owners</label></td>
-				<c:forEach var="listOfUsers" items="${sectionName }">
-					<option value="${parameter}">${parameter}</option>
-				</c:forEach>
+				<td><input type="text" name="description" value="${desc}"
+					required /></td>
 			</tr>
 
 			<tr>
@@ -59,6 +63,26 @@
 			</tr>
 		</table>
 	</form>
+
+	<h2>List of assigned users for this phone</h2>
+	<c:forEach items="${listOfUsers}" var="user">
+		<hr />
+		<table border="4">
+			<tr>
+				<th>ID</th>
+				<td><input type="text" value="${user.userId}" readonly /></td>
+			</tr>
+			<tr>
+				<th>First Name</th>
+				<td><input type="text" value="${user.firstName}" /></td>
+			</tr>
+			<tr>
+				<th>Last Name</th>
+				<td><input type="text" value="${user.lastName}" /></td>
+			</tr>
+		</table>
+		<hr />
+	</c:forEach>
 
 </body>
 </html>

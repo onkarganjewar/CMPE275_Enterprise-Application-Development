@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.sjsu.cmpe275.lab2.model.Phone;
 import edu.sjsu.cmpe275.lab2.model.User;
 
 /**
@@ -63,6 +64,9 @@ public class UserServiceImpl {
 	public boolean userExists(Integer id) {
 		return UserDAO.exists(id);
 	}
-	
 
+	@Transactional
+	public List<Phone> findAllPhones(Integer id) {
+		return UserDAO.getAllPhones(id);
+	}
 }

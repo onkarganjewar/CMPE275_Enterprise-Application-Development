@@ -42,7 +42,7 @@ public class UserController {
 
 	/**
 	 * Displays the User information in JSON format.
-	 * 
+	 *  TODO: Bidirectional circular reference problem
 	 * @param id
 	 * 			Id of the user to be fetched from database
 	 * @param json
@@ -52,7 +52,6 @@ public class UserController {
 	 */
 	@RequestMapping(value="/user/{id}", params="json=true")
 	public @ResponseBody User getUser_JSON(@PathVariable(value = "id") String id) {
-		// TODO: Fetch the list of phones assigned to a particular user.
 		
 		User user = userService.getUser(Integer.parseInt(id));
 
@@ -133,6 +132,11 @@ public class UserController {
 		address.setState(request.getParameter("address.state"));
 		address.setZip(request.getParameter("address.zip"));
 		user.setAddress(address);
+		
+		// Get the list of phones associated with the user
+		List<Phone> phones = new ArrayList<Phone> ();
+		phones = userService.findAllPhones(id);
+		user.setListOfPhones(phones);
 
 		userService.modify(user);
 		return "redirect:/user/" + id;
@@ -174,7 +178,6 @@ public class UserController {
 		if (user == null) {
 			return "error";
 		}
-
 		model.addAttribute("fname", user.getFirstName());
 		model.addAttribute("lname", user.getLastName());
 		model.addAttribute("email", user.getEmail());
@@ -187,14 +190,18 @@ public class UserController {
 		model.addAttribute("state", address.getState());
 		model.addAttribute("zip", address.getZip());
 		model.addAttribute("street", address.getStreet());
-		if (json == null)
-			return "showUser";
-		else
-			return "showUserJSON";
+
+		// Fetch the list of assigned phones for this user
+		List<Phone> assignedPhones = new ArrayList<Phone> ();
+		assignedPhones = userService.findAllPhones(Integer.parseInt(id));
+		model.addAttribute("listOfPhones", assignedPhones);
+		return "showUser";	
 	}
 
 	/**
 	 * Delete the user with respective id.
+	 * 	<p>TODO: Not able to render the index/view after the entry is deleted
+	 * from the database.</p>
 	 * @see https://github.com/JVerstry/Web-Related-Examples
 	 * @param id
 	 *            Id of the user to be deleted
@@ -205,8 +212,6 @@ public class UserController {
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@PathVariable(value = "id") String userId, Model model) {
-		// TODO: Not able to render the index/view after the entry is deleted
-		// from the database.
 
 		Integer integer_userId = 0;
 		try {
@@ -232,8 +237,8 @@ public class UserController {
 	}
 
 	/**
-	 * Creates the user entity from URL-Encoded parameters. TODO: Not yet
-	 * tested.
+	 * Creates the user entity from URL-Encoded parameters. <p>TODO: Not yet
+	 * tested.</p>
 	 * 
 	 * @param id
 	 * @param firstname
@@ -274,7 +279,6 @@ public class UserController {
 			userService.modify(user);
 		}
 		map.put("user", user);
-		// map.put("listOfProfiles", userService.getAllUsers());
 		return "showUser";
 	}
 }

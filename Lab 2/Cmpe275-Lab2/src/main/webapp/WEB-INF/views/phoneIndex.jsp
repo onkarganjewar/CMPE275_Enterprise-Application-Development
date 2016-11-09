@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>CMPE275 - Lab 2</title>
 </head>
 <body>
 	<div align="center">
@@ -24,8 +24,10 @@
 					<td><form:input path="description" /></td>
 				</tr>
 				<tr>
-					<td>Phone Owner:</td>
-					<td><form:input path="listOfUsers" /></td>
+					<td>Phone Owner ID:</td>
+					<td><form:input path="listOfUsers"/>
+					</td>
+					
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><input type="submit"

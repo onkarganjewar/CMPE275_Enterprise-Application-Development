@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.lab2.dao.PhoneDAO;
 import edu.sjsu.cmpe275.lab2.model.Phone;
+import edu.sjsu.cmpe275.lab2.model.User;
 
 /**
  * @author Onkar Ganjewar
@@ -24,7 +25,6 @@ public class PhoneService {
 	 */
 	public PhoneService() {
 	}
-	
 	
 	@Transactional
 	public void add(Phone phone) {
@@ -46,11 +46,6 @@ public class PhoneService {
 		return phoneDAO.findById(id);
 	}
 
-//	@Transactional
-//	public Integer getKey(Phone phone) throws Exception {
-//		return phoneDAO.getPhoneKey(phone);
-//	}
-	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Integer getPhoneId(Phone phone) {
 		return phoneDAO.getPhoneId(phone);
@@ -59,6 +54,11 @@ public class PhoneService {
 	@Transactional
 	public List<Phone> getAllPhones() {
 		return phoneDAO.findAllPhones();
+	}
+
+	@Transactional
+	public List<User> findAllUsers(Integer id) {
+		return phoneDAO.getAllUsers(id);
 	}
 
 }
