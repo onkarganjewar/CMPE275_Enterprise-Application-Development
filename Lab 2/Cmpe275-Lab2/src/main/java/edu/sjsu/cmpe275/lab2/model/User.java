@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -48,12 +49,11 @@ public class User implements Serializable {
 	@Embedded
 	private Address address;
 
-//	@ManyToMany
-//	@JoinTable(name = "Users_Phones", 
-//	joinColumns = @JoinColumn(name = "ID"), 
-//	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
 
-	@ManyToMany(mappedBy = "listOfUsers")
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "Users_Phones", 
+	joinColumns = @JoinColumn(name = "ID"), 
+	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
 	private List<Phone> listOfPhones = new ArrayList<Phone>();
 
 	public User() {

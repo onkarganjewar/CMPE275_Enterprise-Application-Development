@@ -42,13 +42,27 @@ public class Phone implements Serializable {
 	@Embedded
 	private Address address;
 
-//	@ManyToMany(mappedBy = "listOfPhones")
-	
-	@ManyToMany
-	@JoinTable(name = "Users_Phones", 
-	joinColumns = @JoinColumn(name = "PHONE_ID"), 
-	inverseJoinColumns = @JoinColumn(name = "ID"))
+	@ManyToMany(mappedBy = "listOfPhones")
 	private List<User> listOfUsers = new ArrayList<User>(); 
+
+	public Phone() {
+	}
+
+	/**
+	 * @param phoneId
+	 * @param phoneNumber
+	 * @param description
+	 * @param address
+	 * @param listOfUsers
+	 */
+	public Phone(Integer phoneId, String phoneNumber, String description, Address address, List<User> listOfUsers) {
+		super();
+		this.phoneId = phoneId;
+		this.phoneNumber = phoneNumber;
+		this.description = description;
+		this.address = address;
+		this.listOfUsers = listOfUsers;
+	}
 
 	/**
 	 * @return the listOfUsers

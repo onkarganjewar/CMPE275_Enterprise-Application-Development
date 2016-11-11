@@ -49,29 +49,72 @@ public class PhoneController {
 	 */
 	@RequestMapping(value = "/addPhone", method = RequestMethod.POST)
 	public String createPhone(HttpServletRequest request) throws Exception {
-		Phone phone = new Phone();
+		// Instantiate the list of phones to be added in the user entity
+		List<Phone> phonesList = new ArrayList<Phone>();
 
 		// Instantiate 'Phone' entity
+		Phone phone = new Phone();
 		phone.setPhoneNumber(request.getParameter("phoneNumber"));
 		phone.setDescription(request.getParameter("description"));
+		phonesList.add(phone);
 
 		// Get the id of the owner for this phone
 		String obj = request.getParameter("listOfUsers");
 		User temp = userService.getUser(Integer.parseInt(obj));
+		// Get the list of previous phones this owner has
+		List<Phone> oldPhones = new ArrayList<Phone>();
+		oldPhones = temp.getListOfPhones();
+
+		// Add the list of previous phones to the current phones list
+		phonesList.addAll(oldPhones); 
+		temp.setListOfPhones(phonesList);
 
 		// Set the list of owners for this phone
 		List<User> users = new ArrayList<User>();
 		users.add(temp);
 		phone.setListOfUsers(users);
-		
-		// Add phone to the database
 		phoneService.add(phone);
+		
+		// In order to persist the data in the join table
+		// Update the user entity with list of phones attached to it
+		userService.modify(temp);
+		// Add phone to the database
 		Integer i = phoneService.getPhoneId(phone);
 		
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + i;
 	}
 
+	/**
+	 * Returns the HTML view of phone details page.
+	 * 
+	 * @param id
+	 * @param json
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
+	public String getPhone(@PathVariable(value = "id") String id,
+			@RequestParam(value = "json", required = false) String json, Model model, HttpServletResponse response) {
+
+		Phone phone = phoneService.getPhone(Integer.parseInt(id));
+		model.addAttribute("id", id);
+		List<User> assignedUsers = new ArrayList<User> ();
+		
+		assignedUsers = phoneService.findAllUsers(Integer.parseInt(id));
+		
+		if (phone == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			model.addAttribute("id", id);
+			model.addAttribute("name", "Phone");
+			return "error";
+		}
+		model.addAttribute("desc", phone.getDescription());
+		model.addAttribute("number", phone.getPhoneNumber());
+		model.addAttribute("listOfUsers", assignedUsers);
+		return "showPhone";
+	}
+	
 	/**
 	 * Displays the phone entity in JSON format.
 	 * 	 <p>TODO: Fix JSON mapper bi-directional relationship problem (Jackson Infinity Recursion Problem)</p>
@@ -108,37 +151,6 @@ public class PhoneController {
 		return phone;
 	}
 
-	
-	/**
-	 * Returns the HTML view of phone details page.
-	 * 
-	 * @param id
-	 * @param json
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
-	public String getPhone(@PathVariable(value = "id") String id,
-			@RequestParam(value = "json", required = false) String json, Model model, HttpServletResponse response) {
-
-		Phone phone = phoneService.getPhone(Integer.parseInt(id));
-		model.addAttribute("id", id);
-		List<User> assignedUsers = new ArrayList<User> ();
-		
-		assignedUsers = phoneService.findAllUsers(Integer.parseInt(id));
-		
-		if (phone == null) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			model.addAttribute("id", id);
-			model.addAttribute("name", "Phone");
-			return "error";
-		}
-		model.addAttribute("desc", phone.getDescription());
-		model.addAttribute("number", phone.getPhoneNumber());
-		model.addAttribute("listOfUsers", assignedUsers);
-		return "showPhone";
-	}
-
 	/**
 	 * It is used to update the details of phone entity. 
 	 * 
@@ -163,8 +175,6 @@ public class PhoneController {
 		phoneService.modify(phone);
 		return "redirect:/phone/" + id;
 	}
-	
-
 	
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@PathVariable(value = "id") String userId, Model model, HttpServletResponse response) {

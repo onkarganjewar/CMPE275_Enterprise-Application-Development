@@ -46,11 +46,15 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	@Transactional
-	public void deleteById(Integer id) throws DataAccessException {
+	public void deleteById(Integer id) {
 		Phone entity = new Phone();
 		entity.setPhoneId(id);
 		System.out.println("PhoneService::Delete called for id:" + id);
-		em.remove(em.contains(entity) ? entity : em.merge(entity));
+		try {
+			em.remove(em.contains(entity) ? entity : em.merge(entity));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Transactional
@@ -72,10 +76,10 @@ public class PhoneDAOImpl implements PhoneDAO {
 	@Transactional
 	public List<User> getAllUsers(Integer id) {
 
+		List<User> userList = new ArrayList<User>();
 		Query query2 = em.createQuery("Select m from User m INNER JOIN m.listOfPhones t where t.phoneId=:arg1");
 		query2.setParameter("arg1", id);
 
-		List<User> userList = new ArrayList<User>();
 		try {
 			userList = (List<User>) query2.getResultList();
 		} catch (NoResultException e) {
