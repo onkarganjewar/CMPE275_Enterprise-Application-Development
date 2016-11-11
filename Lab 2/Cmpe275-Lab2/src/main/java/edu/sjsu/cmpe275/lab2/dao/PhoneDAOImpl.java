@@ -52,7 +52,8 @@ public class PhoneDAOImpl implements PhoneDAO {
 		System.out.println("PhoneService::Delete called for id:" + id);
 		try {
 			em.remove(em.contains(entity) ? entity : em.merge(entity));
-		} catch (Exception e) {
+		} catch (Throwable e) {
+			System.out.println("Exception caught");
 			e.printStackTrace();
 		}
 	}

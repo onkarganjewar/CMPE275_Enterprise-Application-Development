@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -16,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Onkar Ganjewar Cmpe275-Lab2
@@ -43,6 +43,7 @@ public class Phone implements Serializable {
 	private Address address;
 
 	@ManyToMany(mappedBy = "listOfPhones")
+	@JsonIgnoreProperties("listOfPhones")
 	private List<User> listOfUsers = new ArrayList<User>(); 
 
 	public Phone() {

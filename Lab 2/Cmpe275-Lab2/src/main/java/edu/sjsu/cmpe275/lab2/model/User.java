@@ -3,7 +3,7 @@
  */
 package edu.sjsu.cmpe275.lab2.model;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * @author Onkar Ganjewar Cmpe275-Lab2
@@ -49,11 +51,11 @@ public class User implements Serializable {
 	@Embedded
 	private Address address;
 
-
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "Users_Phones", 
 	joinColumns = @JoinColumn(name = "ID"), 
 	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
+	@JsonIgnoreProperties("listOfUsers")
 	private List<Phone> listOfPhones = new ArrayList<Phone>();
 
 	public User() {

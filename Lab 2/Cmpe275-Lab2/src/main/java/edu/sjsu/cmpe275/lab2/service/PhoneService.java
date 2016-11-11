@@ -1,6 +1,6 @@
 package edu.sjsu.cmpe275.lab2.service;
 
-import java.util.List;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,9 +36,14 @@ public class PhoneService {
 		phoneDAO.update(phone); 
 	}
 
-	@Transactional
+	@Transactional(noRollbackFor={RuntimeException.class})
 	public void delete(Integer id) {
-		phoneDAO.deleteById(id); 
+		try {
+			phoneDAO.deleteById(id); 
+		} catch (Exception e) {
+			System.out.println("CAIUBJHT");
+			e.printStackTrace();
+		}
 	}
 
 	@Transactional

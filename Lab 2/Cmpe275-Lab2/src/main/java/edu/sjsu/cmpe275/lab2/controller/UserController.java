@@ -43,7 +43,7 @@ public class UserController {
 
 	/**
 	 * Displays the User information in JSON format.
-	 *  TODO: Bidirectional circular reference problem
+	 *  
 	 * @param id
 	 * 			Id of the user to be fetched from database
 	 * @param json
@@ -56,17 +56,7 @@ public class UserController {
 		
 		User user = userService.getUser(Integer.parseInt(id));
 		List<Phone> phonesDir = new ArrayList<Phone>();
-		
-		// TODO: HQL query problem: When invoked over here, flushes the
-		// corresponding join table entry
-//		List<Phone> phonesTemp = userService.findAllPhones(Integer.parseInt(id));
-
-		// Dummy values for Phone object reference in 'User' entity
-		Phone phone = new Phone();
-		phone.setDescription("desc");
-		phone.setPhoneNumber("123123");
-		phonesDir.add(phone);
-//		phonesDir.addAll(phonesTemp);
+		phonesDir = userService.findAllPhones(Integer.parseInt(id));
 		user.setListOfPhones(phonesDir);
 		return user;
 	}

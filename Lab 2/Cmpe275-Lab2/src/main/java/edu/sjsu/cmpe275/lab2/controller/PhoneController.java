@@ -1,6 +1,6 @@
 package edu.sjsu.cmpe275.lab2.controller;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,10 +117,7 @@ public class PhoneController {
 	
 	/**
 	 * Displays the phone entity in JSON format.
-	 * 	 <p>TODO: Fix JSON mapper bi-directional relationship problem (Jackson Infinity Recursion Problem)</p>
-	 * @see 
-	 * 		http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion</u>
-	 * 		http://stackoverflow.com/questions/22615317/serialize-bi-directional-jpa-entities-to-json-with-jackson
+	 * 
 	 * @param id
 	 *      Id of the phone to be retrieved from the database
 	 * @return
@@ -130,23 +127,9 @@ public class PhoneController {
 	public @ResponseBody Phone getPhone_JSON(@PathVariable(value = "id") String id) {
 
 		Phone phone = phoneService.getPhone(Integer.parseInt(id));
-
-		// Populate user entity with dummy data
 		List<User> users = new ArrayList<User>();
-		User user = new User();
-		user.setuserId(555550);
-		user.setFirstName("firstName");
-		user.setLastName("lastName");
-		user.setEmail("email");
-		user.setTitle("title");
-		users.add(user);
-		
-		List<User> tempArr = new ArrayList<User>();
-		
-		// Circular reference problem: Phone --> listOfUsers[] --> listOfPhones[] --> Phone
-//		users = phoneService.findAllUsers(Integer.parseInt(id));
-		tempArr = phoneService.findAllUsers(Integer.parseInt(id));
-		
+
+		users = phoneService.findAllUsers(Integer.parseInt(id));
 		phone.setListOfUsers(users);
 		return phone;
 	}
