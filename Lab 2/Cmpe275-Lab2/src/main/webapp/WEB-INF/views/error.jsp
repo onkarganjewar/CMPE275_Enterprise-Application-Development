@@ -1,23 +1,61 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ include file="/WEB-INF/views/includes.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
+<!DOCTYPE html>
 <html>
 <head>
-<style>
-#div1 {
-margin-top:50px;
-font-stretch: ultra-expanded;
-font-size: 700%;
-color: #CC0000;
-}
+	<title>Apache Tomcat/8.0.35 - Error report</title>
+	<style type="text/css">
+    H1 {
+        font-family: Tahoma, Arial, sans-serif;
+        color: white;
+        background-color: #525D76;
+        font-size: 22px;
+    }
+    H2 {
+        font-family: Tahoma, Arial, sans-serif;
+        color: white;
+        background-color: #525D76;
+        font-size: 16px;
+    }
+    H3 {
+        font-family: Tahoma, Arial, sans-serif;
+        color: white;
+        background-color: #525D76;
+        font-size: 14px;
+    }
+    BODY {
+        font-family: Tahoma, Arial, sans-serif;
+        color: black;
+        background-color: white;
+    }
+    B {
+        font-family: Tahoma, Arial, sans-serif;
+        color: white;
+        background-color: #525D76;
+    }
+    P {
+        font-family: Tahoma, Arial, sans-serif;
+        background: white;
+        color: black;
+        font-size: 12px;
+    }
+    A {
+        color: black;
+    }
+    A.name {
+        color: black;
+    }
+    .line {
+        height: 1px;
+        background-color: #525D76;
+        border: none;
+    }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-<div id="div1">
-<br/>
-Sorry! The requested user ${userid}  does not exists...!!
-</div>
+	<h1>HTTP Status 404 - RESOURCE NOT FOUND </h1>
+	<div class="line"></div>
+	<p><b>type</b> Status report</p>
+	<p><b>message</b><u>${name} with Id ${id } does not exist.</u></p>
+	<p><b>description</b> <u>The requested resources with ID = ${id } is not available.</u></p>
+	<hr class="line">
 </body>
+</html>

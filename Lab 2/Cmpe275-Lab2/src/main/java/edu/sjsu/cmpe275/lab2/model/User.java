@@ -11,6 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -44,6 +47,11 @@ public class User implements Serializable {
 
 	@Embedded
 	private Address address;
+
+//	@ManyToMany
+//	@JoinTable(name = "Users_Phones", 
+//	joinColumns = @JoinColumn(name = "ID"), 
+//	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
 
 	@ManyToMany(mappedBy = "listOfUsers")
 	private List<Phone> listOfPhones = new ArrayList<Phone>();

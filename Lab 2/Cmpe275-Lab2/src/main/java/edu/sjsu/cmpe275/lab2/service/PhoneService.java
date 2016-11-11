@@ -61,4 +61,9 @@ public class PhoneService {
 		return phoneDAO.getAllUsers(id);
 	}
 
+	@Transactional
+	public boolean phoneExists(Integer id) {
+		return phoneDAO.exists(id);
+	}
+
 }

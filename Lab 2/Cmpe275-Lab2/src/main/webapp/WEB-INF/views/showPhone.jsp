@@ -17,14 +17,12 @@
 				url : 'http://localhost:8080/Cmpe275-Lab2/phone/'+ $('#id').val(),
 				type : 'DELETE',
 				success : function(msg) {
-					window.location.href = "http://localhost:8080/Cmpe275-Lab2/phone/"
+					window.location.href = "http://localhost:8080/Cmpe275-Lab2/phone"
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown)
 				{
 					console.log('Error is: '+XMLHttpRequest.responseText);
-					alert('Error: '+ textStatus);
-					alert(errorThrown);
-					window.location.href = "http://www.google.co.in/"
+					console.log(errorThrown);
 				}
 			});
 		});

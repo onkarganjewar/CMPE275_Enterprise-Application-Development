@@ -31,4 +31,6 @@ public interface PhoneDAO {
 
 		public List<User> getAllUsers(Integer id);
 
+		public boolean exists(Integer id);
+
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,13 +58,9 @@ public class PhoneController {
 		// Get the id of the owner for this phone
 		String obj = request.getParameter("listOfUsers");
 		User temp = userService.getUser(Integer.parseInt(obj));
-		
-		// Add dummy owner 
-		User u1 = userService.getAllUsers().get(0);
 
 		// Set the list of owners for this phone
 		List<User> users = new ArrayList<User>();
-		users.add(u1);
 		users.add(temp);
 		phone.setListOfUsers(users);
 		
@@ -86,7 +83,7 @@ public class PhoneController {
 	 * @return
 	 * 		Phone object in JSON format.
 	 */
-	@RequestMapping(value = "/phone/{id}", params = "json=true")
+	@RequestMapping(value = "/phone/{id}", params = "json=true", method = RequestMethod.GET)
 	public @ResponseBody Phone getPhone_JSON(@PathVariable(value = "id") String id) {
 
 		Phone phone = phoneService.getPhone(Integer.parseInt(id));
@@ -101,8 +98,11 @@ public class PhoneController {
 		user.setTitle("title");
 		users.add(user);
 		
-// Circular reference problem: Phone --> listOfUsers[] --> listOfPhones[] --> Phone
-	//	users = phoneService.findAllUsers(Integer.parseInt(id));
+		List<User> tempArr = new ArrayList<User>();
+		
+		// Circular reference problem: Phone --> listOfUsers[] --> listOfPhones[] --> Phone
+//		users = phoneService.findAllUsers(Integer.parseInt(id));
+		tempArr = phoneService.findAllUsers(Integer.parseInt(id));
 		
 		phone.setListOfUsers(users);
 		return phone;
@@ -119,7 +119,7 @@ public class PhoneController {
 	 */
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
 	public String getPhone(@PathVariable(value = "id") String id,
-			@RequestParam(value = "json", required = false) String json, Model model) {
+			@RequestParam(value = "json", required = false) String json, Model model, HttpServletResponse response) {
 
 		Phone phone = phoneService.getPhone(Integer.parseInt(id));
 		model.addAttribute("id", id);
@@ -128,6 +128,9 @@ public class PhoneController {
 		assignedUsers = phoneService.findAllUsers(Integer.parseInt(id));
 		
 		if (phone == null) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			model.addAttribute("id", id);
+			model.addAttribute("name", "Phone");
 			return "error";
 		}
 		model.addAttribute("desc", phone.getDescription());
@@ -159,5 +162,35 @@ public class PhoneController {
 		
 		phoneService.modify(phone);
 		return "redirect:/phone/" + id;
+	}
+	
+
+	
+	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
+	public String deleteUser(@PathVariable(value = "id") String userId, Model model, HttpServletResponse response) {
+
+		Integer integer_userId = 0;
+		try {
+			integer_userId = Integer.parseInt(userId);
+		} catch (NumberFormatException e) {
+			System.out.println("NOT A VALID PHONE ID!!");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
+		}
+
+		if (phoneService.phoneExists(integer_userId)) {
+			System.out.println("Phone exists with user id = " + userId);
+			phoneService.delete(integer_userId);
+			// Not getting rendered -- HTTP 405: Method not supported
+			return "home";
+			// return "redirect:/user/";
+		} else {
+			System.out.println("Phone does not exist for " + userId);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			model.addAttribute("id", userId);
+			model.addAttribute("name", "Phone");
+			return "error";
+		}
 	}
 }

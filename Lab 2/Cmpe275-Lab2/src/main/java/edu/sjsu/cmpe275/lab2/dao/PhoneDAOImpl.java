@@ -38,7 +38,11 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 	@Transactional
 	public void insert(Phone phone) throws DataAccessException {
-		em.persist(phone);
+		try {
+			em.persist(phone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Transactional
@@ -78,5 +82,12 @@ public class PhoneDAOImpl implements PhoneDAO {
 			e.printStackTrace();
 		}
 		return userList;
+	}
+
+	@Transactional
+	public boolean exists(Integer id) {
+		Phone pr = new Phone();
+		pr.setPhoneId(id);
+		return em.find(Phone.class, id) != null;
 	}
 }

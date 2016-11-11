@@ -7,13 +7,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -42,6 +42,8 @@ public class Phone implements Serializable {
 	@Embedded
 	private Address address;
 
+//	@ManyToMany(mappedBy = "listOfPhones")
+	
 	@ManyToMany
 	@JoinTable(name = "Users_Phones", 
 	joinColumns = @JoinColumn(name = "PHONE_ID"), 

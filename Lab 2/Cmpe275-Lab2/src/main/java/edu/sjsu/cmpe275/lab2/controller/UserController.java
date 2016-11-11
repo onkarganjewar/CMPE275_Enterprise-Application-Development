@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,14 +55,19 @@ public class UserController {
 	public @ResponseBody User getUser_JSON(@PathVariable(value = "id") String id) {
 		
 		User user = userService.getUser(Integer.parseInt(id));
+		List<Phone> phonesDir = new ArrayList<Phone>();
+		
+		// TODO: HQL query problem: When invoked over here, flushes the
+		// corresponding join table entry
+//		List<Phone> phonesTemp = userService.findAllPhones(Integer.parseInt(id));
 
 		// Dummy values for Phone object reference in 'User' entity
 		Phone phone = new Phone();
 		phone.setDescription("desc");
 		phone.setPhoneNumber("123123");
-		List<Phone> phones = new ArrayList<Phone>();
-		phones.add(phone);
-		user.setListOfPhones(phones);
+		phonesDir.add(phone);
+//		phonesDir.addAll(phonesTemp);
+		user.setListOfPhones(phonesDir);
 		return user;
 	}
 	
@@ -170,12 +176,15 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public String getUser(@PathVariable(value = "id") String id,
-			@RequestParam(value = "json", required = false) String json, Model model) {
+			@RequestParam(value = "json", required = false) String json, Model model, HttpServletResponse response) {
 
 		User user = userService.getUser(Integer.parseInt(id));
 		model.addAttribute("id", id);
 
 		if (user == null) {
+			model.addAttribute("id", id);
+			model.addAttribute("name", "User");
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return "error";
 		}
 		model.addAttribute("fname", user.getFirstName());
@@ -211,7 +220,7 @@ public class UserController {
 	 */
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-	public String deleteUser(@PathVariable(value = "id") String userId, Model model) {
+	public String deleteUser(@PathVariable(value = "id") String userId, Model model, HttpServletResponse response) {
 
 		Integer integer_userId = 0;
 		try {
@@ -232,6 +241,8 @@ public class UserController {
 		} else {
 			System.out.println("User does not exist for " + userId);
 			model.addAttribute("id", userId);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			model.addAttribute("name", "User");
 			return "error";
 		}
 	}

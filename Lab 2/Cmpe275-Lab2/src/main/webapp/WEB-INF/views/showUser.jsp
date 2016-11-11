@@ -15,12 +15,13 @@
 				url : 'http://localhost:8080/Cmpe275-Lab2/user/' + $('#id').val(),
 				type : 'DELETE',
 				success : function(msg) {
-					window.location.href = "http://localhost:8080/Cmpe275-Lab2/user/"
+					window.location.href = "http://localhost:8080/Cmpe275-Lab2/user"
 				},
-	            error: function(e)
-	            {
-	                alert("Error: " + e);
-	            }
+				error: function(XMLHttpRequest, textStatus, errorThrown)
+				{
+					console.log('Error is: '+XMLHttpRequest.responseText);
+					console.log(errorThrown);
+				}
 			});
 		});
 	});

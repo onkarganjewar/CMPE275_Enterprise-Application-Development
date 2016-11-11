@@ -96,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
 		query.setParameter("arg1", id);
 		
 		try {
-			phoneList = (List<Phone>) query.getResultList();
+			phoneList = ((List<Phone>) query.getResultList());
 		} catch (NoResultException e) {
 			e.printStackTrace();
 		}
