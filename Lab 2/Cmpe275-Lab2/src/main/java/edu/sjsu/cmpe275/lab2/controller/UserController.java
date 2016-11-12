@@ -210,7 +210,7 @@ public class UserController {
 	 */
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-	public String deleteUser(@PathVariable(value = "id") String userId, Model model, HttpServletResponse response) {
+	public @ResponseBody String deleteUser(@PathVariable(value = "id") String userId) {
 
 		Integer integer_userId = 0;
 		try {
@@ -225,15 +225,10 @@ public class UserController {
 		if (userService.userExists(integer_userId)) {
 			System.out.println("User exists with user id = " + userId);
 			userService.delete(integer_userId);
-			// Not getting rendered -- HTTP 405: Method not supported
-			return "home";
-			// return "redirect:/user/";
+			return "Success";
 		} else {
 			System.out.println("User does not exist for " + userId);
-			model.addAttribute("id", userId);
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			model.addAttribute("name", "User");
-			return "error";
+			return "Not found";
 		}
 	}
 

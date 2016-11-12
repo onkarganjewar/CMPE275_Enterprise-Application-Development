@@ -16,14 +16,23 @@
 			$.ajax({
 				url : 'http://localhost:8080/Cmpe275-Lab2/phone/'+ $('#id').val(),
 				type : 'DELETE',
-				success : function(msg) {
-					window.location.href = "http://localhost:8080/Cmpe275-Lab2/phone"
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown)
-				{
-					console.log('Error is: '+XMLHttpRequest.responseText);
-					console.log(errorThrown);
-				}
+				success: function (data) {
+					console.log(data);
+					if (data == "Success") {
+						alert("Phone deleted successfully");
+						var url = "http://localhost:8080/Cmpe275-Lab2/phone";
+						window.location.replace(url);
+					} else if (data == "Not found") {
+						alert("Phone ID does not exists. Please try again.");
+					} else if (data == "Failure") {
+						alert("Can not delete a phone. It is assigned to a user");
+					} else if (data == "Exception") {
+						alert("Can not delete the phone. Please try again.")
+					}
+	            },
+	            error: function (textStatus, errorThrown) {
+	                alert("Error getting the data");
+	            }
 			});
 		});
 	});

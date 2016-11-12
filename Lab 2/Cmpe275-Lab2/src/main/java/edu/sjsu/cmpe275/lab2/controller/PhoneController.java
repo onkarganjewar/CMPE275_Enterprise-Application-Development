@@ -1,6 +1,6 @@
 package edu.sjsu.cmpe275.lab2.controller;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +66,7 @@ public class PhoneController {
 		oldPhones = temp.getListOfPhones();
 
 		// Add the list of previous phones to the current phones list
-		phonesList.addAll(oldPhones); 
+		phonesList.addAll(oldPhones);
 		temp.setListOfPhones(phonesList);
 
 		// Set the list of owners for this phone
@@ -74,13 +74,13 @@ public class PhoneController {
 		users.add(temp);
 		phone.setListOfUsers(users);
 		phoneService.add(phone);
-		
+
 		// In order to persist the data in the join table
 		// Update the user entity with list of phones attached to it
 		userService.modify(temp);
 		// Add phone to the database
 		Integer i = phoneService.getPhoneId(phone);
-		
+
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + i;
 	}
@@ -99,10 +99,10 @@ public class PhoneController {
 
 		Phone phone = phoneService.getPhone(Integer.parseInt(id));
 		model.addAttribute("id", id);
-		List<User> assignedUsers = new ArrayList<User> ();
-		
+		List<User> assignedUsers = new ArrayList<User>();
+
 		assignedUsers = phoneService.findAllUsers(Integer.parseInt(id));
-		
+
 		if (phone == null) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			model.addAttribute("id", id);
@@ -114,12 +114,12 @@ public class PhoneController {
 		model.addAttribute("listOfUsers", assignedUsers);
 		return "showPhone";
 	}
-	
+
 	/**
 	 * Displays the phone entity in JSON format.
 	 * 
 	 * @param id
-	 *      Id of the phone to be retrieved from the database
+	 *            Id of the phone to be retrieved from the database
 	 * @return
 	 * 		Phone object in JSON format.
 	 */
@@ -135,7 +135,7 @@ public class PhoneController {
 	}
 
 	/**
-	 * It is used to update the details of phone entity. 
+	 * It is used to update the details of phone entity.
 	 * 
 	 * @param request
 	 * @return 
@@ -154,13 +154,13 @@ public class PhoneController {
 		List<User> users = new ArrayList<User>();
 		users = phoneService.findAllUsers(id);
 		phone.setListOfUsers(users);
-		
+
 		phoneService.modify(phone);
 		return "redirect:/phone/" + id;
 	}
-	
+
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
-	public String deleteUser(@PathVariable(value = "id") String userId, Model model, HttpServletResponse response) {
+	public @ResponseBody String deletePhone(@PathVariable(value = "id") String userId) {
 
 		Integer integer_userId = 0;
 		try {
@@ -174,16 +174,19 @@ public class PhoneController {
 
 		if (phoneService.phoneExists(integer_userId)) {
 			System.out.println("Phone exists with user id = " + userId);
-			phoneService.delete(integer_userId);
-			// Not getting rendered -- HTTP 405: Method not supported
-			return "home";
-			// return "redirect:/user/";
+			try {
+				phoneService.delete(integer_userId);
+			} catch (org.hibernate.exception.ConstraintViolationException e) { 
+				return "Failure";
+			} catch (javax.persistence.PersistenceException p) {
+				return "Failure2";
+			} catch (Exception e) {
+				return "Exception";
+			}
+			return "Success";
 		} else {
 			System.out.println("Phone does not exist for " + userId);
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			model.addAttribute("id", userId);
-			model.addAttribute("name", "Phone");
-			return "error";
+			return "Not found";
 		}
 	}
 }

@@ -14,14 +14,21 @@
 			$.ajax({
 				url : 'http://localhost:8080/Cmpe275-Lab2/user/' + $('#id').val(),
 				type : 'DELETE',
-				success : function(msg) {
-					window.location.href = "http://localhost:8080/Cmpe275-Lab2/user"
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown)
-				{
-					console.log('Error is: '+XMLHttpRequest.responseText);
-					console.log(errorThrown);
-				}
+				success: function (data) {
+					console.log(data);
+					if (data == "Success") {
+						alert("User deleted successfully");
+						var url1 = "http://localhost:8080/Cmpe275-Lab2/user";
+						window.location.replace(url1);
+					} else if (data == "Not found") {
+						alert("User does not exist. Please try again.");
+					}
+	            },
+	            error: function (textStatus, errorThrown) {
+					console.log("Error function invoked");
+					console.log("Textstatus = ",textStatus);
+	            	alert("Error getting the data");
+	            }
 			});
 		});
 	});
