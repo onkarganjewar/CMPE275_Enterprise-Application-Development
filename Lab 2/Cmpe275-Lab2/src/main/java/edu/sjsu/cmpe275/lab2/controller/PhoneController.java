@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.lab2.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.sjsu.cmpe275.lab2.model.Address;
 import edu.sjsu.cmpe275.lab2.model.Phone;
 import edu.sjsu.cmpe275.lab2.model.User;
 import edu.sjsu.cmpe275.lab2.service.PhoneService;
@@ -36,6 +38,70 @@ public class PhoneController {
 	public String renderHome(Model model) {
 		model.addAttribute("phone", new Phone());
 		return "phoneIndex";
+	}
+	
+	@RequestMapping(value = "/phone/addUsers", method = RequestMethod.POST)
+	public String insertUser(HttpServletRequest request) throws Exception {
+		// Instantiate the list of phones to be added in the user entity
+		String phoneId = request.getParameter("phoneId");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email= request.getParameter("email");
+		String title= request.getParameter("title");
+		String street= request.getParameter("street");
+		String city= request.getParameter("city");
+		String state= request.getParameter("state");
+		String zip= request.getParameter("zip");
+		
+		User user = new User();
+		Integer userId = randomIdGenerator();
+		user.setuserId(userId);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		user.setTitle(title);
+		
+		Address address = new Address();
+		address.setCity(city);
+		address.setStreet(street);
+		address.setState(state);
+		address.setZip(zip);
+		
+		user.setAddress(address);
+		userService.add(user);
+		
+		Phone phone = new Phone();
+		phone = phoneService.getPhone(Integer.parseInt(phoneId));
+		
+		List<User> oldUsers = new ArrayList<User>();
+		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
+
+		List<User> allUsers = new ArrayList<User>();
+		allUsers.addAll(oldUsers);
+		allUsers.add(user);
+		
+		phone.setListOfUsers(allUsers);
+		phoneService.modify(phone);
+
+		List<Phone> phones = new ArrayList<Phone>();
+		phones.add(phone);
+		
+		user.setListOfPhones(phones);
+		
+		userService.modify(user);
+		// Redirect to the phone details HTML page
+		return "redirect:/phone/" + phoneId;
+	}
+	
+	private Integer randomIdGenerator() {
+		Random rn = new Random();
+		rn.setSeed(System.currentTimeMillis());
+		while (true) {
+			Integer rand_id = rn.nextInt(Integer.SIZE - 1) % 10000;
+			if (!userService.userExists(rand_id)) {
+				return rand_id;
+			}
+		}
 	}
 
 	/**

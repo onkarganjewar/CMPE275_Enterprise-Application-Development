@@ -35,6 +35,22 @@
 	            }
 			});
 		});
+		$("#addRow").on("click", function () {
+			console.log("Clicked");
+	        var newRow = $("<tr>");
+	        var cols = "";
+	        cols += '<tr><td>First Name: </td><td><input type="text" name="firstName"/></td></tr>';
+	        cols += '<tr><td>Last Name: </td><td><input type="text" name="lastName"/></td></tr>';
+	        cols += '<tr><td>Email: </td><td><input type="text" name="email"/></td></tr>';
+	        cols += '<tr><td>Title: </td><td><input type="text" name="title"/></td></tr>';
+	        cols += '<tr><td>Street: </td><td><input type="text" name="street"/></td></tr>';
+	        cols += '<tr><td>City: </td><td><input type="text" name="city"/></td></tr>';
+	        cols += '<tr><td>State: </td><td><input type="text" name="state"/></td></tr>';
+	        cols += '<tr><td>Zip: </td><td><input type="text" name="zip"/></td></tr>';
+	        cols += '<tr><td><input type="submit" name="AddUsers" class="submit" value="Add"></td></tr>';
+	        newRow.append(cols);
+	        $("table.user-list").append(newRow);
+	    });
 	});
 </script>
 
@@ -67,9 +83,18 @@
 
 				<td><input type="button" class=button value="Delete"
 					id="Delete" name="Delete"></td>
+			
+				<td><input type="button" class=button value="Add User"
+					id="addRow" name="addRow"></td>
 			</tr>
 		</table>
 	</form>
+
+	<form:form action="addUsers" method="POST">
+		<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
+			<table class="user-list">
+    		</table>
+	</form:form>
 
 	<h2>List of assigned users for this phone</h2>
 	<c:forEach items="${listOfUsers}" var="user">
