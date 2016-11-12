@@ -84,7 +84,7 @@
 				<td><input type="button" class=button value="Delete"
 					id="Delete" name="Delete"></td>
 			
-				<td><input type="button" class=button value="Add User"
+				<td><input type="button" class=button value="Add New User"
 					id="addRow" name="addRow"></td>
 			</tr>
 		</table>
@@ -96,13 +96,16 @@
     		</table>
 	</form:form>
 
-	<h2>List of assigned users for this phone</h2>
+	
+	<form:form action="detachUser" method="POST">
+	<h2>List of assigned users for this phone with Id = ${id}  </h2>
+	<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
 	<c:forEach items="${listOfUsers}" var="user">
 		<hr />
 		<table border="4">
 			<tr>
 				<th>ID</th>
-				<td><input type="text" value="${user.userId}" readonly /></td>
+				<td><input type="text" id = "userId" name = "userId" value="${user.userId}" readonly /></td>
 			</tr>
 			<tr>
 				<th>First Name</th>
@@ -112,9 +115,14 @@
 				<th>Last Name</th>
 				<td><input type="text" value="${user.lastName}" /></td>
 			</tr>
+			<tr>
+				<td><input type="submit" class=submit value="Remove user"
+					id="detachUser" name="detachUser"></td>
+			</tr>
 		</table>
 		<hr />
 	</c:forEach>
+</form:form>
 
 </body>
 </html>

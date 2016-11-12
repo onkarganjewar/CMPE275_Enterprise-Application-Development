@@ -40,6 +40,17 @@ public class PhoneController {
 		return "phoneIndex";
 	}
 	
+	private Integer randomIdGenerator() {
+		Random rn = new Random();
+		rn.setSeed(System.currentTimeMillis());
+		while (true) {
+			Integer rand_id = rn.nextInt(Integer.SIZE - 1) % 10000;
+			if (!userService.userExists(rand_id)) {
+				return rand_id;
+			}
+		}
+	}
+	
 	@RequestMapping(value = "/phone/addUsers", method = RequestMethod.POST)
 	public String insertUser(HttpServletRequest request) throws Exception {
 		// Instantiate the list of phones to be added in the user entity
@@ -92,18 +103,60 @@ public class PhoneController {
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + phoneId;
 	}
+
 	
-	private Integer randomIdGenerator() {
-		Random rn = new Random();
-		rn.setSeed(System.currentTimeMillis());
-		while (true) {
-			Integer rand_id = rn.nextInt(Integer.SIZE - 1) % 10000;
-			if (!userService.userExists(rand_id)) {
-				return rand_id;
+	/**
+	 * Detaches the particular user from the list of associated users to the phone entity.
+	 * 
+	 * @param request
+	 * 			HttpServletRequest containing all the parameter values.
+	 * @return
+	 * @throws Exception
+	 */
+	
+	@RequestMapping(value = "/phone/detachUser", method = RequestMethod.POST)
+	public String detachUser(HttpServletRequest request) throws Exception {
+		
+		String phoneId = request.getParameter("phoneId");
+		Integer uId = Integer.parseInt(request.getParameter("userId"));
+		
+		User user = new User();
+		user = userService.getUser(uId);
+		Phone phone = new Phone();
+		phone = phoneService.getPhone(Integer.parseInt(phoneId));
+		
+		List<User> oldUsers = new ArrayList<User>();
+		List<User> newUsers = new ArrayList<User>();
+		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
+		
+		for (User u : oldUsers) {
+			if (u.getuserId()!= uId) {
+				newUsers.add(u);
+			}
+			System.out.println(u);
+		}
+		
+		phone.setListOfUsers(newUsers);
+		phoneService.modify(phone);
+
+		List<Phone> newPhones = new ArrayList<Phone>();
+		List<Phone> oldPhones = new ArrayList<Phone>();
+		oldPhones = userService.findAllPhones(uId);
+
+		for (Phone p : oldPhones) {
+			Integer pId = p.getPhoneId();
+			if (pId != Integer.parseInt(phoneId)) {
+				newPhones.add(p);
 			}
 		}
-	}
+		
+		user.setListOfPhones(newPhones);
+		userService.modify(user);
 
+		// Redirect to the phone details HTML page
+		return "redirect:/phone/" + phoneId;
+	}
+	
 	/**
 	 * Creates the new phone entity in the database.
 	 * 
