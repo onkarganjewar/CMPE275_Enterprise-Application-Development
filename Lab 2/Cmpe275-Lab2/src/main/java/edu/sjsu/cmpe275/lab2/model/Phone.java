@@ -32,7 +32,7 @@ public class Phone implements Serializable {
 	private Integer phoneId;
 
 	// @NotEmpty
-	@Column(name = "PHONE_NUMBER", nullable = false)
+	@Column(name = "PHONE_NUMBER", unique = true, nullable = false)
 	private String phoneNumber; // Note, phone numbers must be unique
 
 	// @NotEmpty

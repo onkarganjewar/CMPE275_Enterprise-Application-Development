@@ -40,6 +40,7 @@ public class PhoneController {
 		return "phoneIndex";
 	}
 
+	
 	private Integer randomIdGenerator() {
 		Random rn = new Random();
 		rn.setSeed(System.currentTimeMillis());
@@ -166,20 +167,20 @@ public class PhoneController {
 	 * @return HTML view holding all the details of newly added phone
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/addPhone", method = RequestMethod.POST)
-	public String createPhone(HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/test/addPhone", method = RequestMethod.POST)
+	public @ResponseBody String getForm(@RequestParam(value = "desc") String desc,
+			@RequestParam(value = "userId") String userId, @RequestParam(value = "number") String number) {
 		// Instantiate the list of phones to be added in the user entity
 		List<Phone> phonesList = new ArrayList<Phone>();
 
 		// Instantiate 'Phone' entity
 		Phone phone = new Phone();
-		phone.setPhoneNumber(request.getParameter("phoneNumber"));
-		phone.setDescription(request.getParameter("description"));
+		phone.setPhoneNumber(number);
+		phone.setDescription(desc);
 		phonesList.add(phone);
 
 		// Get the id of the owner for this phone
-		String obj = request.getParameter("listOfUsers");
-		User temp = userService.getUser(Integer.parseInt(obj));
+		User temp = userService.getUser(Integer.parseInt(userId));
 		// Get the list of previous phones this owner has
 		List<Phone> oldPhones = new ArrayList<Phone>();
 		oldPhones = temp.getListOfPhones();
@@ -192,16 +193,22 @@ public class PhoneController {
 		List<User> users = new ArrayList<User>();
 		users.add(temp);
 		phone.setListOfUsers(users);
-		phoneService.add(phone);
-
+		try {
+			phoneService.add(phone);
+		} catch (Exception e) {
+			if (e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+				return "{\"Status\":\"Failure\"}";
+			}
+			return "{\"Status\":\"Exception\"}";
+		}
 		// In order to persist the data in the join table
 		// Update the user entity with list of phones attached to it
 		userService.modify(temp);
 		// Add phone to the database
-		Integer i = phoneService.getPhoneId(phone);
-
-		// Redirect to the phone details HTML page
-		return "redirect:/phone/" + i;
+		Integer phoneId = phoneService.getPhoneId(phone);
+		System.out.println("Phone ID = " + phoneId);
+		return phoneId.toString();
+		// return "{\"Id\":, \"Status\":\"Success\"}";
 	}
 
 	/**
@@ -306,4 +313,8 @@ public class PhoneController {
 			return "Not found";
 		}
 	}
+// TODO: Create or update a phone
+//	URL: https://hostname/phone/phoneId?firstname=XX&lastname=YY&...
+//		Method: POST
+	
 }

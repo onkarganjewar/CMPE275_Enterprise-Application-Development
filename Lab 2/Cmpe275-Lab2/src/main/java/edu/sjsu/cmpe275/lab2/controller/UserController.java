@@ -199,9 +199,6 @@ public class UserController {
 
 	/**
 	 * Delete the user with respective id.
-	 * 	<p>TODO: Not able to render the index/view after the entry is deleted
-	 * from the database.</p>
-	 * @see https://github.com/JVerstry/Web-Related-Examples
 	 * @param id
 	 *            Id of the user to be deleted
 	 * @param model
@@ -233,8 +230,8 @@ public class UserController {
 	}
 
 	/**
-	 * Creates the user entity from URL-Encoded parameters. <p>TODO: Not yet
-	 * tested.</p>
+	 * Creates the user entity from URL-Encoded parameters. 
+	 * TODO: Not yet tested
 	 * 
 	 * @param id
 	 * @param firstname
