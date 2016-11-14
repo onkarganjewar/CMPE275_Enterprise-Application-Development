@@ -39,7 +39,7 @@ public class PhoneController {
 		model.addAttribute("phone", new Phone());
 		return "phoneIndex";
 	}
-	
+
 	private Integer randomIdGenerator() {
 		Random rn = new Random();
 		rn.setSeed(System.currentTimeMillis());
@@ -50,20 +50,20 @@ public class PhoneController {
 			}
 		}
 	}
-	
+
 	@RequestMapping(value = "/phone/addUsers", method = RequestMethod.POST)
 	public String insertUser(HttpServletRequest request) throws Exception {
 		// Instantiate the list of phones to be added in the user entity
 		String phoneId = request.getParameter("phoneId");
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
-		String email= request.getParameter("email");
-		String title= request.getParameter("title");
-		String street= request.getParameter("street");
-		String city= request.getParameter("city");
-		String state= request.getParameter("state");
-		String zip= request.getParameter("zip");
-		
+		String email = request.getParameter("email");
+		String title = request.getParameter("title");
+		String street = request.getParameter("street");
+		String city = request.getParameter("city");
+		String state = request.getParameter("state");
+		String zip = request.getParameter("zip");
+
 		User user = new User();
 		Integer userId = randomIdGenerator();
 		user.setuserId(userId);
@@ -71,71 +71,71 @@ public class PhoneController {
 		user.setLastName(lastName);
 		user.setEmail(email);
 		user.setTitle(title);
-		
+
 		Address address = new Address();
 		address.setCity(city);
 		address.setStreet(street);
 		address.setState(state);
 		address.setZip(zip);
-		
+
 		user.setAddress(address);
 		userService.add(user);
-		
+
 		Phone phone = new Phone();
 		phone = phoneService.getPhone(Integer.parseInt(phoneId));
-		
+
 		List<User> oldUsers = new ArrayList<User>();
 		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
 
 		List<User> allUsers = new ArrayList<User>();
 		allUsers.addAll(oldUsers);
 		allUsers.add(user);
-		
+
 		phone.setListOfUsers(allUsers);
 		phoneService.modify(phone);
 
 		List<Phone> phones = new ArrayList<Phone>();
 		phones.add(phone);
-		
+
 		user.setListOfPhones(phones);
-		
+
 		userService.modify(user);
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + phoneId;
 	}
 
-	
 	/**
-	 * Detaches the particular user from the list of associated users to the phone entity.
+	 * Detaches the particular user from the list of associated users to the
+	 * phone entity.
 	 * 
 	 * @param request
-	 * 			HttpServletRequest containing all the parameter values.
+	 *            HttpServletRequest containing all the parameter values.
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	@RequestMapping(value = "/phone/detachUser", method = RequestMethod.POST)
 	public String detachUser(HttpServletRequest request) throws Exception {
-		
+
 		String phoneId = request.getParameter("phoneId");
 		Integer uId = Integer.parseInt(request.getParameter("userId"));
-		
+
 		User user = new User();
 		user = userService.getUser(uId);
 		Phone phone = new Phone();
 		phone = phoneService.getPhone(Integer.parseInt(phoneId));
-		
+
 		List<User> oldUsers = new ArrayList<User>();
 		List<User> newUsers = new ArrayList<User>();
 		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
-		
+
 		for (User u : oldUsers) {
-			if (u.getuserId()!= uId) {
+			if (u.getuserId() != uId) {
 				newUsers.add(u);
 			}
 			System.out.println(u);
 		}
-		
+
 		phone.setListOfUsers(newUsers);
 		phoneService.modify(phone);
 
@@ -149,21 +149,21 @@ public class PhoneController {
 				newPhones.add(p);
 			}
 		}
-		
+
 		user.setListOfPhones(newPhones);
 		userService.modify(user);
 
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + phoneId;
 	}
-	
+
 	/**
 	 * Creates the new phone entity in the database.
 	 * 
 	 * @param request
-	 * 			Servlet request containing all the attributes of the phone entity
-	 * @return
-	 * 			HTML view holding all the details of newly added phone  
+	 *            Servlet request containing all the attributes of the phone
+	 *            entity
+	 * @return HTML view holding all the details of newly added phone
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/addPhone", method = RequestMethod.POST)
@@ -239,8 +239,7 @@ public class PhoneController {
 	 * 
 	 * @param id
 	 *            Id of the phone to be retrieved from the database
-	 * @return
-	 * 		Phone object in JSON format.
+	 * @return Phone object in JSON format.
 	 */
 	@RequestMapping(value = "/phone/{id}", params = "json=true", method = RequestMethod.GET)
 	public @ResponseBody Phone getPhone_JSON(@PathVariable(value = "id") String id) {
@@ -257,8 +256,7 @@ public class PhoneController {
 	 * It is used to update the details of phone entity.
 	 * 
 	 * @param request
-	 * @return 
-	 * 			View containing the phone entity details.
+	 * @return View containing the phone entity details.
 	 */
 	@RequestMapping(value = "/phone/updatePhone", method = RequestMethod.POST)
 	public String updatePhone(HttpServletRequest request) {
@@ -295,11 +293,11 @@ public class PhoneController {
 			System.out.println("Phone exists with user id = " + userId);
 			try {
 				phoneService.delete(integer_userId);
-			} catch (org.hibernate.exception.ConstraintViolationException e) { 
-				return "Failure";
-			} catch (javax.persistence.PersistenceException p) {
-				return "Failure2";
 			} catch (Exception e) {
+				if (e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+					return "Failure";
+				}
+				System.out.println("Exception:  " + e.getMessage());
 				return "Exception";
 			}
 			return "Success";

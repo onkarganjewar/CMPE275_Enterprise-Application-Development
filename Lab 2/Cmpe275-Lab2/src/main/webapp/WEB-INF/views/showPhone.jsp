@@ -25,7 +25,7 @@
 					} else if (data == "Not found") {
 						alert("Phone ID does not exists. Please try again.");
 					} else if (data == "Failure") {
-						alert("Can not delete a phone. It is assigned to a user");
+						alert("Can not delete the phone. It is assigned to a user.");
 					} else if (data == "Exception") {
 						alert("Can not delete the phone. Please try again.")
 					}
