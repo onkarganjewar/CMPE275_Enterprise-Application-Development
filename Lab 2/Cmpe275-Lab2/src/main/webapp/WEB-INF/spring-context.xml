@@ -32,13 +32,7 @@
 		<property name="url"
 			value="jdbc:mysql://localhost:3306/cmpe275_lab2?createDatabaseIfNotExist=true" />
 		<property name="username" value="root" />
-		<!-- <property name="password" value="12345678" /> -->
 	</bean>
-
-	<!-- <bean id="persistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider"> 
-		</bean> <bean id="emf" factory-bean="persistenceProvider" factory-method="createEntityManagerFactory"> 
-		<constructor-arg value="testpersistence" /> <constructor-arg> <map /> </constructor-arg> 
-		</bean> -->
 
 	<!-- EntityManagerFactory -->
 	<bean
