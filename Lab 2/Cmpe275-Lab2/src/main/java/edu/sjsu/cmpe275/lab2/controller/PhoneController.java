@@ -316,16 +316,17 @@ public class PhoneController {
 	}
 
 	/**
-	 * 
-	 * @param userId
+	 * Deletes the phone with the given id.
+	 * @param phoneId
+	 * 			Id of the phone to be deleted
 	 * @return
 	 */
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody String deletePhone(@PathVariable(value = "id") String userId) {
+	public @ResponseBody String deletePhone(@PathVariable(value = "id") String phoneId) {
 
-		Integer integer_userId = 0;
+		Integer integer_phoneId = 0;
 		try {
-			integer_userId = Integer.parseInt(userId);
+			integer_phoneId = Integer.parseInt(phoneId);
 		} catch (NumberFormatException e) {
 			System.out.println("NOT A VALID PHONE ID!!");
 			e.printStackTrace();
@@ -333,10 +334,10 @@ public class PhoneController {
 			System.out.println("Exception: " + e.getMessage());
 		}
 
-		if (phoneService.phoneExists(integer_userId)) {
-			System.out.println("Phone exists with user id = " + userId);
+		if (phoneService.phoneExists(integer_phoneId)) {
+			System.out.println("Phone exists with user id = " + phoneId);
 			try {
-				phoneService.delete(integer_userId);
+				phoneService.delete(integer_phoneId);
 			} catch (Exception e) {
 				if (e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
 					return "Failure";
@@ -346,27 +347,30 @@ public class PhoneController {
 			}
 			return "Success";
 		} else {
-			System.out.println("Phone does not exist for " + userId);
+			System.out.println("Phone does not exist for " + phoneId);
 			return "Not found";
 		}
 	}
 	
 	/**
-	 * 
+	 * Creates a new phone entity from URL encoded query parameters.
 	 * @param phoneId
+	 * 			Id of the phone entity to be added.
 	 * @param desc
+	 * 			Description of the phone entity to be added.
 	 * @param userId
+	 * 			Id of the user entity which owns this phone.
 	 * @param phNo
-	 * @param map
+	 * 			Phone number of the phone entity.
 	 * @param response
+	 * 			HTTP servlet response to set the response status of returned entity.
 	 * @param model
 	 * @return
 	 */
 
 	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description" }, method = RequestMethod.POST)
 	public String createPhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
-			@RequestParam("userId") String userId, @RequestParam("number") String phNo, Map<String, Object> map,
-			HttpServletResponse response, Model model) {
+			@RequestParam("userId") String userId, @RequestParam("number") String phNo,	HttpServletResponse response, Model model) {
 
 		Phone phone = new Phone();
 		Phone dummyPhone = new Phone();
