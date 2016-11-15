@@ -140,5 +140,10 @@ public class Phone implements Serializable {
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Phone [id=" + phoneId + ", Number=" + phoneNumber + ", description=" + description + ", Owners =" + listOfUsers.size()
+				+ "]";
+	}
 
 }

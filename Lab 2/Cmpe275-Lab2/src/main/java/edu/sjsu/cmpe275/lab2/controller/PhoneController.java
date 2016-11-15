@@ -2,6 +2,7 @@ package edu.sjsu.cmpe275.lab2.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +35,24 @@ public class PhoneController {
 	@Autowired
 	private UserServiceImpl userService;
 
+	/**
+	 * Index page for phone entity.
+	 * 
+	 * @param model
+	 * 
+	 * @return HTML page to register a new phone entity
+	 */
 	@RequestMapping(value = "/phone", method = RequestMethod.GET)
 	public String renderHome(Model model) {
 		model.addAttribute("phone", new Phone());
 		return "phoneIndex";
 	}
 
-	
+	/**
+	 * Function to generate random identification numbers for each user entity.
+	 * 
+	 * @return Random integer number
+	 */
 	private Integer randomIdGenerator() {
 		Random rn = new Random();
 		rn.setSeed(System.currentTimeMillis());
@@ -52,8 +64,16 @@ public class PhoneController {
 		}
 	}
 
+	/**
+	 * Attaches the user to given phone entity.
+	 * 
+	 * @param request
+	 *            Http request containing all the attributes of phone and user
+	 *            entity
+	 * @return Redirects to the HTML view that renders phone entity details
+	 */
 	@RequestMapping(value = "/phone/addUsers", method = RequestMethod.POST)
-	public String insertUser(HttpServletRequest request) throws Exception {
+	public String insertUser(HttpServletRequest request) {
 		// Instantiate the list of phones to be added in the user entity
 		String phoneId = request.getParameter("phoneId");
 		String firstName = request.getParameter("firstName");
@@ -111,12 +131,11 @@ public class PhoneController {
 	 * 
 	 * @param request
 	 *            HttpServletRequest containing all the parameter values.
-	 * @return
-	 * @throws Exception
+	 * @return Redirects the user to the phone details HTML view
 	 */
 
 	@RequestMapping(value = "/phone/detachUser", method = RequestMethod.POST)
-	public String detachUser(HttpServletRequest request) throws Exception {
+	public String detachUser(HttpServletRequest request) {
 
 		String phoneId = request.getParameter("phoneId");
 		Integer uId = Integer.parseInt(request.getParameter("userId"));
@@ -161,15 +180,23 @@ public class PhoneController {
 	/**
 	 * Creates the new phone entity in the database.
 	 * 
+	 * @param desc
+	 *            Description of phone to be added
+	 * @param userId
+	 *            User Id of the user entity that owns this phone
+	 * @param number
+	 *            Phone number
+	 * @param response
+	 *            HTTP response to set response status codes
 	 * @param request
 	 *            Servlet request containing all the attributes of the phone
 	 *            entity
 	 * @return HTML view holding all the details of newly added phone
-	 * @throws Exception
 	 */
 	@RequestMapping(value = "/test/addPhone", method = RequestMethod.POST)
-	public @ResponseBody String getForm(@RequestParam(value = "desc") String desc,
-			@RequestParam(value = "userId") String userId, @RequestParam(value = "number") String number) {
+	public @ResponseBody String createPhone(@RequestParam(value = "desc") String desc,
+			@RequestParam(value = "userId") String userId, @RequestParam(value = "number") String number,
+			HttpServletResponse response) {
 		// Instantiate the list of phones to be added in the user entity
 		List<Phone> phonesList = new ArrayList<Phone>();
 
@@ -181,6 +208,11 @@ public class PhoneController {
 
 		// Get the id of the owner for this phone
 		User temp = userService.getUser(Integer.parseInt(userId));
+		if (temp == null) {
+			// response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return "{\"Status\":\"Not Found\"}";
+		}
+
 		// Get the list of previous phones this owner has
 		List<Phone> oldPhones = new ArrayList<Phone>();
 		oldPhones = temp.getListOfPhones();
@@ -207,6 +239,7 @@ public class PhoneController {
 		// Add phone to the database
 		Integer phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
+		response.setStatus(HttpServletResponse.SC_CREATED);
 		return phoneId.toString();
 		// return "{\"Id\":, \"Status\":\"Success\"}";
 	}
@@ -215,13 +248,12 @@ public class PhoneController {
 	 * Returns the HTML view of phone details page.
 	 * 
 	 * @param id
-	 * @param json
+	 *            Id of the phone to be displayed.
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.GET)
-	public String getPhone(@PathVariable(value = "id") String id,
-			@RequestParam(value = "json", required = false) String json, Model model, HttpServletResponse response) {
+	public String getPhone(@PathVariable(value = "id") String id, Model model, HttpServletResponse response) {
 
 		Phone phone = phoneService.getPhone(Integer.parseInt(id));
 		model.addAttribute("id", id);
@@ -283,6 +315,11 @@ public class PhoneController {
 		return "redirect:/phone/" + id;
 	}
 
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody String deletePhone(@PathVariable(value = "id") String userId) {
 
@@ -313,8 +350,91 @@ public class PhoneController {
 			return "Not found";
 		}
 	}
-// TODO: Create or update a phone
-//	URL: https://hostname/phone/phoneId?firstname=XX&lastname=YY&...
-//		Method: POST
 	
+	/**
+	 * 
+	 * @param phoneId
+	 * @param desc
+	 * @param userId
+	 * @param phNo
+	 * @param map
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+
+	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description" }, method = RequestMethod.POST)
+	public String createPhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
+			@RequestParam("userId") String userId, @RequestParam("number") String phNo, Map<String, Object> map,
+			HttpServletResponse response, Model model) {
+
+		Phone phone = new Phone();
+		Phone dummyPhone = new Phone();
+		// Check if the phone already exists
+		dummyPhone = phoneService.getPhone(Integer.parseInt(phoneId));
+
+		boolean phoneAlreadyAssociated = false;
+		boolean phoneExists = false;
+		// If the phone with given id exists then update the phone
+		if (dummyPhone != null) {
+			phoneExists = true;
+			phone.setPhoneId(Integer.parseInt(phoneId));
+		}
+		// Phone does not exist. Create a new phone entity.
+		phone.setPhoneNumber(phNo);
+		phone.setDescription(desc);
+
+		// Instantiate the list of phones to be added in the user entity
+		List<Phone> phonesList = new ArrayList<Phone>();
+		phonesList.add(phone);
+
+		// Get the id of the owner for this phone
+		User temp = userService.getUser(Integer.parseInt(userId));
+		// Check if the user with given id exist or not
+		if (temp == null) {
+			model.addAttribute("id", userId);
+			model.addAttribute("name", "User");
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return "error";
+		}
+
+		// Get the list of previous phones this owner has
+		List<Phone> oldPhones = new ArrayList<Phone>();
+		oldPhones = temp.getListOfPhones();
+
+		for (Phone p : oldPhones) {
+			if (p.getPhoneId() == Integer.parseInt(phoneId)) {
+				phoneAlreadyAssociated  = true;
+				break;
+			}
+		}
+		// Add the list of previous phones to the current phones list
+		phonesList.addAll(oldPhones);
+		temp.setListOfPhones(phonesList);
+
+		// Set the list of owners for this phone
+		List<User> users = new ArrayList<User>();
+		users.add(temp);
+		phone.setListOfUsers(users);
+		try {
+			if (phoneExists)
+				phoneService.modify(phone);
+			else
+				phoneService.add(phone);
+		} catch (Exception e) {
+			if (e.getCause().getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+				// return "{\"Status\":\"Failure\"}";
+				return "error";
+			}
+			return "error";
+		}
+		// In order to persist the data in the join table
+		// Update the user entity with list of phones attached to it
+		if (!phoneAlreadyAssociated)
+		userService.modify(temp);
+		// Add phone to the database
+		Integer tempId = phoneService.getPhoneId(phone);
+		response.setStatus(HttpServletResponse.SC_CREATED);
+		return "redirect:/phone/" + tempId;
+	}
 }

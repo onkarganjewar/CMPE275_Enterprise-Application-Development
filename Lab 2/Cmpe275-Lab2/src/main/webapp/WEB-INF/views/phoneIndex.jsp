@@ -23,7 +23,12 @@
 			    		alert('Phone number already exists in the database. Please try with a different phone number. ');
 			    	} else if (data['Status'] == 'Exception') {
 			    		alert('Oops.. something went wrong! Please try again later.');
-			    	} else {
+			    	} else if (data['Status'] == 'Not Found') {
+			    		var status = "User with Id = "+$('#userId').val()+" does not exist";
+			    		console.log(status);
+			    		alert(status);
+			    	}
+			    	else {
 			    		var url = "http://localhost:8080/Cmpe275-Lab2/phone/" + data;
 				    	console.log(url);
 						window.location.replace(url);

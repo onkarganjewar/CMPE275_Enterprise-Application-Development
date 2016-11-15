@@ -29,12 +29,16 @@
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		id="dataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	<!-- <property name="url"
-			value="jdbc:mysql://aa1uc72p2ovgkm4.ccunighdnoqw.us-west-2.rds.amazonaws.com:3306/cs1_lab2?createDatabaseIfNotExist=true" /> -->
+		<!-- 
 		<property name="url"
-			value="jdbc:mysql://127.0.0.1:3306/cmpe275_lab_2?createDatabaseIfNotExist=true" />
+			value="jdbc:mysql://aa1uc72p2ovgkm4.ccunighdnoqw.us-west-2.rds.amazonaws.com:3306/cmpe_lab_2?createDatabaseIfNotExist=true" />
 		<property name="username" value="root" />
-		<!-- <property name="password" value="12345678"/>  --> 
+			-->
+		<property name="url" value="jdbc:mysql://localhost:3306/cs1_lab2?createDatabaseIfNotExist=true" 
+			/> <property name="username" value="root" /> 
+		<!-- 
+		<property name="password" value="12345678" />
+		-->
 	</bean>
 
 	<!-- <bean id="persistenceProvider" class="org.hibernate.jpa.HibernatePersistenceProvider"> 
