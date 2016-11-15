@@ -98,7 +98,7 @@
 
 	
 	<form:form action="detachUser" method="POST">
-	<h2>List of assigned users for this phone with Id = ${id}  </h2>
+	<h2>List of assigned users for this phone</h2>
 	<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
 	<c:forEach items="${listOfUsers}" var="user">
 		<hr />

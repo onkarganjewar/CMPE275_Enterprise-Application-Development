@@ -2,7 +2,6 @@ package edu.sjsu.cmpe275.lab2.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;

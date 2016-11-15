@@ -27,11 +27,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "APP_USER")
 public class User implements Serializable {
 
-	// private static final java.util.logging.Logger logger =
-	// java.util.logging.Logger.getLogger(User.class.getName());
 	private static final long serialVersionUID = 1L;
 
-	// @GeneratedValue
 	@Id
 	@Column(name = "ID")
 	private Integer userId;
@@ -64,12 +61,19 @@ public class User implements Serializable {
 
 	/**
 	 * @param userId
+	 * 			Id of the user entity
 	 * @param title
+	 * 			Title of the user to be stored
 	 * @param firstName
+	 * 			First name of the user 
 	 * @param lastName
+	 * 			Last name of the user
 	 * @param email
+	 * 			Email address of the user to be stored
 	 * @param address
+	 * 			Embedded address object
 	 * @param phones
+	 * 			List of phones associated to this user
 	 */
 	public User(Integer userId, String title, String firstName, String lastName, String email, Address address,
 			List<Phone> phones) {

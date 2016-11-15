@@ -31,11 +31,9 @@ public class Phone implements Serializable {
 	@Column(name = "PHONE_ID")
 	private Integer phoneId;
 
-	// @NotEmpty
 	@Column(name = "PHONE_NUMBER", unique = true, nullable = false)
 	private String phoneNumber; // Note, phone numbers must be unique
 
-	// @NotEmpty
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
@@ -51,10 +49,15 @@ public class Phone implements Serializable {
 
 	/**
 	 * @param phoneId
+	 * 			Id of the phone entity
 	 * @param phoneNumber
+	 * 			Phone number to be stored for the phone entity
 	 * @param description
+	 * 			Description of this phone entity
 	 * @param address
+	 * 			Embedded object address to
 	 * @param listOfUsers
+	 * 			List of users this phone is assigned to
 	 */
 	public Phone(Integer phoneId, String phoneNumber, String description, Address address, List<User> listOfUsers) {
 		super();
