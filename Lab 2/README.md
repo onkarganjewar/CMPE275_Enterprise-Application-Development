@@ -226,9 +226,6 @@ This request deletes the phone for the given phone ID.
 ### Additional Requirements
 
 
-a.	You must follow the MVC design pattern and use Spring’s MVC framework; particularly, (1) and (2) should share the same model, even though they implement different views.
-b.	All the 10 operations should be transactional.
-c.	You must use JPA and persist the user data into a database. If you are on Amazon EC2, you need to use MySQL; For Google AppEngine, you can use either the built-in datastore, or Cloud SQL.
-d.	You MUST show your group number (e.g., <title>Group 2: User</title>) in the title of every HTML you return in (1)-(4).
-e.	Please add proper JavaDoc comments.
-f.	You must keep your server running for at least three weeks upon submission. Once your code is submitted to Canvas, you cannot make any further deployment/upload to your app in the server, or it will be considered as late submission or even cheating. You may be asked to show the server log and deployment history upon the TA’s request.
+1. You must follow the MVC design pattern and use Spring’s MVC framework; particularly, (1) and (2) should share the same model, even though they implement different views.
+2. All the 10 operations should be transactional.
+3. You must use JPA and persist the user data into a database. If you are on Amazon EC2, you need to use MySQL; For Google AppEngine, you can use either the built-in datastore, or Cloud SQL.
