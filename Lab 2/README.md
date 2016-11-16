@@ -42,9 +42,10 @@ Relationship Between Objects
 There are five types of requests your app need to support. For simplicity, no authentication or authorization is enforced for these requests. The specification below uses hostname to represent your DNS or IP.
 
 1. Get a user as HTML
+```
 URL: https://hostname/user/userId
 Method: GET
-
+```
 This returns an HTML that renders the given user ID’s user record. The user fields are part of an HTML form.
 *	Firstname, lastname, address, and title must be editable.
 *	List of assigned phones must be shown: you must show at least the phone numbers. The phones are NOT editable here.
