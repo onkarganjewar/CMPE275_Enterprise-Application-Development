@@ -70,24 +70,41 @@ Method: GET
 This returns the given user’s record in JSON format.
 ```
 
-##### This JSON is meant for readonly, and is not an HTML page or form.
+#### This JSON is meant for readonly, and is not an HTML page or form.
 *	The content you put in the JSON must match what you have in (1).
 *	All error handlings should be the same as the previous request in (1) as well.
 
+
 3. Get the user creation HTML
+----
+
 URL: https://hostname/user
+
 Method: GET
 
+```
 This returns an HTML form that should be almost the same as (1), except that
+```
+
+
 *	All fields including the ID should be initially empty and should be editable except the ID.
 *	The page should contain one button, labelled Create. When Create is clicked, it creates the user as specified in (4), using HTTP POST.
 *	The return code should follow the HTTP convention.
 
+
 4. Create or update a user
+----
+
 URL: https://hostname/user/userId?firstname=XX&lastname=YY&...
+
 Method: POST
 
+
+```
 This request creates or update the user for the given user ID.
+```
+
+
 *	For simplicity, all the user fields other than the ID (firstname, lastname, address, and title) are passed as query parameters, and you can assume the request always comes with all the fields specified.
 *	The corresponding user should be create/updated accordingly.
 *	In the end, the request returns the newly created/updated user in HTML, the same as GET https://hostname/user/userId
