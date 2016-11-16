@@ -41,7 +41,8 @@ Relationship Between Objects
 
 There are five types of requests your app need to support. For simplicity, no authentication or authorization is enforced for these requests. The specification below uses hostname to represent your DNS or IP.
 
-1. Get a user as HTML
+1. **Get a user as HTML**
+----
 
 URL: https://hostname/user/userId
 
@@ -59,13 +60,17 @@ This returns an HTML that renders the given user ID’s user record. The user fi
 *	If the user of the given user ID does not exist, a customized 404 HTML page with the message “Sorry, the requested user with ID XXX does not exist.” Note: XXX is the ID specified in the request, and you MUST return HTTP error code 404 as well.
 
 2. Get a user back as JSON
+----
+
 URL: https://hostname/user/userId?json=true
+
 Method: GET
 
-..This returns the given user’s record in JSON format.
- Example: TBA
+```
+This returns the given user’s record in JSON format.
+```
 
-This JSON is meant for readonly, and is not an HTML page or form.
+##### This JSON is meant for readonly, and is not an HTML page or form.
 *	The content you put in the JSON must match what you have in (1).
 *	All error handlings should be the same as the previous request in (1) as well.
 
