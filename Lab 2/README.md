@@ -5,7 +5,7 @@ In this lab, you will build a mini web application to manage office phones and p
 
 Incomplete definitions of user, phone, and address are given below..
 
- ````java
+ ```java
 package edu.sjsu.cmpe275.lab2;
 
 public class User {
@@ -15,7 +15,6 @@ public class User {
     private String title;
     private Address address;
     Private List<Phone> phones; // related to ORM
-    …
 }
 
 public class Phone {
@@ -23,7 +22,6 @@ public class Phone {
     private String number; // Note, phone numbers must be unique
     private String description;
     private Address address;
-    …
 }
 
 public class Address {
@@ -31,10 +29,9 @@ public class Address {
     String city;
     String state;
     String zip;
-    …
 }
 
-````
+```
 
 Relationship Between Objects
 *	Each phone can be assigned to multiple users, and each user can have multiple phones.
@@ -42,13 +39,15 @@ Relationship Between Objects
 *	When a person is deleted, all phones assigned to him are automatically unassigned from him.
 *	A phone cannot be deleted if it is assigned to at least one user.
 
-
-Your app, running in either Amazon EC2 or Google AppEngine, must be made accessible to the TA, through DNS (e.g., cmpe275-lab2-minisocial.appspot.com), or an IP address. There are five types of requests your app need to support. For simplicity, no authentication or authorization is enforced for these requests. The specification below uses hostname to represent your DNS or IP.
+There are five types of requests your app need to support. For simplicity, no authentication or authorization is enforced for these requests. The specification below uses hostname to represent your DNS or IP.
 
 1. Get a user as HTML
+##### Request 
 URL: https://hostname/user/userId
-Method: GET
-
+Method: 
+```http
+GET
+```
 This returns an HTML that renders the given user ID’s user record. The user fields are part of an HTML form.
 *	Firstname, lastname, address, and title must be editable.
 *	List of assigned phones must be shown: you must show at least the phone numbers. The phones are NOT editable here.
