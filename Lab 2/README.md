@@ -41,7 +41,7 @@ Relationship Between Objects
 
 There are five types of requests your app need to support. For simplicity, no authentication or authorization is enforced for these requests. The specification below uses hostname to represent your DNS or IP.
 
-1. **Get a user as HTML**
+1. Get a user as HTML
 ----
 
 URL: https://hostname/user/userId
