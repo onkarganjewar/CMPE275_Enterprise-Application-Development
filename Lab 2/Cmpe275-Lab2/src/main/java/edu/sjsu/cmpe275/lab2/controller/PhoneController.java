@@ -41,8 +41,7 @@ public class PhoneController {
 	 * 
 	 * @return HTML page to register a new phone entity
 	 */
-	
-		
+
 	@RequestMapping(value = "/phone", method = RequestMethod.GET)
 	public String renderHome(Model model) {
 		model.addAttribute("phone", new Phone());
@@ -195,13 +194,11 @@ public class PhoneController {
 	@RequestMapping(value = "/test/addPhone", method = RequestMethod.POST)
 	public @ResponseBody String createPhone(@RequestParam(value = "desc") String desc,
 			@RequestParam(value = "userId") String userId, @RequestParam(value = "number") String number,
-			@RequestParam("street") String street,
-			@RequestParam("zip") String zip, @RequestParam("city") String city, @RequestParam("state") String state,
-			HttpServletResponse response) {
+			@RequestParam("street") String street, @RequestParam("zip") String zip, @RequestParam("city") String city,
+			@RequestParam("state") String state, HttpServletResponse response) {
 		// Instantiate the list of phones to be added in the user entity
 		List<Phone> phonesList = new ArrayList<Phone>();
 
-		
 		// Instantiate 'Phone' entity
 		Phone phone = new Phone();
 		phone.setNumber(number);
@@ -209,7 +206,7 @@ public class PhoneController {
 		phonesList.add(phone);
 
 		Address address = new Address();
-		
+
 		address.setCity(city);
 		address.setState(state);
 		address.setStreet(street);
@@ -282,11 +279,11 @@ public class PhoneController {
 		model.addAttribute("state", address.getState());
 		model.addAttribute("street", address.getStreet());
 		model.addAttribute("zip", address.getZip());
-		
+
 		model.addAttribute("desc", phone.getDescription());
 		model.addAttribute("number", phone.getNumber());
 		model.addAttribute("listOfUsers", assignedUsers);
-		
+
 		return "showPhone";
 	}
 
@@ -315,7 +312,7 @@ public class PhoneController {
 	 * @return View containing the phone entity details.
 	 */
 	@RequestMapping(value = "/phone/updatePhone", method = RequestMethod.POST)
-	public String updatePhone(HttpServletRequest request, HttpServletResponse response ) {
+	public String updatePhone(HttpServletRequest request, HttpServletResponse response) {
 
 		Phone phone = new Phone();
 		Integer id = Integer.parseInt(request.getParameter("id"));
@@ -323,12 +320,12 @@ public class PhoneController {
 		phone.setNumber(request.getParameter("phoneNumber"));
 		phone.setDescription(request.getParameter("description"));
 		Address address = new Address();
-		
+
 		address.setCity(request.getParameter("city"));
 		address.setStreet(request.getParameter("street"));
 		address.setZip(request.getParameter("zip"));
 		address.setState(request.getParameter("state"));
-		
+
 		// Retrieve the list of all the owners of this phone
 		List<User> users = new ArrayList<User>();
 		users = phoneService.findAllUsers(id);
@@ -341,8 +338,9 @@ public class PhoneController {
 
 	/**
 	 * Deletes the phone with the given id.
+	 * 
 	 * @param phoneId
-	 * 			Id of the phone to be deleted
+	 *            Id of the phone to be deleted
 	 * @return
 	 */
 	@RequestMapping(value = "/phone/{id}", method = RequestMethod.DELETE)
@@ -375,27 +373,31 @@ public class PhoneController {
 			return "Not found";
 		}
 	}
-	
+
 	/**
 	 * Creates a new phone entity from URL encoded query parameters.
+	 * 
 	 * @param phoneId
-	 * 			Id of the phone entity to be added.
+	 *            Id of the phone entity to be added.
 	 * @param desc
-	 * 			Description of the phone entity to be added.
+	 *            Description of the phone entity to be added.
 	 * @param userId
-	 * 			Id of the user entity which owns this phone.
+	 *            Id of the user entity which owns this phone.
 	 * @param phNo
-	 * 			Phone number of the phone entity.
+	 *            Phone number of the phone entity.
 	 * @param response
-	 * 			HTTP servlet response to set the response status of returned entity.
+	 *            HTTP servlet response to set the response status of returned
+	 *            entity.
 	 * @param model
 	 * @return
 	 */
 
-	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description", "street", "city", "state", "zip" }, method = RequestMethod.POST)
+	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description", "street", "city", "state",
+			"zip" }, method = RequestMethod.POST)
 	public String createPhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
-			@RequestParam("userId") String userId, @RequestParam("number") String phNo,@RequestParam("street") String street,
-			@RequestParam("zip") String zip, @RequestParam("city") String city, @RequestParam("state") String state,	HttpServletResponse response, Model model) {
+			@RequestParam("userId") String userId, @RequestParam("number") String phNo,
+			@RequestParam("street") String street, @RequestParam("zip") String zip, @RequestParam("city") String city,
+			@RequestParam("state") String state, HttpServletResponse response, Model model) {
 
 		Phone phone = new Phone();
 		Phone dummyPhone = new Phone();
@@ -433,7 +435,7 @@ public class PhoneController {
 
 		for (Phone p : oldPhones) {
 			if (p.getId() == Integer.parseInt(phoneId)) {
-				phoneAlreadyAssociated  = true;
+				phoneAlreadyAssociated = true;
 				break;
 			}
 		}
@@ -460,10 +462,38 @@ public class PhoneController {
 		// In order to persist the data in the join table
 		// Update the user entity with list of phones attached to it
 		if (!phoneAlreadyAssociated)
-		userService.modify(temp);
+			userService.modify(temp);
 		// Add phone to the database
 		Integer tempId = phoneService.getPhoneId(phone);
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		return "redirect:/phone/" + tempId;
 	}
+	
+
+	// http://localhost:8080/Cmpe275-Lab2/testing/phone/21?number=XX&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=1&users[]=2
+	@RequestMapping(value = "/testing/phone/{phoneId}", method = RequestMethod.POST)
+	public String testing_URL_ENCODED(@PathVariable("phoneId") String phoneId, @RequestParam("description") String desc,
+			@RequestParam("number") String number, @RequestParam("street") String street,
+			@RequestParam("city") String city, @RequestParam("state") String state, @RequestParam("zip") String zip,
+			@RequestParam("users[]") String[] usersArr) {
+		System.out.println(street + phoneId + number + usersArr);
+		System.out.println(city + state + zip);
+		Address address = new Address();
+		address.setCity(city);
+		address.setState(state);
+		address.setStreet(street);
+		address.setZip(zip);
+		System.out.println(address);
+		return null;
+	}
+
+	// http://localhost:8080/Cmpe275-Lab2/testing/phone/21
+	@RequestMapping(value = "/testing/phone/{id}", method = RequestMethod.GET)
+	public @ResponseBody String testingPhone(@PathVariable(value = "id") String phoneId) {
+		System.out.println(phoneId);
+		return null;
+	}
+
+	
+	
 }
