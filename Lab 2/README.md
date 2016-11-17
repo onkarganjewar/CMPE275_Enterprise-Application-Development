@@ -1,7 +1,7 @@
 ## CMPE 275 Section 2, Fall 2016
 ### Lab 2 - MVC and Persistence
 
-In this lab, you will build a mini web application to manage office phones and phone users through create, view, update, and delete. This application needs to be hosted in either Amazon EC2 or Google AppEngine. You must use Spring’s MVC framework for the UI implementation, and use JPA for the persistence. This is a group assignment with up to two members.
+In this lab, you will build a mini web application to manage office phones and phone users through create, view, update, and delete. This application needs to be hosted in either Amazon EC2 or Google AppEngine. You must use Spring’s MVC framework for the UI implementation, and use JPA for the persistence.
 
 Incomplete definitions of user, phone, and address are given below..
 
