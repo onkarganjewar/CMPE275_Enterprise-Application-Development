@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.sjsu.cmpe275.lab2.model;
 
 import java.io.Serializable;
@@ -41,7 +38,7 @@ public class Phone implements Serializable {
 	private Address address;
 
 	@ManyToMany(mappedBy = "phones")
-	@JsonIgnoreProperties("phones")
+	@JsonIgnoreProperties({"phones","address","title"})
 	private List<User> users = new ArrayList<User>(); 
 
 	public Phone() {

@@ -52,7 +52,7 @@ public class User implements Serializable {
 	@JoinTable(name = "Users_Phones", 
 	joinColumns = @JoinColumn(name = "ID"), 
 	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
-	@JsonIgnoreProperties("users")
+	@JsonIgnoreProperties({"users","address"})
 	private List<Phone> phones = new ArrayList<Phone>();
 
 	public User() {
