@@ -41,6 +41,8 @@ public class PhoneController {
 	 * 
 	 * @return HTML page to register a new phone entity
 	 */
+	
+		
 	@RequestMapping(value = "/phone", method = RequestMethod.GET)
 	public String renderHome(Model model) {
 		model.addAttribute("phone", new Phone());
@@ -77,7 +79,6 @@ public class PhoneController {
 		String phoneId = request.getParameter("phoneId");
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
-		String email = request.getParameter("email");
 		String title = request.getParameter("title");
 		String street = request.getParameter("street");
 		String city = request.getParameter("city");
@@ -89,7 +90,6 @@ public class PhoneController {
 		user.setId(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		user.setEmail(email);
 		user.setTitle(title);
 
 		Address address = new Address();
@@ -276,9 +276,17 @@ public class PhoneController {
 			model.addAttribute("name", "Phone");
 			return "error";
 		}
+		Address address = new Address();
+		address = phone.getAddress();
+		model.addAttribute("city", address.getCity());
+		model.addAttribute("state", address.getState());
+		model.addAttribute("street", address.getStreet());
+		model.addAttribute("zip", address.getZip());
+		
 		model.addAttribute("desc", phone.getDescription());
 		model.addAttribute("number", phone.getNumber());
 		model.addAttribute("listOfUsers", assignedUsers);
+		
 		return "showPhone";
 	}
 
@@ -307,20 +315,27 @@ public class PhoneController {
 	 * @return View containing the phone entity details.
 	 */
 	@RequestMapping(value = "/phone/updatePhone", method = RequestMethod.POST)
-	public String updatePhone(HttpServletRequest request) {
+	public String updatePhone(HttpServletRequest request, HttpServletResponse response ) {
 
 		Phone phone = new Phone();
 		Integer id = Integer.parseInt(request.getParameter("id"));
 		phone.setId(id);
 		phone.setNumber(request.getParameter("phoneNumber"));
 		phone.setDescription(request.getParameter("description"));
-
+		Address address = new Address();
+		
+		address.setCity(request.getParameter("city"));
+		address.setStreet(request.getParameter("street"));
+		address.setZip(request.getParameter("zip"));
+		address.setState(request.getParameter("state"));
+		
 		// Retrieve the list of all the owners of this phone
 		List<User> users = new ArrayList<User>();
 		users = phoneService.findAllUsers(id);
 		phone.setUsers(users);
-
+		phone.setAddress(address);
 		phoneService.modify(phone);
+		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 		return "redirect:/phone/" + id;
 	}
 

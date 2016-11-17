@@ -40,7 +40,6 @@
 	        var cols = "";
 	        cols += '<tr><td>First Name: </td><td><input type="text" name="firstName"/></td></tr>';
 	        cols += '<tr><td>Last Name: </td><td><input type="text" name="lastName"/></td></tr>';
-	        cols += '<tr><td>Email: </td><td><input type="text" name="email"/></td></tr>';
 	        cols += '<tr><td>Title: </td><td><input type="text" name="title"/></td></tr>';
 	        cols += '<tr><td>Street: </td><td><input type="text" name="street"/></td></tr>';
 	        cols += '<tr><td>City: </td><td><input type="text" name="city"/></td></tr>';
@@ -75,7 +74,29 @@
 				<td><input type="text" name="description" value="${desc}"
 					required /></td>
 			</tr>
-
+			<tr>
+				<td><label>City</label></td>
+				<td><input type="text" name="city" value="${city}"
+					required /></td>
+			</tr>
+			
+			<tr>
+				<td><label>Street</label></td>
+				<td><input type="text" name="street" value="${street}"
+					required /></td>
+					
+			</tr>
+			<tr>
+				<td><label>State</label></td>
+				<td><input type="text" name="state" value="${state}"
+					required /></td>
+			</tr>
+			<tr>
+				<td><label>Pincode</label></td>
+				<td><input type="text" name="zip" value="${zip}"
+					required /></td>
+			</tr>
+			
 			<tr>
 				<td><input type="submit" name="Update" class="submit"
 					value="Update"></td>

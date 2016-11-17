@@ -23,10 +23,6 @@
 					<td>Last Name:</td>
 					<td><form:input path="lastName" /></td>
 				</tr>
-				<tr>
-					<td>Email:</td>
-					<td><form:input path="email" /></td>
-				</tr>
 
 				<tr>
 					<td>Title:</td>

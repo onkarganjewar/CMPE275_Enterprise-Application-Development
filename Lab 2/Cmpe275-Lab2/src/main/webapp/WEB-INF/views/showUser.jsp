@@ -67,10 +67,6 @@
 					required /></td>
 			</tr>
 			<tr>
-				<td><label>Email</label></td>
-				<td><input type="email" value="${email}" name="email" ></td>
-			</tr>
-			<tr>
 				<td><label>City</label></td>
 				<td><input type="text" name="address.city" value="${city}"
 					required /></td>

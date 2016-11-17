@@ -42,9 +42,6 @@ public class User implements Serializable {
 	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@Column(name = "EMAIL", nullable = false)
-	private String email;
-
 	@Embedded
 	private Address address;
 
@@ -68,21 +65,18 @@ public class User implements Serializable {
 	 * 			First name of the user 
 	 * @param lastName
 	 * 			Last name of the user
-	 * @param email
-	 * 			Email address of the user to be stored
 	 * @param address
 	 * 			Embedded address object
 	 * @param phones
 	 * 			List of phones associated to this user
 	 */
-	public User(Integer userId, String title, String firstName, String lastName, String email, Address address,
+	public User(Integer userId, String title, String firstName, String lastName, Address address,
 			List<Phone> phones) {
 		super();
 		this.id = userId;
 		this.title = title;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.email = email;
 		this.address = address;
 		this.phones = phones;
 	}
@@ -134,14 +128,6 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	/**
 	 * @return the address
 	 */
@@ -185,7 +171,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + "]";
+				+ "]";
 	}
 
 }

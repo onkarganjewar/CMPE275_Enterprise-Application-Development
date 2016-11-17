@@ -88,7 +88,6 @@ public class UserController {
 		user.setId(id);
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
-		user.setEmail(request.getParameter("email"));
 		user.setTitle(request.getParameter("title"));
 
 		// Instantiating a new value type object address for entity User
@@ -112,14 +111,13 @@ public class UserController {
 	 * @return User details page in HTML format.
 	 */
 	@RequestMapping(value = "/user/updateUser", method = RequestMethod.POST)
-	public String modifyUser(HttpServletRequest request) {
+	public String modifyUser(HttpServletRequest request, HttpServletResponse response) {
 
 		User user = new User();
 		Integer id = Integer.parseInt(request.getParameter("userId"));
 		user.setId(id);
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
-		user.setEmail(request.getParameter("email"));
 		user.setTitle(request.getParameter("title"));
 
 		// Instantiating a new value type object address for entity User
@@ -136,6 +134,7 @@ public class UserController {
 		user.setPhones(phones);
 
 		userService.modify(user);
+		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 		return "redirect:/user/" + id;
 	}
 
@@ -180,7 +179,6 @@ public class UserController {
 		}
 		model.addAttribute("fname", user.getFirstName());
 		model.addAttribute("lname", user.getLastName());
-		model.addAttribute("email", user.getEmail());
 		model.addAttribute("title", user.getTitle());
 
 		// Populate the value object Address
@@ -237,7 +235,6 @@ public class UserController {
 	 * @param id
 	 * @param firstname
 	 * @param lastname
-	 * @param email
 	 * @param title
 	 * @param city
 	 * @param state
