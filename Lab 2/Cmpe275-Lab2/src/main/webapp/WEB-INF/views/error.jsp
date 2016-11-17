@@ -50,6 +50,8 @@
     }
 </style>
 </head>
+<title>Group 3: User</title>
+
 <body>
 	<h1>HTTP Status 404 - RESOURCE NOT FOUND </h1>
 	<div class="line"></div>

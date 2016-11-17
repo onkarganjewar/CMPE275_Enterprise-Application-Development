@@ -43,7 +43,7 @@
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CMPE275 - Lab 2</title>
+<title>Group 3: Phone</title>
 </head>
 <body>
 	<div align="center">

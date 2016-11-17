@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CMPE275 - Lab 2</title>
+<title>Group 3: User</title>
 
 </head>
 <body>
