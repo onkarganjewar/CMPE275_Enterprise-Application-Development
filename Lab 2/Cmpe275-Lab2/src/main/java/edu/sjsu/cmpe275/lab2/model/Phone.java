@@ -29,10 +29,10 @@ public class Phone implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "PHONE_ID")
-	private Integer phoneId;
+	private Integer id;
 
 	@Column(name = "PHONE_NUMBER", unique = true, nullable = false)
-	private String phoneNumber; // Note, phone numbers must be unique
+	private String number; // Note, phone numbers must be unique
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
@@ -40,9 +40,9 @@ public class Phone implements Serializable {
 	@Embedded
 	private Address address;
 
-	@ManyToMany(mappedBy = "listOfPhones")
-	@JsonIgnoreProperties("listOfPhones")
-	private List<User> listOfUsers = new ArrayList<User>(); 
+	@ManyToMany(mappedBy = "phones")
+	@JsonIgnoreProperties("phones")
+	private List<User> users = new ArrayList<User>(); 
 
 	public Phone() {
 	}
@@ -61,56 +61,56 @@ public class Phone implements Serializable {
 	 */
 	public Phone(Integer phoneId, String phoneNumber, String description, Address address, List<User> listOfUsers) {
 		super();
-		this.phoneId = phoneId;
-		this.phoneNumber = phoneNumber;
+		this.id = phoneId;
+		this.number = phoneNumber;
 		this.description = description;
 		this.address = address;
-		this.listOfUsers = listOfUsers;
+		this.users = listOfUsers;
 	}
 
 	/**
 	 * @return the listOfUsers
 	 */
-	public List<User> getListOfUsers() {
-		return listOfUsers;
+	public List<User> getUsers() {
+		return users;
 	}
 
 	/**
 	 * @param listOfUsers the listOfUsers to set
 	 */
-	public void setListOfUsers(List<User> listOfUsers) {
-		this.listOfUsers = listOfUsers;
+	public void setUsers(List<User> listOfUsers) {
+		this.users = listOfUsers;
 	}
 
 	
 	/**
 	 * @return the phoneNumber
 	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getNumber() {
+		return number;
 	}
 
 	/**
 	 * @param phoneNumber
 	 *            the phoneNumber to set
 	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setNumber(String phoneNumber) {
+		this.number = phoneNumber;
 	}
 
 	/**
 	 * @return the phoneId
 	 */
-	public Integer getPhoneId() {
-		return phoneId;
+	public Integer getId() {
+		return id;
 	}
 
 	/**
 	 * @param phoneId
 	 *            the phoneId to set
 	 */
-	public void setPhoneId(Integer phoneId) {
-		this.phoneId = phoneId;
+	public void setId(Integer phoneId) {
+		this.id = phoneId;
 	}
 
 	/**
@@ -127,6 +127,14 @@ public class Phone implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -136,16 +144,16 @@ public class Phone implements Serializable {
 		if (!(obj instanceof Phone))
 			return false;
 		Phone other = (Phone) obj;
-		if (phoneId == null) {
-			if (other.phoneId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!phoneId.equals(other.phoneId))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "Phone [id=" + phoneId + ", Number=" + phoneNumber + ", description=" + description + ", Owners =" + listOfUsers.size()
+		return "Phone [id=" + id + ", Number=" + number + ", description=" + description + ", Owners =" + users.size()
 				+ "]";
 	}
 

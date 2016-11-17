@@ -86,7 +86,7 @@ public class PhoneController {
 
 		User user = new User();
 		Integer userId = randomIdGenerator();
-		user.setuserId(userId);
+		user.setId(userId);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
@@ -111,13 +111,13 @@ public class PhoneController {
 		allUsers.addAll(oldUsers);
 		allUsers.add(user);
 
-		phone.setListOfUsers(allUsers);
+		phone.setUsers(allUsers);
 		phoneService.modify(phone);
 
 		List<Phone> phones = new ArrayList<Phone>();
 		phones.add(phone);
 
-		user.setListOfPhones(phones);
+		user.setPhones(phones);
 
 		userService.modify(user);
 		// Redirect to the phone details HTML page
@@ -149,13 +149,13 @@ public class PhoneController {
 		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
 
 		for (User u : oldUsers) {
-			if (u.getuserId() != uId) {
+			if (u.getId() != uId) {
 				newUsers.add(u);
 			}
 			System.out.println(u);
 		}
 
-		phone.setListOfUsers(newUsers);
+		phone.setUsers(newUsers);
 		phoneService.modify(phone);
 
 		List<Phone> newPhones = new ArrayList<Phone>();
@@ -163,13 +163,13 @@ public class PhoneController {
 		oldPhones = userService.findAllPhones(uId);
 
 		for (Phone p : oldPhones) {
-			Integer pId = p.getPhoneId();
+			Integer pId = p.getId();
 			if (pId != Integer.parseInt(phoneId)) {
 				newPhones.add(p);
 			}
 		}
 
-		user.setListOfPhones(newPhones);
+		user.setPhones(newPhones);
 		userService.modify(user);
 
 		// Redirect to the phone details HTML page
@@ -195,16 +195,26 @@ public class PhoneController {
 	@RequestMapping(value = "/test/addPhone", method = RequestMethod.POST)
 	public @ResponseBody String createPhone(@RequestParam(value = "desc") String desc,
 			@RequestParam(value = "userId") String userId, @RequestParam(value = "number") String number,
+			@RequestParam("street") String street,
+			@RequestParam("zip") String zip, @RequestParam("city") String city, @RequestParam("state") String state,
 			HttpServletResponse response) {
 		// Instantiate the list of phones to be added in the user entity
 		List<Phone> phonesList = new ArrayList<Phone>();
 
+		
 		// Instantiate 'Phone' entity
 		Phone phone = new Phone();
-		phone.setPhoneNumber(number);
+		phone.setNumber(number);
 		phone.setDescription(desc);
 		phonesList.add(phone);
 
+		Address address = new Address();
+		
+		address.setCity(city);
+		address.setState(state);
+		address.setStreet(street);
+		address.setZip(zip);
+		phone.setAddress(address);
 		// Get the id of the owner for this phone
 		User temp = userService.getUser(Integer.parseInt(userId));
 		if (temp == null) {
@@ -214,16 +224,16 @@ public class PhoneController {
 
 		// Get the list of previous phones this owner has
 		List<Phone> oldPhones = new ArrayList<Phone>();
-		oldPhones = temp.getListOfPhones();
+		oldPhones = temp.getPhones();
 
 		// Add the list of previous phones to the current phones list
 		phonesList.addAll(oldPhones);
-		temp.setListOfPhones(phonesList);
+		temp.setPhones(phonesList);
 
 		// Set the list of owners for this phone
 		List<User> users = new ArrayList<User>();
 		users.add(temp);
-		phone.setListOfUsers(users);
+		phone.setUsers(users);
 		try {
 			phoneService.add(phone);
 		} catch (Exception e) {
@@ -267,7 +277,7 @@ public class PhoneController {
 			return "error";
 		}
 		model.addAttribute("desc", phone.getDescription());
-		model.addAttribute("number", phone.getPhoneNumber());
+		model.addAttribute("number", phone.getNumber());
 		model.addAttribute("listOfUsers", assignedUsers);
 		return "showPhone";
 	}
@@ -286,7 +296,7 @@ public class PhoneController {
 		List<User> users = new ArrayList<User>();
 
 		users = phoneService.findAllUsers(Integer.parseInt(id));
-		phone.setListOfUsers(users);
+		phone.setUsers(users);
 		return phone;
 	}
 
@@ -301,14 +311,14 @@ public class PhoneController {
 
 		Phone phone = new Phone();
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		phone.setPhoneId(id);
-		phone.setPhoneNumber(request.getParameter("phoneNumber"));
+		phone.setId(id);
+		phone.setNumber(request.getParameter("phoneNumber"));
 		phone.setDescription(request.getParameter("description"));
 
 		// Retrieve the list of all the owners of this phone
 		List<User> users = new ArrayList<User>();
 		users = phoneService.findAllUsers(id);
-		phone.setListOfUsers(users);
+		phone.setUsers(users);
 
 		phoneService.modify(phone);
 		return "redirect:/phone/" + id;
@@ -367,9 +377,10 @@ public class PhoneController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description" }, method = RequestMethod.POST)
+	@RequestMapping(value = "/phone/{id}", params = { "userId", "number", "description", "street", "city", "state", "zip" }, method = RequestMethod.POST)
 	public String createPhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
-			@RequestParam("userId") String userId, @RequestParam("number") String phNo,	HttpServletResponse response, Model model) {
+			@RequestParam("userId") String userId, @RequestParam("number") String phNo,@RequestParam("street") String street,
+			@RequestParam("zip") String zip, @RequestParam("city") String city, @RequestParam("state") String state,	HttpServletResponse response, Model model) {
 
 		Phone phone = new Phone();
 		Phone dummyPhone = new Phone();
@@ -381,10 +392,10 @@ public class PhoneController {
 		// If the phone with given id exists then update the phone
 		if (dummyPhone != null) {
 			phoneExists = true;
-			phone.setPhoneId(Integer.parseInt(phoneId));
+			phone.setId(Integer.parseInt(phoneId));
 		}
 		// Phone does not exist. Create a new phone entity.
-		phone.setPhoneNumber(phNo);
+		phone.setNumber(phNo);
 		phone.setDescription(desc);
 
 		// Instantiate the list of phones to be added in the user entity
@@ -403,22 +414,22 @@ public class PhoneController {
 
 		// Get the list of previous phones this owner has
 		List<Phone> oldPhones = new ArrayList<Phone>();
-		oldPhones = temp.getListOfPhones();
+		oldPhones = temp.getPhones();
 
 		for (Phone p : oldPhones) {
-			if (p.getPhoneId() == Integer.parseInt(phoneId)) {
+			if (p.getId() == Integer.parseInt(phoneId)) {
 				phoneAlreadyAssociated  = true;
 				break;
 			}
 		}
 		// Add the list of previous phones to the current phones list
 		phonesList.addAll(oldPhones);
-		temp.setListOfPhones(phonesList);
+		temp.setPhones(phonesList);
 
 		// Set the list of owners for this phone
 		List<User> users = new ArrayList<User>();
 		users.add(temp);
-		phone.setListOfUsers(users);
+		phone.setUsers(users);
 		try {
 			if (phoneExists)
 				phoneService.modify(phone);

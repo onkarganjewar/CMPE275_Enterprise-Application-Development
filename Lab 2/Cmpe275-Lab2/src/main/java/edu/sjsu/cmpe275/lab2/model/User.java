@@ -31,7 +31,7 @@ public class User implements Serializable {
 
 	@Id
 	@Column(name = "ID")
-	private Integer userId;
+	private Integer id;
 
 	@Column(name = "TITLE", nullable = false)
 	private String title;
@@ -52,8 +52,8 @@ public class User implements Serializable {
 	@JoinTable(name = "Users_Phones", 
 	joinColumns = @JoinColumn(name = "ID"), 
 	inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
-	@JsonIgnoreProperties("listOfUsers")
-	private List<Phone> listOfPhones = new ArrayList<Phone>();
+	@JsonIgnoreProperties("users")
+	private List<Phone> phones = new ArrayList<Phone>();
 
 	public User() {
 
@@ -78,36 +78,36 @@ public class User implements Serializable {
 	public User(Integer userId, String title, String firstName, String lastName, String email, Address address,
 			List<Phone> phones) {
 		super();
-		this.userId = userId;
+		this.id = userId;
 		this.title = title;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.address = address;
-		this.listOfPhones = phones;
+		this.phones = phones;
 	}
 
 	/**
 	 * @return the phones
 	 */
-	public List<Phone> getListOfPhones() {
-		return listOfPhones;
+	public List<Phone> getPhones() {
+		return phones;
 	}
 
 	/**
 	 * @param phones
 	 *            the phones to set
 	 */
-	public void setListOfPhones(List<Phone> phones) {
-		this.listOfPhones = phones;
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
 	}
 
-	public Integer getuserId() {
-		return userId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setuserId(Integer id) {
-		this.userId = id;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -161,7 +161,7 @@ public class User implements Serializable {
 	public int hashCode() {
 		final Integer prime = 31;
 		Integer result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -174,17 +174,17 @@ public class User implements Serializable {
 		if (!(obj instanceof User))
 			return false;
 		User other = (User) obj;
-		if (userId == null) {
-			if (other.userId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!userId.equals(other.userId))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + userId + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
+		return "User [id=" + id + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", email=" + email + "]";
 	}
 

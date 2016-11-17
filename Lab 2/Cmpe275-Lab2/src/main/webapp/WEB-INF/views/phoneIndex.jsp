@@ -14,7 +14,13 @@
 			$.ajax({
 				url : 'http://localhost:8080/Cmpe275-Lab2/test/addPhone',
 				type : 'POST',
-				data:'desc='+ $('#desc').val() +'&number='+ $('#number').val() + '&userId='+ $('#userId').val(),
+				data:'desc='+ $('#desc').val()
+				+'&city='+ $('#city').val() 
+				+'&zip='+ $('#zip').val() 
+				+'&state='+ $('#state').val() 
+				+'&street='+ $('#street').val() + 
+				'&number='+ $('#number').val() + 
+				'&userId='+ $('#userId').val(),
 				dataType: 'json',
 			    success: function (data) {
 			    	console.log(data);
@@ -62,8 +68,25 @@
 					<td>Phone Owner ID:</td>
 					<td><input id = "userId"/>
 					</td>
-					
 				</tr>
+
+				<tr>
+					<td>Street:</td>
+					<td><input id = "street" /></td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td><input id = "city" /></td>
+				</tr>
+				<tr>
+					<td>State:</td>
+					<td><input id = "state" /></td>
+				</tr>
+				<tr>
+					<td>Pincode:</td>
+					<td><input id = "zip" /></td>
+				</tr>
+
 				<tr>
 					<td colspan="2" align="center"><input type="button" class=button 
 					id="Save" name="Save" value="Save"></td>

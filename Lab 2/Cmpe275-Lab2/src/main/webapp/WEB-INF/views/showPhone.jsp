@@ -104,7 +104,7 @@
 		<table border="4">
 			<tr>
 				<th>ID</th>
-				<td><input type="text" id = "userId" name = "userId" value="${user.userId}" readonly /></td>
+				<td><input type="text" id = "userId" name = "userId" value="${user.id}" readonly /></td>
 			</tr>
 			<tr>
 				<th>First Name</th>

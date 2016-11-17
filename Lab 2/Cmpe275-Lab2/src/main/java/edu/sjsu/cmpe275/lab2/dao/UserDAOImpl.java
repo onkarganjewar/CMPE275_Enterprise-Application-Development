@@ -56,14 +56,14 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public void deleteById(Integer id) {
 		User entity = new User();
-		entity.setuserId(id);
+		entity.setId(id);
 		System.out.println("UserService::Delete called for id:" + id);
 		em.remove(em.contains(entity) ? entity : em.merge(entity));
 	}
 
 	/**
 	 * will check if the user with the id exists?
-	 * 
+	 *
 	 * @param id
 	 *            of the user
 	 * @return yes if it exists else no
@@ -71,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 	@Transactional
 	public boolean exists(Integer id) {
 		User pr = new User();
-		pr.setuserId(id);
+		pr.setId(id);
 		return em.find(User.class, id) != null;
 	}
 
@@ -92,9 +92,9 @@ public class UserDAOImpl implements UserDAO {
 	public List<Phone> getAllPhones(Integer id) {
 
 		List<Phone> phoneList = new ArrayList<Phone> ();
-		Query query = em.createQuery("Select m from Phone m INNER JOIN m.listOfUsers t where t.id=:arg1");
+		Query query = em.createQuery("Select m from Phone m INNER JOIN m.users t where t.id=:arg1");
 		query.setParameter("arg1", id);
-		
+
 		try {
 			phoneList = ((List<Phone>) query.getResultList());
 		} catch (NoResultException e) {

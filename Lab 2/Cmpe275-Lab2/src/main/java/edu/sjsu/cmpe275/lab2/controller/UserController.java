@@ -57,7 +57,8 @@ public class UserController {
 		User user = userService.getUser(Integer.parseInt(id));
 		List<Phone> phonesDir = new ArrayList<Phone>();
 		phonesDir = userService.findAllPhones(Integer.parseInt(id));
-		user.setListOfPhones(phonesDir);
+		user.setPhones(phonesDir);
+		
 		return user;
 	}
 	
@@ -84,7 +85,7 @@ public class UserController {
 	public String createUser(HttpServletRequest request) {
 		Integer id = this.randomIdGenerator();
 		User user = new User();
-		user.setuserId(id);
+		user.setId(id);
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
 		user.setEmail(request.getParameter("email"));
@@ -115,7 +116,7 @@ public class UserController {
 
 		User user = new User();
 		Integer id = Integer.parseInt(request.getParameter("userId"));
-		user.setuserId(id);
+		user.setId(id);
 		user.setFirstName(request.getParameter("firstName"));
 		user.setLastName(request.getParameter("lastName"));
 		user.setEmail(request.getParameter("email"));
@@ -132,7 +133,7 @@ public class UserController {
 		// Get the list of phones associated with the user
 		List<Phone> phones = new ArrayList<Phone> ();
 		phones = userService.findAllPhones(id);
-		user.setListOfPhones(phones);
+		user.setPhones(phones);
 
 		userService.modify(user);
 		return "redirect:/user/" + id;
@@ -244,17 +245,16 @@ public class UserController {
 	 * @param map
 	 * @return
 	 */
-	@RequestMapping(value = "/user/{id}", params = { "firstName", "lastName", "email", "city", "state", "zip",
-			"title" }, method = RequestMethod.GET)
-	public String createUser_URL_ENCODED(@PathVariable("id") String id, @RequestParam("firstName") String firstname,
-			@RequestParam("lastName") String lastname, @RequestParam("email") String email,
+	// https://localhost:8080/Cmpe275-Lab2/user/8?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
+	@RequestMapping(value = "/user/{id}", params = { "firstname", "lastname", "title","street", "city", "state", "zip" }, method = RequestMethod.GET)
+	public String createUser_URL_ENCODED(@PathVariable("id") String id, @RequestParam("firstname") String firstname,
+			@RequestParam("lastname") String lastname,@RequestParam("street") String street,
 			@RequestParam("title") String title, @RequestParam("city") String city, @RequestParam("state") String state,
 			@RequestParam("zip") String zip, Map<String, Object> map) {
 		User user = new User();
-		user.setuserId(Integer.parseInt(id));
+		user.setId(Integer.parseInt(id));
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
-		user.setEmail(email);
 		user.setTitle(title);
 
 		// Populate the value object Address of Entity "User"
@@ -262,10 +262,10 @@ public class UserController {
 		address.setCity(city);
 		address.setState(state);
 		address.setZip(zip);
-
+		address.setStreet(street);
 		user.setAddress(address);
 
-		User temp = userService.getUser(user.getuserId());
+		User temp = userService.getUser(user.getId());
 		if (temp == null) {
 			userService.add(user);
 		} else {

@@ -42,13 +42,13 @@ public class PhoneDAOImpl implements PhoneDAO {
 			em.persist(phone);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	@Transactional
 	public void deleteById(Integer id) {
 		Phone entity = new Phone();
-		entity.setPhoneId(id);
+		entity.setId(id);
 		System.out.println("PhoneService::Delete called for id:" + id);
 		try {
 			em.remove(em.contains(entity) ? entity : em.merge(entity));
@@ -59,7 +59,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	}
 
 	@Transactional
-	public List<Phone> findAllPhones() throws DataAccessException {
+	public List<Phone> 	findAllPhones() throws DataAccessException {
 		Query query = em.createQuery("SELECT p FROM Phone p ORDER BY p.id");
 		@SuppressWarnings("unchecked")
 		List<Phone> resultList = query.getResultList();
@@ -68,7 +68,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public Integer getPhoneId(Phone phone) {
-		return phone.getPhoneId();
+		return phone.getId();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	public List<User> getAllUsers(Integer id) {
 
 		List<User> userList = new ArrayList<User>();
-		Query query2 = em.createQuery("Select m from User m INNER JOIN m.listOfPhones t where t.phoneId=:arg1");
+		Query query2 = em.createQuery("Select m from User m INNER JOIN m.phones t where t.id=:arg1");
 		query2.setParameter("arg1", id);
 
 		try {
@@ -92,7 +92,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 	@Transactional
 	public boolean exists(Integer id) {
 		Phone pr = new Phone();
-		pr.setPhoneId(id);
+		pr.setId(id);
 		return em.find(Phone.class, id) != null;
 	}
 }

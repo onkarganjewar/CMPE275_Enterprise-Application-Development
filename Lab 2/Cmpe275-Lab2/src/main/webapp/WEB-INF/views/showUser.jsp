@@ -110,8 +110,8 @@
 	<th>Description</th>
 	<c:forEach items="${listOfPhones}" var="phone">
 		<tr>
-			<td>${phone.phoneId}</td>
-			<td>${phone.phoneNumber}</td>
+			<td>${phone.id}</td>
+			<td>${phone.number}</td>
 			<td>${phone.description}</td>
 		</tr>
 	</c:forEach>
