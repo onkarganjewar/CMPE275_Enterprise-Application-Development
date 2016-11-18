@@ -124,6 +124,48 @@ public class PhoneController {
 	}
 
 	/**
+	 * Attaches existing user to the given phone entity
+	 * 
+	 * @param request
+	 *            HttpServletRequest containing all the user parameters to be
+	 *            added
+	 * @return Redirects to the phone entity details view
+	 */
+	@RequestMapping(value = "/phone/insertUsers", method = RequestMethod.POST)
+	public String attachUser(HttpServletRequest request) {
+		// Instantiate the list of phones to be added in the user entity
+		String phoneId = request.getParameter("phoneId");
+		// String firstName = request.getParameter("firstName");
+		// String lastName = request.getParameter("lastName");
+		String userId = request.getParameter("userId");
+
+		User user = new User();
+		user = userService.getUser(Integer.parseInt(userId));
+
+		Phone phone = new Phone();
+		phone = phoneService.getPhone(Integer.parseInt(phoneId));
+
+		List<User> oldUsers = new ArrayList<User>();
+		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
+
+		List<User> allUsers = new ArrayList<User>();
+		allUsers.addAll(oldUsers);
+		allUsers.add(user);
+
+		phone.setUsers(allUsers);
+		phoneService.modify(phone);
+
+		List<Phone> phones = new ArrayList<Phone>();
+		phones.add(phone);
+
+		user.setPhones(phones);
+
+		userService.modify(user);
+		// Redirect to the phone details HTML page
+		return "redirect:/phone/" + phoneId;
+	}
+
+	/**
 	 * Detaches the particular user from the list of associated users to the
 	 * phone entity.
 	 * 
@@ -468,7 +510,6 @@ public class PhoneController {
 		response.setStatus(HttpServletResponse.SC_CREATED);
 		return "redirect:/phone/" + tempId;
 	}
-	
 
 	// http://localhost:8080/Cmpe275-Lab2/testing/phone/21?number=XX&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=1&users[]=2
 	@RequestMapping(value = "/testing/phone/{phoneId}", method = RequestMethod.POST)
@@ -494,6 +535,4 @@ public class PhoneController {
 		return null;
 	}
 
-	
-	
 }

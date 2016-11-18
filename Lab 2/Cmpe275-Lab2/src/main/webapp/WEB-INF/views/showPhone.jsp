@@ -49,7 +49,20 @@
 	        newRow.append(cols);
 	        $("table.user-list").append(newRow);
 	    });
-	});
+
+	$("#insertRow").on("click", function () {
+		console.log("Clicked");
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<tr><td>User ID: </td><td><input type="text" name="userId"/></td></tr>';
+        cols += '<tr><td>First Name: </td><td><input type="text" name="firstName"/></td></tr>';
+        cols += '<tr><td>Last Name: </td><td><input type="text" name="lastName"/></td></tr>';
+        cols += '<tr><td><input type="submit" name="AddUsers" class="submit" value="Add"></td></tr>';
+        newRow.append(cols);
+        $("table.users-list").append(newRow);
+    });
+});
+	
 </script>
 
 </head>
@@ -106,6 +119,9 @@
 			
 				<td><input type="button" class=button value="Add New User"
 					id="addRow" name="addRow"></td>
+					
+					<td><input type="button" class=button value="Attach Existing User"
+					id="insertRow" name="insertRow"></td>
 			</tr>
 		</table>
 	</form>
@@ -116,6 +132,11 @@
     		</table>
 	</form:form>
 
+	<form:form action="insertUsers" method="POST">
+		<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
+			<table class="users-list">
+    		</table>
+	</form:form>
 	
 	<form:form action="detachUser" method="POST">
 	<h2>List of assigned users for this phone</h2>
