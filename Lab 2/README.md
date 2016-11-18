@@ -95,7 +95,7 @@ This returns an HTML form that should be almost the same as (1), except that
 4. Create or update a user
 ----
 
-URL: https://hostname/user/userId?firstname=XX&lastname=YY&...
+URL: https://hostname/user/userId?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
 
 Method: POST
 
@@ -190,7 +190,7 @@ This returns an HTML form that should be almost the same as (1), except that
 (9) Create or update a phone
 ----
 
-URL: https://hostname/phone/phoneId?firstname=XX&lastname=YY&...
+URL: https://hostname/phone/phoneId?number=XX&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=id1&users[]=id2
 
 Method: POST
 
