@@ -18,6 +18,7 @@
 	<!-- Classpath scanning of @Component, @Service, etc annotated class -->
 	<context:component-scan base-package="edu.sjsu.cmpe275.lab2" />
 
+<mvc:default-servlet-handler/>
 	<!-- Resolve view name into jsp file located on /WEB-INF -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
