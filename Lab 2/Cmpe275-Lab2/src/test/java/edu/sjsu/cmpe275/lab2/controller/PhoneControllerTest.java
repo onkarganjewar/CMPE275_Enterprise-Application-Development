@@ -3,8 +3,7 @@ package edu.sjsu.cmpe275.lab2.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -12,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 /**
@@ -27,14 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 public class PhoneControllerTest {
 	private MockMvc objMockMvc;
-	@InjectMocks
-	private PhoneController phoneController;
+	@Autowired
+	private WebApplicationContext webApplicationContext;
 	
 	@Before
 	public void setup() throws Exception {
-		MockitoAnnotations.initMocks(this);
-		this.objMockMvc = MockMvcBuilders.standaloneSetup(phoneController).build();
-
+		this.objMockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
 	@Test
