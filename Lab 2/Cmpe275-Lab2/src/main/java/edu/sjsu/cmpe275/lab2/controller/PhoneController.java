@@ -155,10 +155,16 @@ public class PhoneController {
 		phone.setUsers(allUsers);
 		phoneService.modify(phone);
 
-		List<Phone> phones = new ArrayList<Phone>();
-		phones.add(phone);
 
-		user.setPhones(phones);
+		List<Phone> oldPhones = new ArrayList<Phone>();
+		oldPhones = userService.findAllPhones(Integer.parseInt(userId));
+		
+		List<Phone> allPhones = new ArrayList<Phone>();
+		allPhones.addAll(oldPhones);
+		allPhones.add(phone);
+		allPhones.add(phone);
+		
+		user.setPhones(allPhones);
 
 		userService.modify(user);
 		// Redirect to the phone details HTML page
