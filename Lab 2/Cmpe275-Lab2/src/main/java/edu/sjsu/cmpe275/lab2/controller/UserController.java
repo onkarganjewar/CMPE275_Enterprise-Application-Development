@@ -243,7 +243,7 @@ public class UserController {
 	 * @return
 	 */
 	// https://localhost:8080/Cmpe275-Lab2/user/8?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
-	@RequestMapping(value = "/user/{id}", params = { "firstname", "lastname", "title","street", "city", "state", "zip" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
 	public String createUser_URL_ENCODED(@PathVariable("id") String id, @RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,@RequestParam("street") String street,
 			@RequestParam("title") String title, @RequestParam("city") String city, @RequestParam("state") String state,
@@ -266,6 +266,10 @@ public class UserController {
 		if (temp == null) {
 			userService.add(user);
 		} else {
+			// Get the list of phones associated with the user
+			List<Phone> phones = new ArrayList<Phone> ();
+			phones = userService.findAllPhones(Integer.parseInt(id));
+			user.setPhones(phones);
 			userService.modify(user);
 		}
 		map.put("user", user);

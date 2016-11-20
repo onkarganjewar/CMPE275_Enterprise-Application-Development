@@ -31,6 +31,31 @@
 	            }
 			});
 		});
+//		https://hostname/user/userId?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
+		$('#Update').click(function() {
+			$.ajax({
+				url : 'http://localhost:8080/Cmpe275-Lab2/user/'
+				+ $('#id').val()+'?firstname='+$('#firstName').val()+
+				'&lastname='+$('#lastName').val()+
+				'&title='+$('#title').val()+
+				'&street='+$('#street').val()+
+				'&city='+$('#city').val()+
+				'&state='+$('#state').val()+
+				'&zip='+$('#zip').val(),
+				type : 'POST',
+				success: function (data) {
+					console.log(data);
+						var url1 = "http://localhost:8080/Cmpe275-Lab2/user/"+ $('#id').val();
+						window.location.replace(url1);
+	            },
+	            error: function (textStatus, errorThrown) {
+					console.log("Error function invoked");
+					console.log("Textstatus = ",textStatus);
+	            	alert("Error getting the data");
+	            }
+			});
+		});
+	
 	});
 </script>
 
@@ -39,64 +64,64 @@
 <h1>User Details</h1>
 
 	<form:form action="updateUser" method="POST" modelAttribute="user">
-		<table>
-			<!-- The name attribute, however, is used in the HTTP request sent by your browser to 
+	<table>
+			<!-- The name attribute, however, is used in the HTTP request sent by your browser to
 					the server as a variable name associated with the data contained in the value attribute. -->
 			<tr>
 				<td><label>ID:</label></td>
 				<td><input type="text" name="userId" id="id" value="${id}" readonly /></td>
 			</tr>
-			<!-- If you add an ID attribute, it will not change anything in the HTTP header. 
+			<!-- If you add an ID attribute, it will not change anything in the HTTP header.
 					It will just make it easier to hook it with CSS and JavaScript. -->
 
 			<tr>
 				<td><label>First Name</label></td>
-				<td><input type="text" name="firstName" value="${fname}"
+				<td><input type="text" name="firstName" id="firstName" value="${fname}"
 					required /></td>
 			</tr>
 
 			<tr>
 				<td><label>Last Name</label></td>
-				<td><input type="text" name="lastName" value="${lname}"
+				<td><input type="text" name="lastName" id="lastName" value="${lname}"
 					required /></td>
 			</tr>
 
 			<tr>
 				<td><label>Title</label></td>
-				<td><input type="text" name="title" value="${title}"
+				<td><input type="text" name="title" id="title" value="${title}"
 					required /></td>
 			</tr>
 			<tr>
 				<td><label>City</label></td>
-				<td><input type="text" name="address.city" value="${city}"
+				<td><input type="text" name="address.city" id="city" value="${city}"
 					required /></td>
 			</tr>
-			
+
 			<tr>
 				<td><label>Street</label></td>
-				<td><input type="text" name="address.street" value="${street}"
+				<td><input type="text" name="address.street" id="street" value="${street}"
 					required /></td>
-					
+
 			</tr>
 			<tr>
 				<td><label>State</label></td>
-				<td><input type="text" name="address.state" value="${state}"
+				<td><input type="text" name="address.state" id="state" value="${state}"
 					required /></td>
 			</tr>
 			<tr>
 				<td><label>Pincode</label></td>
-				<td><input type="text" name="address.zip" value="${zip}"
+				<td><input type="text" name="address.zip" id="zip" value="${zip}"
 					required /></td>
 			</tr>
 			<tr>
-				<td><input type="submit" class="submit" name="Update" 
-					value="Update"></td>
-
 				<td><input type="button" class=button value="Delete"
 					id="Delete" name="Delete"></td>
+
+			<td><input type="button" class=button value="Update"
+					id="Update" name="Update"></td>
 			</tr>
 		</table>
-	</form:form>
+		</form:form>
 <h2>List of phones for this user</h2>
 
     <hr />
