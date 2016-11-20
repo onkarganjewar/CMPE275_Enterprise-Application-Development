@@ -162,7 +162,6 @@ public class PhoneController {
 		List<Phone> allPhones = new ArrayList<Phone>();
 		allPhones.addAll(oldPhones);
 		allPhones.add(phone);
-		allPhones.add(phone);
 		
 		user.setPhones(allPhones);
 

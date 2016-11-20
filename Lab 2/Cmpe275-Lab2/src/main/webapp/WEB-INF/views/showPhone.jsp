@@ -57,7 +57,7 @@
         cols += '<tr><td>User ID: </td><td><input type="text" name="userId"/></td></tr>';
         cols += '<tr><td>First Name: </td><td><input type="text" name="firstName"/></td></tr>';
         cols += '<tr><td>Last Name: </td><td><input type="text" name="lastName"/></td></tr>';
-        cols += '<tr><td><input type="submit" name="AddUsers" class="submit" value="Add"></td></tr>';
+        cols += '<tr><td><input type="submit" name="insertUsers" class="submit" value="Add"></td></tr>';
         newRow.append(cols);
         $("table.users-list").append(newRow);
     });
