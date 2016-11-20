@@ -138,7 +138,7 @@ public class PhoneController {
 		// String firstName = request.getParameter("firstName");
 		// String lastName = request.getParameter("lastName");
 		String userId = request.getParameter("userId");
-
+		
 		User user = new User();
 		user = userService.getUser(Integer.parseInt(userId));
 
@@ -147,14 +147,22 @@ public class PhoneController {
 
 		List<User> oldUsers = new ArrayList<User>();
 		oldUsers = phoneService.findAllUsers(Integer.parseInt(phoneId));
-
+		
+		boolean userAlreadyAssociated = false;
+		for (User u : oldUsers) {
+			if (u.getId() == Integer.parseInt(userId)) {
+				userAlreadyAssociated  = true;
+				break;
+			}
+		}
+		
 		List<User> allUsers = new ArrayList<User>();
 		allUsers.addAll(oldUsers);
 		allUsers.add(user);
 
 		phone.setUsers(allUsers);
-		phoneService.modify(phone);
-
+		if(!userAlreadyAssociated)
+			phoneService.modify(phone);
 
 		List<Phone> oldPhones = new ArrayList<Phone>();
 		oldPhones = userService.findAllPhones(Integer.parseInt(userId));
@@ -164,8 +172,8 @@ public class PhoneController {
 		allPhones.add(phone);
 		
 		user.setPhones(allPhones);
-
-		userService.modify(user);
+		if(!userAlreadyAssociated)
+			userService.modify(user);
 		// Redirect to the phone details HTML page
 		return "redirect:/phone/" + phoneId;
 	}

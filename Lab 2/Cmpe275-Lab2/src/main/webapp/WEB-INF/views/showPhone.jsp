@@ -116,10 +116,6 @@
 
 				<td><input type="button" class=button value="Delete"
 					id="Delete" name="Delete"></td>
-			
-				<td><input type="button" class=button value="Add New User"
-					id="addRow" name="addRow"></td>
-					
 					<td><input type="button" class=button value="Attach Existing User"
 					id="insertRow" name="insertRow"></td>
 			</tr>
