@@ -273,6 +273,7 @@ public class UserController {
 			userService.modify(user);
 		}
 		map.put("user", user);
-		return "showUser";
+//		return "showUser";
+		return "redirect:/user/" + id;
 	}
 }

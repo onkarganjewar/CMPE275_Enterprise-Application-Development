@@ -7,7 +7,39 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Group 3: User</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--  http://www.mytechnotes.biz/2012/11/spring-mvc-rest-calls-with-ajax.html  -->
+<script type="text/javascript">
+var value = Math.floor((Math.random() * 1000) + 1);
 
+	$(document).ready(function() {
+//		https://hostname/user/userId?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
+		$('#Create').click(function() {
+			$.ajax({
+				url : 'http://localhost:8080/Cmpe275-Lab2/user/'
+				+ value +'?firstname='+$('#firstName').val()+
+				'&lastname='+$('#lastName').val()+
+				'&title='+$('#title').val()+
+				'&street='+$('#street').val()+
+				'&city='+$('#city').val()+
+				'&state='+$('#state').val()+
+				'&zip='+$('#zip').val(),
+				type : 'POST',
+				success: function (data) {
+					console.log(data);
+						var url1 = "http://localhost:8080/Cmpe275-Lab2/user/"+ value;
+						window.location.replace(url1);
+	            },
+	            error: function (textStatus, errorThrown) {
+					console.log("Error function invoked");
+					console.log("Textstatus = ",textStatus);
+	            	alert("Error getting the data");
+	            }
+			});
+		});
+	
+	});
+</script>
 </head>
 <body>
 	<div align="center">
@@ -17,37 +49,37 @@
 				<form:hidden path="id" />
 				<tr>
 					<td>First Name:</td>
-					<td><form:input path="firstName" /></td>
+					<td><form:input path="firstName" id="firstName" /></td>
 				</tr>
 				<tr>
 					<td>Last Name:</td>
-					<td><form:input path="lastName" /></td>
+					<td><form:input path="lastName" id="lastName" /></td>
 				</tr>
 
 				<tr>
 					<td>Title:</td>
-					<td><form:input path="title" /></td>
+					<td><form:input path="title" id="title" /></td>
 				</tr>
 
 				<tr>
 					<td>Street:</td>
-					<td><form:input path="address.street" /></td>
+					<td><form:input path="address.street" id="street" /></td>
 				</tr>
 				<tr>
 					<td>City:</td>
-					<td><form:input path="address.city" /></td>
+					<td><form:input path="address.city" id="city"  /></td>
 				</tr>
 				<tr>
 					<td>State:</td>
-					<td><form:input path="address.state" /></td>
+					<td><form:input path="address.state" id="state" /></td>
 				</tr>
 				<tr>
 					<td>Pincode:</td>
-					<td><form:input path="address.zip" /></td>
+					<td><form:input path="address.zip" id="zip" /></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit"
-						value="Save"></td>
+					<td><input type="button" class=button value="Create"
+					id="Create" name="Create"></td>
 				</tr>
 			</form:form>
 		</table>
