@@ -78,7 +78,7 @@ var value = Math.floor((Math.random() * 1000) + 1);
 					<td><form:input path="address.zip" id="zip" /></td>
 				</tr>
 				<tr>
-					<td><input type="button" class=button value="Create"
+					<td colspan="2" align="center"><input type="button" class=button value="Save"
 					id="Create" name="Create"></td>
 				</tr>
 			</form:form>
