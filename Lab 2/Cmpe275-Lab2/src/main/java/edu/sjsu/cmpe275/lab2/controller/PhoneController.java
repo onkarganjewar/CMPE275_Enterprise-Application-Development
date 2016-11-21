@@ -528,8 +528,8 @@ public class PhoneController {
 			// Update the user entity with list of phones attached to it
 			if (!userAlreadyAssociated)
 				userService.modify(temp);
+			phoneId = phoneService.getPhoneId(phone);
 		}
-		phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
 		return "redirect:/phone/" + phoneId;
 	}
