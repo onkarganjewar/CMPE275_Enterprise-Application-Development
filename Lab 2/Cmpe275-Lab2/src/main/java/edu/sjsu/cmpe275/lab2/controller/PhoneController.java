@@ -452,7 +452,6 @@ public class PhoneController {
 			@RequestParam("street") String street, @RequestParam("city") String city,
 			@RequestParam("state") String state, @RequestParam("zip") String zip,
 			@RequestParam("users[]") String[] usersArr, Model model, HttpServletResponse response) {
-
 		// Instantiate 'Phone' entity
 		Phone phone = new Phone();
 		phone.setNumber(number);
@@ -470,6 +469,13 @@ public class PhoneController {
 		boolean phoneExists = false;
 
 		for (String userId : usersArr) {
+
+			phoneId = phoneService.getPhoneId(phone);
+
+			// Get the phone id after first iteration
+			if (phoneId != null) {
+				phoneExists = true;
+			}
 
 			// Instantiate the list of phones to be added in the user entity
 			List<Phone> phonesList = new ArrayList<Phone>();
@@ -524,7 +530,7 @@ public class PhoneController {
 			if (!userAlreadyAssociated)
 				userService.modify(temp);
 		}
-		phoneId = phoneService.getPhoneId(phone);
+		// Integer phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
 		return "redirect:/phone/" + phoneId;
 	}
