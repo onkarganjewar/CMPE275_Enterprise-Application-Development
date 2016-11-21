@@ -470,7 +470,6 @@ public class PhoneController {
 
 		for (String userId : usersArr) {
 
-			phoneId = phoneService.getPhoneId(phone);
 
 			// Get the phone id after first iteration
 			if (phoneId != null) {
@@ -530,7 +529,7 @@ public class PhoneController {
 			if (!userAlreadyAssociated)
 				userService.modify(temp);
 		}
-		// Integer phoneId = phoneService.getPhoneId(phone);
+		phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
 		return "redirect:/phone/" + phoneId;
 	}
@@ -596,7 +595,7 @@ public class PhoneController {
 
 				allPhones.add(phone);
 				try {
-					if (!phoneAlreadyAssociated)
+//					if (!phoneAlreadyAssociated)
 						phoneService.modify(phone);
 				} catch (Exception e) {
 					// TODO: handle exception
