@@ -182,16 +182,15 @@ public class PhoneController {
 	 * Detaches the particular user from the list of associated users to the
 	 * phone entity.
 	 * 
-	 * @param request
-	 *            HttpServletRequest containing all the parameter values.
+	 * @param phoneId
+	 * @param userId
 	 * @return Redirects the user to the phone details HTML view
 	 */
 
-	@RequestMapping(value = "/phone/detachUser", method = RequestMethod.POST)
-	public String detachUser(HttpServletRequest request) {
-
-		String phoneId = request.getParameter("phoneId");
-		Integer uId = Integer.parseInt(request.getParameter("userId"));
+	@RequestMapping(value = "/phone/del/{id}", method = RequestMethod.GET)
+	public String detachUser(@RequestParam(value = "phoneId") String phoneId,
+			@PathVariable(value = "id") String userId) {
+		Integer uId = Integer.parseInt(userId);
 
 		User user = new User();
 		user = userService.getUser(uId);
@@ -452,7 +451,7 @@ public class PhoneController {
 	public String createPhone_URL(@RequestParam("description") String desc, @RequestParam("number") String number,
 			@RequestParam("street") String street, @RequestParam("city") String city,
 			@RequestParam("state") String state, @RequestParam("zip") String zip,
-			@RequestParam("users[]") String[] usersArr) {
+			@RequestParam("users[]") String[] usersArr, Model model, HttpServletResponse response) {
 
 		// Instantiate 'Phone' entity
 		Phone phone = new Phone();
@@ -472,13 +471,6 @@ public class PhoneController {
 
 		for (String userId : usersArr) {
 
-			phoneId = phoneService.getPhoneId(phone);
-
-			// Get the phone id after first iteration
-			if (phoneId != null) {
-				phoneExists = true;
-			}
-
 			// Instantiate the list of phones to be added in the user entity
 			List<Phone> phonesList = new ArrayList<Phone>();
 			phonesList.add(phone);
@@ -486,8 +478,10 @@ public class PhoneController {
 			// Get the id of the owner for this phone
 			User temp = userService.getUser(Integer.parseInt(userId));
 			if (temp == null) {
-				// response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				return "{\"Status\":\"Not Found\"}";
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				model.addAttribute("id", userId);
+				model.addAttribute("name", "User");
+				return "error";
 			}
 
 			// Get the list of previous phones this owner has
@@ -529,85 +523,86 @@ public class PhoneController {
 			// Update the user entity with list of phones attached to it
 			if (!userAlreadyAssociated)
 				userService.modify(temp);
-			// Add phone to the database
-			// response.setStatus(HttpServletResponse.SC_CREATED);
-			// return phoneId.toString();
 		}
-		// Integer phoneId = phoneService.getPhoneId(phone);
+		phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
 		return "redirect:/phone/" + phoneId;
 	}
-	
 
-	//http://localhost:8080/Cmpe275-Lab2/phone/1?number=4221&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=637&users[]=136
-		@RequestMapping(value = "/phone/{id}", method = RequestMethod.POST)
-		public String UpdatePhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
-				@RequestParam("users[]") String[] usersArr, @RequestParam("number") String phNo,
-				@RequestParam("street") String street, @RequestParam("zip") String zip, @RequestParam("city") String city,
-				@RequestParam("state") String state, HttpServletResponse response, Model model) {
+	// http://localhost:8080/Cmpe275-Lab2/phone/1?number=4221&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=637&users[]=136
+	@RequestMapping(value = "/phone/{id}", method = RequestMethod.POST)
+	public String UpdatePhone_URL_ENCODED(@PathVariable("id") String phoneId, @RequestParam("description") String desc,
+			@RequestParam("users[]") String[] usersArr, @RequestParam("number") String phNo,
+			@RequestParam("street") String street, @RequestParam("zip") String zip, @RequestParam("city") String city,
+			@RequestParam("state") String state, HttpServletResponse response, Model model) {
 
-			Phone phone = new Phone();
-			// Check if the phone already exists
-			phone = phoneService.getPhone(Integer.parseInt(phoneId));
+		Phone phone = new Phone();
+		// Check if the phone already exists
+		phone = phoneService.getPhone(Integer.parseInt(phoneId));
 
-			// If the phone with given id exists then update the phone
-			if (phone != null) {
-				// Retrieve the list of all the owners of this phone
-				List<User> previousOwners = new ArrayList<User>();
-				previousOwners = phoneService.findAllUsers(Integer.parseInt(phoneId));
+		// If the phone with given id exists then update the phone
+		if (phone != null) {
+			// Retrieve the list of all the owners of this phone
+			List<User> previousOwners = new ArrayList<User>();
+			previousOwners = phoneService.findAllUsers(Integer.parseInt(phoneId));
 
-				// New list of owners for this phone
-				List<User> allOwners = new ArrayList<User>();
-				allOwners.addAll(previousOwners);
+			// New list of owners for this phone
+			List<User> allOwners = new ArrayList<User>();
+			allOwners.addAll(previousOwners);
 
-				phone.setId(Integer.parseInt(phoneId));
-				phone.setNumber(phNo);
-				phone.setDescription(desc);
-				Address address = new Address();
+			phone.setId(Integer.parseInt(phoneId));
+			phone.setNumber(phNo);
+			phone.setDescription(desc);
+			Address address = new Address();
 
-				address.setCity(city);
-				address.setStreet(street);
-				address.setZip(zip);
-				address.setState(state);
-				phone.setAddress(address);
+			address.setCity(city);
+			address.setStreet(street);
+			address.setZip(zip);
+			address.setState(state);
+			phone.setAddress(address);
 
-				for (String userId : usersArr) {
-					
-					boolean phoneAlreadyAssociated = false;
-					User tempUser = new User();
-					tempUser = userService.getUser(Integer.parseInt(userId));
+			for (String userId : usersArr) {
 
-					for (User user : previousOwners) {
-						if (Integer.parseInt(userId) == user.getId()) {
-							phoneAlreadyAssociated = true;
-							break;
-						}
-					}
-					// Get the list of phones associated for this user
-					List<Phone> oldPhones = new ArrayList<Phone>();
-					oldPhones = userService.findAllPhones(Integer.parseInt(userId));
-
-					List<Phone> allPhones = new ArrayList<Phone>();
-					allPhones.addAll(oldPhones);
-
-					allOwners.add(tempUser);
-					phone.setUsers(allOwners);
-
-					allPhones.add(phone);
-					try {
-						if (!phoneAlreadyAssociated)
-							phoneService.modify(phone);
-					} catch (Exception e) {
-						// TODO: handle exception
-						e.printStackTrace();
-					}
-					if (!phoneAlreadyAssociated) {
-						tempUser.setPhones(allPhones);
-						userService.modify(tempUser);
+				boolean phoneAlreadyAssociated = false;
+				User tempUser = new User();
+				tempUser = userService.getUser(Integer.parseInt(userId));
+				if (tempUser == null) {
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					model.addAttribute("id", userId);
+					model.addAttribute("name", "User");
+					return "error";
+				}
+				for (User user : previousOwners) {
+					if (Integer.parseInt(userId) == user.getId()) {
+						phoneAlreadyAssociated = true;
+						break;
 					}
 				}
+				// Get the list of phones associated for this user
+				List<Phone> oldPhones = new ArrayList<Phone>();
+				oldPhones = userService.findAllPhones(Integer.parseInt(userId));
+
+				List<Phone> allPhones = new ArrayList<Phone>();
+				allPhones.addAll(oldPhones);
+
+				allOwners.add(tempUser);
+				phone.setUsers(allOwners);
+
+				allPhones.add(phone);
+				try {
+					if (!phoneAlreadyAssociated)
+						phoneService.modify(phone);
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+				if (!phoneAlreadyAssociated) {
+					tempUser.setPhones(allPhones);
+					userService.modify(tempUser);
+				}
 			}
-			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-			return "redirect:/phone/" + phoneId;
 		}
+		response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+		return "redirect:/phone/" + phoneId;
+	}
 }

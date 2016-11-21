@@ -34,21 +34,6 @@
 	            }
 			});
 		});
-		$("#addRow").on("click", function () {
-			console.log("Clicked");
-	        var newRow = $("<tr>");
-	        var cols = "";
-	        cols += '<tr><td>First Name: </td><td><input type="text" name="firstName"/></td></tr>';
-	        cols += '<tr><td>Last Name: </td><td><input type="text" name="lastName"/></td></tr>';
-	        cols += '<tr><td>Title: </td><td><input type="text" name="title"/></td></tr>';
-	        cols += '<tr><td>Street: </td><td><input type="text" name="street"/></td></tr>';
-	        cols += '<tr><td>City: </td><td><input type="text" name="city"/></td></tr>';
-	        cols += '<tr><td>State: </td><td><input type="text" name="state"/></td></tr>';
-	        cols += '<tr><td>Zip: </td><td><input type="text" name="zip"/></td></tr>';
-	        cols += '<tr><td><input type="submit" name="AddUsers" class="submit" value="Add"></td></tr>';
-	        newRow.append(cols);
-	        $("table.user-list").append(newRow);
-	    });
 
 	$("#insertRow").on("click", function () {
 		console.log("Clicked");
@@ -122,19 +107,12 @@
 		</table>
 	</form>
 
-	<form:form action="addUsers" method="POST">
-		<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
-			<table class="user-list">
-    		</table>
-	</form:form>
-
 	<form:form action="insertUsers" method="POST">
 		<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
 			<table class="users-list">
     		</table>
 	</form:form>
 	
-	<form:form action="detachUser" method="POST">
 	<h2>List of assigned users for this phone</h2>
 	<input type = "hidden" name = "phoneId" id = "phoneId" value = ${id } readonly/>
 	<c:forEach items="${listOfUsers}" var="user">
@@ -152,14 +130,12 @@
 				<th>Last Name</th>
 				<td><input type="text" value="${user.lastName}" /></td>
 			</tr>
-			<tr>
-				<td><input type="submit" class=submit value="Remove user"
-					id="detachUser" name="detachUser"></td>
+			 <tr>
+			  <td><a href="del/${user.id}?phoneId=${id}">Remove User</a></td>
 			</tr>
 		</table>
 		<hr />
 	</c:forEach>
-</form:form>
 
 </body>
 </html>
