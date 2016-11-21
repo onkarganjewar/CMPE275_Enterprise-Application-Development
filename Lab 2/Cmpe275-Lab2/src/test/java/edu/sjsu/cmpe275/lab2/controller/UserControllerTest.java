@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,30 +56,43 @@ public class UserControllerTest {
 
 	@Test
 	public void GetUserTest() throws Exception {
-		ResultActions resultActions = this.springMvc.perform(get("/user/{id}", 26)).andExpect(status().isOk())
+		ResultActions resultActions = this.springMvc.perform(get("/user/{id}", 28)).andExpect(status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("showUser"));
 		resultActions.andDo(MockMvcResultHandlers.print());
 	}
 
 	@Test
 	public void GetUserJsonTest() throws Exception {
-		this.springMvc.perform(MockMvcRequestBuilders.get("/user/26?json=true").accept(MediaType.APPLICATION_JSON))
+		this.springMvc.perform(MockMvcRequestBuilders.get("/user/28?json=true").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andDo(print())
 				.andExpect(content().contentTypeCompatibleWith("application/json"))
-				.andExpect(jsonPath("$.id").value(26));
+				.andExpect(jsonPath("$.id").value(28));
 	}
 
 	@Test
 	public void CreateUserTest() throws Exception {
 		this.springMvc.perform(
-				post("/user/28?firstname=Xqwqwwww1X&lastname=Y1Y&title=a1bc&street=A1AA&city=BBB&state=CCC&zip=95012")
-				.accept(MediaType.ALL))
-				.andExpect(MockMvcResultMatchers.view().name("showUser")).andDo(print());
+				post("/user/532?firstname=testingX&lastname=testY&title=a1bc&street=A1AA&city=BBB&state=CCC&zip=95012")
+				.accept(MediaType.ALL)).andDo(print())
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrlPattern("/user/*"))
+			.andDo(print());
 	}
 
 	@Test
 	public void DeleteUserTest() throws Exception {
-		// this.springMvc.perform(delete("/user/{id}", 28)).andDo(print())
-		// .andExpect(content().contentTypeCompatibleWith());
+		this.springMvc.perform(delete("/user/{id}", 532)).andDo(print())
+		.andExpect(status().is2xxSuccessful());
 	}
+	
+
+	@Test
+	public void UpdateUserTest() throws Exception {
+		this.springMvc.perform(
+				post("/user/532?firstname=testingX&lastname=testY&title=test&street=A1tes&city=tst&state=CCC&zip=95012")
+				.accept(MediaType.ALL)).andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/user/532")).andDo(print());
+	}
+	
 }
