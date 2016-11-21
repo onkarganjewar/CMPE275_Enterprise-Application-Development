@@ -470,7 +470,6 @@ public class PhoneController {
 
 		for (String userId : usersArr) {
 
-			phoneId = phoneService.getPhoneId(phone);
 
 			// Get the phone id after first iteration
 			if (phoneId != null) {
@@ -529,8 +528,8 @@ public class PhoneController {
 			// Update the user entity with list of phones attached to it
 			if (!userAlreadyAssociated)
 				userService.modify(temp);
+			phoneId = phoneService.getPhoneId(phone);
 		}
-		// Integer phoneId = phoneService.getPhoneId(phone);
 		System.out.println("Phone ID = " + phoneId);
 		return "redirect:/phone/" + phoneId;
 	}
@@ -596,7 +595,7 @@ public class PhoneController {
 
 				allPhones.add(phone);
 				try {
-					if (!phoneAlreadyAssociated)
+//					if (!phoneAlreadyAssociated)
 						phoneService.modify(phone);
 				} catch (Exception e) {
 					// TODO: handle exception
