@@ -82,6 +82,11 @@ URL: https://hostname/user
 
 Method: GET
 
+
+
+![User home](https://cloud.githubusercontent.com/assets/14006620/20550968/13b97386-b0f0-11e6-81eb-d2cc8d5bc081.png)
+
+
 ```
 This returns an HTML form that should be almost the same as (1), except that
 ```
