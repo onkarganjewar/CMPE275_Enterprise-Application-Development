@@ -44,13 +44,17 @@ There are five types of requests your app need to support. For simplicity, no au
 1. Get a user as HTML
 ----
 
-URL: https://hostname/user/userId
+URL: <https://samplei-env.us-west-2.elasticbeanstalk.com/user/439>
 
 Method: GET
 
 ```
 This returns an HTML that renders the given user ID’s user record. The user fields are part of an HTML form.
 ```
+
+
+![user_Html](https://cloud.githubusercontent.com/assets/14006620/20550970/13bb01c4-b0f0-11e6-83b7-0d1fc634c2ef.png)
+
 
 *	Firstname, lastname, address, and title must be editable.
 *	List of assigned phones must be shown: you must show at least the phone numbers. The phones are NOT editable here.
@@ -62,13 +66,18 @@ This returns an HTML that renders the given user ID’s user record. The user fi
 2. Get a user back as JSON
 ----
 
-URL: https://hostname/user/userId?json=true
+URL: <https://samplei-env.us-west-2.elasticbeanstalk.com/user/439?json=true>
 
 Method: GET
+
 
 ```
 This returns the given user’s record in JSON format.
 ```
+
+
+![user_JSON] (https://cloud.githubusercontent.com/assets/14006620/20550969/13bae3ba-b0f0-11e6-9d19-28373f4be244.png)
+
 
 #### This JSON is meant for readonly, and is not an HTML page or form.
 *	The content you put in the JSON must match what you have in (1).
@@ -78,18 +87,18 @@ This returns the given user’s record in JSON format.
 3. Get the user creation HTML
 ----
 
-URL: https://hostname/user
+URL: <https://samplei-env.us-west-2.elasticbeanstalk.com/user>
 
 Method: GET
-
-
-
-![User home](https://cloud.githubusercontent.com/assets/14006620/20550968/13b97386-b0f0-11e6-81eb-d2cc8d5bc081.png)
 
 
 ```
 This returns an HTML form that should be almost the same as (1), except that
 ```
+
+
+![User home] (https://cloud.githubusercontent.com/assets/14006620/20550968/13b97386-b0f0-11e6-81eb-d2cc8d5bc081.png)
+
 
 
 *	All fields including the ID should be initially empty and should be editable except the ID.
@@ -100,9 +109,13 @@ This returns an HTML form that should be almost the same as (1), except that
 4. Create or update a user
 ----
 
-URL: https://hostname/user/userId?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/user/666?firstname=XX&lastname=YY&title=abc&street=AAA&city=BBB&state=CCC&zip=95012>
 
 Method: POST
+
+
+
+![createPhone_Query] (https://cloud.githubusercontent.com/assets/14006620/20550971/13bb5638-b0f0-11e6-9ef1-21904777600b.png)
 
 
 ```
@@ -120,13 +133,22 @@ This request creates or update the user for the given user ID.
 (5) Delete a user
 ----
 
-URL: https://hostname/user/userId
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/user/666>
 
 Method: DELETE
 
 ```
 This request deletes the user for the given user ID.
 ```
+
+![userDelete_Request] (https://cloud.githubusercontent.com/assets/14006620/20550976/13ce367c-b0f0-11e6-8089-4fd182705a03.png)
+
+```
+Response
+```
+
+![userDelete_res] (https://cloud.githubusercontent.com/assets/14006620/20550975/13ce15d4-b0f0-11e6-8172-a8c4e7cba152.png)
+
 
 
 *	If the user does not exist, it should return the same 404 page as in (1) with error code 404.
@@ -138,7 +160,7 @@ This request deletes the user for the given user ID.
 (6) Get a Phone as HTML
 ----
 
-URL: https://hostname/phone/phoneId
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/phone/39>
 
 Method: GET
 
@@ -146,6 +168,9 @@ Method: GET
 ```
 This returns an HTML that renders the phone of the given ID. The phone fields are part of an HTML form.
 ```
+
+
+![phoneView] (https://cloud.githubusercontent.com/assets/14006620/20550977/13ce35dc-b0f0-11e6-9b56-36b94c28cf67.png)
 
 
 *	Phone number, description, and address must be editable.
@@ -160,13 +185,16 @@ This returns an HTML that renders the phone of the given ID. The phone fields ar
 (7) Get a phone back as JSON
 ----
 
-URL: https://hostname/phone/phoneId?json=true
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/phone/39?json=true>
 
 Method: GET
 
 ```
 This returns the given phone’s record in JSON format.
 ```
+
+![viewPhone_JSON] (https://cloud.githubusercontent.com/assets/14006620/20550980/13ddaaa8-b0f0-11e6-9803-3b2e66c6e488.png)
+
 
 
 #### This JSON is meant for readonly, and is not an HTML page or form.
@@ -178,13 +206,14 @@ This returns the given phone’s record in JSON format.
 (8) Get the phone creation HTML
 ----
 
-URL: https://hostname/phone
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/phone>
 
 Method: GET
 
 ```
 This returns an HTML form that should be almost the same as (1), except that
 ```
+![phoneIndex] (https://cloud.githubusercontent.com/assets/14006620/20550981/13e09ff6-b0f0-11e6-908f-455c2bcedb02.png)
 
 
 *	All fields including the ID should be initially empty and should be editable except the ID.
@@ -195,7 +224,7 @@ This returns an HTML form that should be almost the same as (1), except that
 (9) Create or update a phone
 ----
 
-URL: https://hostname/phone/phoneId?number=XX&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=id1&users[]=id2
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/phone/39?number=XX&description=YY&street=AAA&city=BBB&state=CCC&zip=95012&users[]=666&users[]=439>
 
 Method: POST
 
@@ -203,6 +232,15 @@ Method: POST
 ```
 This request creates or update the phone for the given phone ID.
 ```
+
+![phoneUpdate] (https://cloud.githubusercontent.com/assets/14006620/20550984/13e1dd8a-b0f0-11e6-9cf9-7a323c7a40f2.png)
+
+
+```
+Response
+```
+
+![phoneUpdate_Res] (https://cloud.githubusercontent.com/assets/14006620/20550982/13e1d556-b0f0-11e6-919e-174e444e3a36.png)
 
 
 *	For simplicity, all the phone fields other than the ID (number and description) are passed as query parameters, and you can assume the request always comes with all the fields specified. The users assignments must be taken care of too. (TBA: add the format users are passed in.)
@@ -213,13 +251,30 @@ This request creates or update the phone for the given phone ID.
 (10) Delete a phone
 ----
 
-URL: https://hostname/phone/phoneId
+URL: <http://samplei-env.us-west-2.elasticbeanstalk.com/phone/39>
 
 Method: DELETE
 
 ```
 This request deletes the phone for the given phone ID.
 ```
+
+![userDelete_userAssigned] (https://cloud.githubusercontent.com/assets/14006620/20550988/13f387ce-b0f0-11e6-8515-6fa0e80bd7b1.png)
+
+```
+If the user is removed
+```
+
+![userDelete_success] (https://cloud.githubusercontent.com/assets/14006620/20550990/13f4571c-b0f0-11e6-9502-29d7e35a9922.png)
+
+
+![userDelete_alert] (https://cloud.githubusercontent.com/assets/14006620/20550989/13f44948-b0f0-11e6-875d-894d39497ef4.png)
+
+```
+After the phone is deleted successfully
+```
+
+![userDelete_404] (https://cloud.githubusercontent.com/assets/14006620/20550986/13ee70f4-b0f0-11e6-9f72-342864f0c4db.png)
 
 
 *	If the phone does not exist, it should return the same 404 page as in (1) with error code 404.
