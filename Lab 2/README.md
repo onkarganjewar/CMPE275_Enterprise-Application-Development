@@ -76,7 +76,7 @@ This returns the given user’s record in JSON format.
 ```
 
 
-![user_JSON] (https://cloud.githubusercontent.com/assets/14006620/20550969/13bae3ba-b0f0-11e6-9d19-28373f4be244.png)
+![user_JSON](https://cloud.githubusercontent.com/assets/14006620/20550969/13bae3ba-b0f0-11e6-9d19-28373f4be244.png)
 
 
 #### This JSON is meant for readonly, and is not an HTML page or form.
@@ -97,7 +97,7 @@ This returns an HTML form that should be almost the same as (1), except that
 ```
 
 
-![User home] (https://cloud.githubusercontent.com/assets/14006620/20550968/13b97386-b0f0-11e6-81eb-d2cc8d5bc081.png)
+![User home](https://cloud.githubusercontent.com/assets/14006620/20550968/13b97386-b0f0-11e6-81eb-d2cc8d5bc081.png)
 
 
 
@@ -115,7 +115,7 @@ Method: POST
 
 
 
-![createPhone_Query] (https://cloud.githubusercontent.com/assets/14006620/20550971/13bb5638-b0f0-11e6-9ef1-21904777600b.png)
+![createPhone_Query](https://cloud.githubusercontent.com/assets/14006620/20550971/13bb5638-b0f0-11e6-9ef1-21904777600b.png)
 
 
 ```
@@ -141,13 +141,13 @@ Method: DELETE
 This request deletes the user for the given user ID.
 ```
 
-![userDelete_Request] (https://cloud.githubusercontent.com/assets/14006620/20550976/13ce367c-b0f0-11e6-8089-4fd182705a03.png)
+![userDelete_Request](https://cloud.githubusercontent.com/assets/14006620/20550976/13ce367c-b0f0-11e6-8089-4fd182705a03.png)
 
 ```
 Response
 ```
 
-![userDelete_res] (https://cloud.githubusercontent.com/assets/14006620/20550975/13ce15d4-b0f0-11e6-8172-a8c4e7cba152.png)
+![userDelete_res](https://cloud.githubusercontent.com/assets/14006620/20550975/13ce15d4-b0f0-11e6-8172-a8c4e7cba152.png)
 
 
 
@@ -170,7 +170,7 @@ This returns an HTML that renders the phone of the given ID. The phone fields ar
 ```
 
 
-![phoneView] (https://cloud.githubusercontent.com/assets/14006620/20550977/13ce35dc-b0f0-11e6-9b56-36b94c28cf67.png)
+![phoneView](https://cloud.githubusercontent.com/assets/14006620/20550977/13ce35dc-b0f0-11e6-9b56-36b94c28cf67.png)
 
 
 *	Phone number, description, and address must be editable.
@@ -193,7 +193,7 @@ Method: GET
 This returns the given phone’s record in JSON format.
 ```
 
-![viewPhone_JSON] (https://cloud.githubusercontent.com/assets/14006620/20550980/13ddaaa8-b0f0-11e6-9803-3b2e66c6e488.png)
+![viewPhone_JSON](https://cloud.githubusercontent.com/assets/14006620/20550980/13ddaaa8-b0f0-11e6-9803-3b2e66c6e488.png)
 
 
 
@@ -213,7 +213,7 @@ Method: GET
 ```
 This returns an HTML form that should be almost the same as (1), except that
 ```
-![phoneIndex] (https://cloud.githubusercontent.com/assets/14006620/20550981/13e09ff6-b0f0-11e6-908f-455c2bcedb02.png)
+![phoneIndex](https://cloud.githubusercontent.com/assets/14006620/20550981/13e09ff6-b0f0-11e6-908f-455c2bcedb02.png)
 
 
 *	All fields including the ID should be initially empty and should be editable except the ID.
@@ -233,14 +233,14 @@ Method: POST
 This request creates or update the phone for the given phone ID.
 ```
 
-![phoneUpdate] (https://cloud.githubusercontent.com/assets/14006620/20550984/13e1dd8a-b0f0-11e6-9cf9-7a323c7a40f2.png)
+![phoneUpdate](https://cloud.githubusercontent.com/assets/14006620/20550984/13e1dd8a-b0f0-11e6-9cf9-7a323c7a40f2.png)
 
 
 ```
 Response
 ```
 
-![phoneUpdate_Res] (https://cloud.githubusercontent.com/assets/14006620/20550982/13e1d556-b0f0-11e6-919e-174e444e3a36.png)
+![phoneUpdate_Res](https://cloud.githubusercontent.com/assets/14006620/20550982/13e1d556-b0f0-11e6-919e-174e444e3a36.png)
 
 
 *	For simplicity, all the phone fields other than the ID (number and description) are passed as query parameters, and you can assume the request always comes with all the fields specified. The users assignments must be taken care of too. (TBA: add the format users are passed in.)
@@ -259,22 +259,22 @@ Method: DELETE
 This request deletes the phone for the given phone ID.
 ```
 
-![userDelete_userAssigned] (https://cloud.githubusercontent.com/assets/14006620/20550988/13f387ce-b0f0-11e6-8515-6fa0e80bd7b1.png)
+![userDelete_userAssigned](https://cloud.githubusercontent.com/assets/14006620/20550988/13f387ce-b0f0-11e6-8515-6fa0e80bd7b1.png)
 
 ```
 If the user is removed
 ```
 
-![userDelete_success] (https://cloud.githubusercontent.com/assets/14006620/20550990/13f4571c-b0f0-11e6-9502-29d7e35a9922.png)
+![userDelete_success](https://cloud.githubusercontent.com/assets/14006620/20550990/13f4571c-b0f0-11e6-9502-29d7e35a9922.png)
 
 
-![userDelete_alert] (https://cloud.githubusercontent.com/assets/14006620/20550989/13f44948-b0f0-11e6-875d-894d39497ef4.png)
+![userDelete_alert](https://cloud.githubusercontent.com/assets/14006620/20550989/13f44948-b0f0-11e6-875d-894d39497ef4.png)
 
 ```
 After the phone is deleted successfully
 ```
 
-![userDelete_404] (https://cloud.githubusercontent.com/assets/14006620/20550986/13ee70f4-b0f0-11e6-9f72-342864f0c4db.png)
+![userDelete_404](https://cloud.githubusercontent.com/assets/14006620/20550986/13ee70f4-b0f0-11e6-9f72-342864f0c4db.png)
 
 
 *	If the phone does not exist, it should return the same 404 page as in (1) with error code 404.
